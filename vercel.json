@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "functions": {
     "server.js": {
-      "includeFiles": "{assets/**,data/**,*.html,*.json,*.png,*.jpg,*.svg,*.webp,*.pdf}"
+      "includeFiles": "{assets/**,data/**,admin/**,*.html,*.json,*.png,*.jpg,*.svg,*.webp,*.pdf}"
     }
   },
   "headers": [

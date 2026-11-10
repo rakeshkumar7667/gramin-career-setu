@@ -141,47 +141,59 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  function deliverFile(fileToServe) {
+    const ext = path.extname(fileToServe).toLowerCase();
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+    fs.readFile(fileToServe, (readErr, content) => {
+      if (readErr) {
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=UTF-8' });
+        res.end('500 Internal Server Error: ' + readErr.message);
+        return;
+      }
+
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        ...SECURITY_HEADERS
+      });
+      res.end(content);
+    });
+  }
+
   fs.stat(filePath, (err, stats) => {
     if (err) {
-      serve404(res, safePath);
+      // Check clean URL fallback: e.g. /jobs -> /jobs.html, /login -> /login.html
+      const htmlPath = filePath + '.html';
+      fs.stat(htmlPath, (htmlErr, htmlStats) => {
+        if (!htmlErr && htmlStats.isFile()) {
+          deliverFile(htmlPath);
+        } else {
+          serve404(res, safePath);
+        }
+      });
       return;
     }
 
-    let actualFile = filePath;
     if (stats.isDirectory()) {
       if (!parsedUrl.pathname.endsWith('/')) {
         res.writeHead(301, { 'Location': parsedUrl.pathname + '/' + (parsedUrl.search || '') });
         res.end();
         return;
       }
-      actualFile = path.join(filePath, 'index.html');
+      const indexPath = path.join(filePath, 'index.html');
+      fs.stat(indexPath, (indexErr, indexStats) => {
+        if (!indexErr && indexStats.isFile()) {
+          deliverFile(indexPath);
+        } else {
+          serve404(res, safePath);
+        }
+      });
+      return;
     }
 
-    fs.stat(actualFile, (fileErr) => {
-      if (fileErr) {
-        serve404(res, safePath);
-        return;
-      }
-
-      const ext = path.extname(actualFile).toLowerCase();
-      const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-      fs.readFile(actualFile, (readErr, content) => {
-        if (readErr) {
-          res.writeHead(500, { 'Content-Type': 'text/plain; charset=UTF-8' });
-          res.end('500 Internal Server Error: ' + readErr.message);
-          return;
-        }
-
-        res.writeHead(200, {
-          'Content-Type': contentType,
-          'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          ...SECURITY_HEADERS
-        });
-        res.end(content);
-      });
-    });
+    deliverFile(filePath);
   });
 });
 
