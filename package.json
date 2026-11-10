@@ -2,6 +2,7 @@
   "name": "gramin-career-setu",
   "version": "1.0.0",
   "private": true,
+  "main": "server.js",
   "description": "Gramin Career Setu static career guidance portal",
   "scripts": {
     "start": "node server.js",

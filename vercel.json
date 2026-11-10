@@ -1,8 +1,11 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "server.js": {
+      "includeFiles": "{assets/**,data/**,*.html,*.json,*.png,*.jpg,*.svg,*.webp,*.pdf}"
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",

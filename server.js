@@ -199,13 +199,17 @@ server.on('error', (err) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`\n======================================================`);
-  console.log(`  🌾 Gramin Career Setu — Local Server Running`);
-  console.log(`  Local URL:  http://localhost:${PORT}`);
-  console.log(`  Index:      http://localhost:${PORT}/index.html`);
-  console.log(`  Jobs:       http://localhost:${PORT}/jobs.html`);
-  console.log(`  Resume:     http://localhost:${PORT}/resume.html`);
-  console.log(`  Roadmap:    http://localhost:${PORT}/roadmap.html`);
-  console.log(`======================================================\n`);
-});
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log(`\n======================================================`);
+    console.log(`  🌾 Gramin Career Setu — Local Server Running`);
+    console.log(`  Local URL:  http://localhost:${PORT}`);
+    console.log(`  Index:      http://localhost:${PORT}/index.html`);
+    console.log(`  Jobs:       http://localhost:${PORT}/jobs.html`);
+    console.log(`  Resume:     http://localhost:${PORT}/resume.html`);
+    console.log(`  Roadmap:    http://localhost:${PORT}/roadmap.html`);
+    console.log(`======================================================\n`);
+  });
+}
+
+module.exports = server;
