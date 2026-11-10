@@ -5,6 +5,7 @@
   "description": "Gramin Career Setu static career guidance portal",
   "scripts": {
     "start": "node server.js",
+    "build": "echo Static build complete",
     "test": "node --test tests/*.test.js",
     "cap:add:android": "npx @capacitor/cli add android",
     "cap:sync": "npx @capacitor/cli sync",
