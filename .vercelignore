@@ -1,0 +1,8 @@
+server.js
+backend
+keycloak
+docker-compose.yml
+scripts
+tests
+*.ps1
+*.sh
