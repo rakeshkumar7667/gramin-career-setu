@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-results" />
+  <title>ప్రభావ విశ్లేషణ — Impact Dashboard | Gramin Career Setu</title>
+  <meta name="description" content="Tracking our community impact across rural villages." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/survey-data.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+
+    <!-- Breadcrumb & Timeframe Selector -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+      <nav class="gcs-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0">
+        <a href="index.html" data-lang-key="nav-home">Home</a>
+        <span class="gcs-breadcrumb-sep">&gt;</span>
+        <span class="gcs-breadcrumb-current">Impact Dashboard</span>
+      </nav>
+
+      <div class="ui-icon-row">
+        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">print</span>
+          <span>Print Report</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Hero Header Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-results">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">insights</span>
+          <span data-lang-text>Impact Dashboard</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Before-and-after survey results from our career-guidance workshops.</p>
+        <p class="gcs-page-hero-telugu">మా కెరీర్ మార్గదర్శక వర్క్‌షాప్ల ముందు-తర్వాత సర్వే ఫలితాలు.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px">
+        <img src="assets/impact-hero-growth.svg" alt="Impact Dashboard Growth" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IMPACT MEASUREMENT
+         ------------------------------------------------------------
+         Every number below is rendered from data/survey-data.js, which
+         holds nothing but real before/after workshop survey responses.
+         There are no hardcoded figures on this page by design: when no
+         survey has been conducted, the page says exactly that.
+         ============================================================ -->
+
+    <!-- Empty state — shown until a real survey is recorded -->
+    <section id="surveyPending" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px 24px; margin-bottom: 24px">
+      <div style="display: flex; align-items: flex-start; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">assignment_late</span>
+        <div>
+          <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">No survey data recorded yet</h2>
+          <p style="font-size: var(--text-base); font-weight: 700; color: #92400E; margin: 0 0 8px 0">సర్వే డేటా ఇంకా నమోదు కాలేదు</p>
+          <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 8px 0; max-width: 70ch">
+            This dashboard reports the change in students' career awareness measured before and
+            after our workshops. It will stay empty until a workshop has actually been conducted
+            and its paper survey responses have been entered into
+            <code style="background: #FEF3C7; padding: 0 4px; border-radius: 4px">data/survey-data.js</code>.
+          </p>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; max-width: 70ch">
+            ఈ డాష్‌బోర్డ్ మా వర్క్‌షాప్‌లకు ముందు మరియు తర్వాత విద్యార్థుల కెరీర్ అవగాహనలో వచ్చిన మార్పును
+            చూపుతుంది. నిజమైన వర్క్‌షాప్ నిర్వహించి, సర్వే సమాధానాలు నమోదు చేసే వరకు ఇది ఖాళీగా ఉంటుంది.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results — shown only when data/survey-data.js contains real responses -->
+    <section id="surveyResults" hidden style="margin-bottom: 24px">
+      <div class="ui-card" style="margin-bottom: 20px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Awareness before vs. after the workshops</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px 0">వర్క్‌షాప్‌లకు ముందు మరియు తర్వాత అవగాహన</p>
+        <p id="surveySummary" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0"></p>
+      </div>
+
+      <!-- One card per metric, filled by renderSurvey() -->
+      <div id="surveyMetrics" style="display: grid; gap: 16px"></div>
+    </section>
+
+    <!-- Workshops conducted — rendered from the same file -->
+    <section id="surveyWorkshops" hidden style="margin-bottom: 24px">
+      <div class="ui-card">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Workshops conducted</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 12px 0">నిర్వహించిన వర్క్‌షాప్‌లు</p>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm); text-align: left">
+            <thead>
+              <tr style="border-bottom: 1.5px solid #E2E8F0; color: var(--color-text-muted)">
+                <th scope="col" style="padding: 8px 4px">Date</th>
+                <th scope="col" style="padding: 8px 4px">Village</th>
+                <th scope="col" style="padding: 8px 4px">District</th>
+                <th scope="col" style="padding: 8px 4px; text-align: right">Participants</th>
+              </tr>
+            </thead>
+            <tbody id="surveyWorkshopRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Methodology & survey instrument — always visible, so the numbers above
+         (or their absence) can always be checked against how they were gathered -->
+    <section style="margin-bottom: 24px">
+      <div style="background: var(--color-surface-sunken); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">How this is measured</h2>
+        <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0">ఇది ఎలా కొలుస్తారు</p>
+
+        <h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0">The three survey questions</h3>
+        <ol id="surveyInstrument" style="margin: 0 0 16px 0; padding-left: 20px; font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 8px"></ol>
+
+        <dl style="margin: 0; font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 12px">
+          <div>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Instrument</dt>
+            <dd id="methodInstrument" style="margin: 0"></dd>
+          </div>
+          <div>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Consent &amp; privacy</dt>
+            <dd id="methodConsent" style="margin: 0"></dd>
+          </div>
+          <div>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Collected by</dt>
+            <dd id="methodCollectedBy" style="margin: 0"></dd>
+          </div>
+          <div>
+            <dt style="font-weight: 800; color: var(--color-text-primary); margin-bottom: 2px">Counting rule</dt>
+            <dd style="margin: 0">
+              Only students who answered both the before and the after survey are counted.
+              Percentages are of that matched group, not of total attendance.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <script>
+      /**
+       * Renders the impact dashboard from data/survey-data.js.
+       *
+       * The page has no hardcoded statistics. If the data file is missing, or
+       * its status is still 'pending', or any metric is incomplete, the empty
+       * state is shown instead of a number. Showing nothing is correct here;
+       * showing an illustrative figure on a Community Service Project impact
+       * report would misrepresent the project's results.
+       */
+      (function () {
+        'use strict';
+
+        // Read at render time, not now: this inline script runs during parse,
+        // while data/survey-data.js is deferred and has not executed yet.
+        var survey = null;
+
+        var pendingEl = document.getElementById('surveyPending');
+        var resultsEl = document.getElementById('surveyResults');
+        var workshopsEl = document.getElementById('surveyWorkshops');
+        var metricsEl = document.getElementById('surveyMetrics');
+        var summaryEl = document.getElementById('surveySummary');
+        var instrumentEl = document.getElementById('surveyInstrument');
+
+        function esc(str) {
+          return (window.GCS_APP && window.GCS_APP.escapeHtml)
+            ? window.GCS_APP.escapeHtml(str)
+            : String(str === null || str === undefined ? '' : str)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        /** A metric counts as reportable only when all three numbers are present. */
+        function isComplete(m) {
+          return m
+            && typeof m.beforeYes === 'number'
+            && typeof m.afterYes === 'number'
+            && typeof m.respondents === 'number'
+            && m.respondents > 0;
+        }
+
+        function pct(yes, total) {
+          return Math.round((yes / total) * 100);
+        }
+
+        /** Always show the questions — they document what was (or will be) asked. */
+        function renderInstrument() {
+          if (!instrumentEl || !survey || !survey.metrics) return;
+          instrumentEl.innerHTML = survey.metrics.map(function (m) {
+            return '<li><strong style="color: var(--color-text-primary)">' + esc(m.question_en) + '</strong>'
+              + '<br /><span style="color: var(--color-text-muted)">' + esc(m.question_te) + '</span></li>';
+          }).join('');
+        }
+
+        function renderMethodology() {
+          if (!survey || !survey.methodology) return;
+          var m = survey.methodology;
+          var set = function (id, text, fallback) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = (text && String(text).trim()) ? text : fallback;
+          };
+          set('methodInstrument', m.instrument, 'Not yet recorded.');
+          set('methodConsent', m.consent, 'Not yet recorded.');
+          set('methodCollectedBy', m.collectedBy, 'Not yet recorded.');
+        }
+
+        function renderMetricCard(m) {
+          var before = pct(m.beforeYes, m.respondents);
+          var after = pct(m.afterYes, m.respondents);
+          var delta = after - before;
+          var deltaLabel = (delta > 0 ? '+' : '') + delta + ' percentage points';
+
+          function bar(label, value, count, color, bg) {
+            return ''
+              + '<div style="margin-bottom: 8px">'
+              +   '<div style="display: flex; justify-content: space-between; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 4px">'
+              +     '<span style="font-weight: 700">' + label + '</span>'
+              +     '<span>' + value + '% <span style="color: #94A3B8">(' + count + ' of ' + m.respondents + ')</span></span>'
+              +   '</div>'
+              +   '<div role="img" aria-label="' + label + ': ' + value + ' percent" '
+              +        'style="background:' + bg + '; border-radius:6px; height:14px; overflow:hidden;">'
+              +     '<div style="width: ' + value + '%; height: 100%; background: ' + color + '; border-radius: 6px"></div>'
+              +   '</div>'
+              + '</div>';
+          }
+
+          return ''
+            + '<div class="ui-card">'
+            +   '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">' + esc(m.question_en) + '</h3>'
+            +   '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px 0">' + esc(m.question_te) + '</p>'
+            +   bar('Before workshop', before, m.beforeYes, '#94A3B8', '#F1F5F9')
+            +   bar('After workshop', after, m.afterYes, '#059669', '#ECFDF5')
+            +   '<p style="font-size: var(--text-sm); font-weight: 700; color: ' + (delta > 0 ? '#047857' : '#64748B') + '; margin: 4px 0 0 0">'
+            +     'Change: ' + deltaLabel
+            +   '</p>'
+            + '</div>';
+        }
+
+        function renderWorkshops() {
+          if (!workshopsEl || !survey || !Array.isArray(survey.workshops) || !survey.workshops.length) return;
+          var rows = document.getElementById('surveyWorkshopRows');
+          if (!rows) return;
+          rows.innerHTML = survey.workshops.map(function (w) {
+            return '<tr style="border-bottom: 1px solid #F1F5F9">'
+              + '<td style="padding: 8px 4px; color: var(--color-text-secondary)">' + esc(w.date) + '</td>'
+              + '<td style="padding: 8px 4px; font-weight: 700; color: var(--color-text-primary)">' + esc(w.village) + '</td>'
+              + '<td style="padding: 8px 4px; color: var(--color-text-muted)">' + esc(w.district) + '</td>'
+              + '<td style="padding: 8px 4px; text-align: right; font-weight: 700; color: var(--color-text-primary)">' + esc(w.participants) + '</td>'
+              + '</tr>';
+          }).join('');
+          workshopsEl.hidden = false;
+        }
+
+        function render() {
+          survey = window.GCS_SURVEY || null;
+          renderInstrument();
+          renderMethodology();
+          renderWorkshops();
+
+          var complete = survey
+            && survey.status === 'collected'
+            && Array.isArray(survey.metrics)
+            && survey.metrics.length
+            && survey.metrics.every(isComplete);
+
+          if (!complete) {
+            if (pendingEl) pendingEl.hidden = false;
+            return;
+          }
+
+          var n = survey.metrics[0].respondents;
+          var sessions = Array.isArray(survey.workshops) ? survey.workshops.length : 0;
+          summaryEl.textContent = 'Based on ' + n + ' matched before/after responses'
+            + (sessions ? ' across ' + sessions + ' workshop' + (sessions === 1 ? '' : 's') : '')
+            + '.';
+
+          metricsEl.innerHTML = survey.metrics.map(renderMetricCard).join('');
+          resultsEl.hidden = false;
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', render);
+        } else {
+          render();
+        }
+      })();
+    </script>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="resources.html" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="results.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">insights</span>
+      <span>Impact</span>
+    </a>
+  </nav>
+
+</body>
+</html>

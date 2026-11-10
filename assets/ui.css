@@ -1,0 +1,839 @@
+/**
+ * Gramin Career Setu — UI layer
+ *
+ * SPACING NOTE
+ * There are two incompatible --space-* scales in this project:
+ *   tokens.css  --space-8: 0.5rem   (the number is the pixel value)
+ *   style.css   --space-8: 2rem     (the number is a 4px multiplier)
+ * style.css loads after tokens.css and wins, so var(--ui-8) resolves to
+ * 32px, not 8px. Rules here therefore use --ui-* aliases defined below,
+ * which are unambiguous. Neither existing scale is touched, because other
+ * stylesheets depend on both.
+ */
+
+:root {
+  --ui-2:  2px;
+  --ui-4:  4px;
+  --ui-8:  8px;
+  --ui-12: 12px;
+  --ui-16: 16px;
+  --ui-20: 20px;
+  --ui-24: 24px;
+  --ui-32: 32px;
+  --ui-48: 48px;
+}
+
+/**
+ * (original header continues)
+ * ──────────────────────────────
+ * Typography, layout and component classes for the whole site.
+ *
+ * Loaded LAST, after tokens.css / style.css / saas.css / landing.css, so it
+ * settles the inconsistencies those files accumulated without rewriting
+ * 115 KB of working CSS. Colours, logo and branding are untouched: every
+ * colour here comes from a token that already existed.
+ *
+ * WHY THIS FILE EXISTS
+ * The pages carry ~2,070 inline style attributes. Most set a font-size
+ * between 0.72rem and 0.9rem (11.5–14.4px), well under a comfortable
+ * reading size, and each page styled its own cards and sections, so nothing
+ * lined up between pages. The rules below give one type scale, one page
+ * width, one card and one section rhythm, and the page markup moves onto
+ * them class by class.
+ */
+
+/* ══════════════════════════════════════════════════════════════════════
+   1. TYPOGRAPHY
+   Headings in Plus Jakarta Sans, body in Inter, Telugu through Noto Sans
+   Telugu in both stacks. Two families across the site, as intended.
+   ══════════════════════════════════════════════════════════════════════ */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);          /* 16px floor for body copy */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6,
+.gcs-hero-title,
+.gcs-page-hero-title,
+.gcs-section-title,
+.gcs-section-header-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-text-strong, #0F172A);
+}
+
+/* Telugu needs more vertical room: its matras sit above and below the
+   baseline and clip at the tight leading that suits Latin headings. */
+[lang="te"] h1, [lang="te"] h2, [lang="te"] h3,
+.gcs-page-hero-telugu,
+.gcs-hero-sub-te {
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+/* The scale. Fluid so one set of rules covers phone through desktop. */
+h1, .gcs-hero-title, .gcs-page-hero-title {
+  font-size: clamp(1.75rem, 1.3rem + 2.2vw, 2.75rem);
+  margin: 0 0 12px;
+}
+h2, .gcs-section-title, .gcs-section-header-title {
+  font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.875rem);
+  margin: 0 0 8px;
+}
+h3 {
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+h4 { font-size: var(--text-lg); font-weight: 700; margin: 0 0 4px; }
+
+p, li, dd, td, label, input, select, textarea, button {
+  font-family: var(--font-body);
+}
+
+/* Supporting copy under a heading. */
+.ui-lede {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--color-text-muted, #475569);
+  max-width: 68ch;
+  margin: 0 0 var(--ui-24);
+}
+
+/* Telugu line paired with an English one. */
+.ui-te {
+  font-family: var(--font-telugu);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--color-text-muted, #64748B);
+}
+
+/* Small print that must still be readable, not the 11px it often was. */
+.ui-meta { font-size: var(--text-sm); color: var(--color-text-muted, #64748B); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   2. LAYOUT
+   One page width and one vertical rhythm, replacing eight different
+   max-widths and ad-hoc margins.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-container,
+.ui-container {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* A page section: heading, short description, then content. */
+.ui-section { margin-bottom: var(--section-gap); }
+.ui-section:last-child { margin-bottom: 0; }
+
+.ui-section-head { margin-bottom: var(--ui-24); }
+.ui-section-head > :last-child { margin-bottom: 0; }
+
+/* Heading with an action on the right that wraps cleanly on a phone. */
+.ui-section-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ui-16);
+  flex-wrap: wrap;
+}
+
+/* Equal-width, equal-height cards. `auto-fit` + `1fr` is what makes the
+   heights match without JavaScript. */
+.ui-grid {
+  display: grid;
+  gap: var(--ui-24);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
+}
+.ui-grid--2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.ui-grid--4 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   3. CARDS
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ui-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;                      /* equal heights inside .ui-grid */
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #E2E8F0);
+  border-radius: var(--radius-lg);
+  padding: var(--ui-24);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+}
+
+.ui-card > :first-child { margin-top: 0; }
+.ui-card > :last-child { margin-bottom: 0; }
+
+/* Pushes a footer action to the bottom so buttons line up across a row. */
+.ui-card-foot { margin-top: auto; padding-top: var(--ui-16); }
+
+a.ui-card, .ui-card--link { text-decoration: none; color: inherit; }
+
+a.ui-card:hover, .ui-card--link:hover, .ui-card--hover:hover {
+  border-color: var(--gcs-green-primary, #1B4D3E);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   4. BUTTONS
+   The existing .gcs-btn-cta-1 / -2 classes keep their colours; this only
+   settles size, radius, alignment and state so they match everywhere.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-btn-cta-1,
+.gcs-btn-cta-2,
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-8);
+  min-height: 44px;                  /* comfortable tap target */
+  padding: 11px 22px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.gcs-btn-cta-1:hover, .gcs-btn-cta-2:hover, .ui-btn:hover { transform: translateY(-1px); }
+.gcs-btn-cta-1:active, .gcs-btn-cta-2:active, .ui-btn:active { transform: translateY(0); }
+
+.gcs-btn-cta-1[disabled], .gcs-btn-cta-2[disabled], .ui-btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ui-btn--sm { min-height: 36px; padding: 8px 16px; font-size: var(--text-sm); }
+
+/* One visible focus ring everywhere, for keyboard users. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--gcs-green-primary, #1B4D3E);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   5. FORMS
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ui-field { display: flex; flex-direction: column; gap: var(--ui-8); margin-bottom: var(--ui-20); }
+
+.ui-label {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text, #334155);
+}
+
+.ui-input,
+.gcs-form-input,
+input[type="text"], input[type="tel"], input[type="email"],
+input[type="password"], input[type="number"], input[type="date"],
+select, textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-base);       /* 16px stops iOS zooming on focus */
+  color: var(--color-text, #0F172A);
+  background: var(--color-surface, #ffffff);
+  border: 1.5px solid var(--color-border, #CBD5E1);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+textarea { min-height: 110px; padding-top: 12px; resize: vertical; }
+
+.ui-input:hover, .gcs-form-input:hover { border-color: var(--color-text-muted, #94A3B8); }
+.ui-input:focus, .gcs-form-input:focus,
+input:focus, select:focus, textarea:focus { border-color: var(--gcs-green-primary, #1B4D3E); }
+
+.ui-hint { font-size: var(--text-sm); color: var(--color-text-muted, #64748B); }
+.ui-error { font-size: var(--text-sm); font-weight: 600; color: var(--color-danger, #DC2626); }
+[aria-invalid="true"], .is-invalid { border-color: var(--color-danger, #DC2626) !important; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   6. TABLES
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ui-table-wrap { width: 100%; overflow-x: auto; }
+
+.ui-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.ui-table th {
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-text-muted, #64748B);
+  padding: var(--ui-12);
+  border-bottom: 1.5px solid var(--color-border, #E2E8F0);
+  white-space: nowrap;
+}
+.ui-table td {
+  padding: var(--ui-12);
+  border-bottom: 1px solid var(--color-border-subtle, #F1F5F9);
+  vertical-align: top;
+}
+.ui-table tr:last-child td { border-bottom: none; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   7. STATES — loading, empty, error
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ui-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--ui-8);
+  padding: var(--ui-48) var(--ui-24);
+  border-radius: var(--radius-lg);
+}
+.ui-state .material-symbols-outlined { font-size: 42px; }
+.ui-state h3 { margin: 0; }
+.ui-state p { margin: 0; max-width: 56ch; color: var(--color-text-muted, #64748B); }
+.ui-state-actions { margin-top: var(--ui-16); display: flex; gap: var(--ui-12); flex-wrap: wrap; justify-content: center; }
+
+.ui-state--empty { background: var(--color-surface-subtle, #F8FAFC); border: 1px dashed var(--color-border, #CBD5E1); }
+.ui-state--empty .material-symbols-outlined { color: var(--color-text-muted, #94A3B8); }
+
+.ui-state--error { background: #FEF2F2; border: 1px solid #FECACA; }
+.ui-state--error .material-symbols-outlined { color: var(--color-danger, #DC2626); }
+
+.ui-state--note { background: #FFFBEB; border: 1px solid #FDE68A; text-align: left; align-items: flex-start; padding: var(--ui-24); }
+
+/* Skeleton placeholder for content that is still loading. */
+.ui-skeleton {
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 37%, #F1F5F9 63%);
+  background-size: 400% 100%;
+  animation: ui-shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+  min-height: 14px;
+}
+@keyframes ui-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   8. RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  :root { --section-gap: 40px; }
+  .ui-card { padding: var(--ui-20); }
+  .ui-grid { gap: var(--ui-16); }
+  .ui-section-head--row { align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  :root { --page-pad: 16px; }
+  .ui-grid,
+  .ui-grid--2,
+  .ui-grid--4 { grid-template-columns: 1fr; }
+  .gcs-btn-cta-1, .gcs-btn-cta-2, .ui-btn { width: 100%; }
+  /* An action sitting beside a heading goes full width below it. */
+  .ui-section-head--row > * { width: 100%; }
+}
+
+/* Respect a reduced-motion preference: keep the state changes, drop the
+   movement and the shimmer. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .gcs-btn-cta-1:hover, .gcs-btn-cta-2:hover, .ui-btn:hover,
+  a.ui-card:hover, .ui-card--hover:hover { transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   9. PRINT
+   Volunteers hand these pages to students on paper.
+   ══════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  .gcs-header, .gcs-footer, .gcs-mobile-nav, .gcs-mobile-bottom-nav,
+  .gcs-breadcrumb { display: none !important; }
+  .ui-card { break-inside: avoid; box-shadow: none; border-color: #94A3B8; }
+  body { font-size: 11pt; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   10. EQUAL HEIGHTS FOR THE EXISTING CARD COMPONENTS
+   These classes predate .ui-card and carry the site's own styling, which
+   stays exactly as it is. The only thing added here is the stretch
+   behaviour, so cards in a row end level instead of ragged, and the grids
+   collapse on a phone instead of keeping a fixed column count.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-careers-grid-4,
+.gcs-categories-grid-8,
+.gcs-workshops-grid,
+.gcs-templates-grid-5,
+.interest-grid,
+.scholarships-list,
+.schemes-list {
+  display: grid;
+  gap: var(--ui-24);
+  align-items: stretch;
+}
+
+.gcs-careers-grid-4     { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gcs-categories-grid-8  { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.gcs-workshops-grid     { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.gcs-templates-grid-5   { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.interest-grid          { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.gcs-career-card,
+.gcs-category-card,
+.gcs-workshop-card,
+.scholarship-card-item,
+.scheme-card-item,
+.apply-step-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Push the action to the bottom so buttons line up across a row. */
+.gcs-career-card-btn,
+.gcs-career-card .gcs-career-card-btn {
+  margin-top: auto;
+}
+
+.gcs-career-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--ui-4);
+}
+
+/* Thumbnails were letting cards grow to different heights. */
+.gcs-career-card-thumb {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.gcs-career-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .gcs-careers-grid-4,
+  .gcs-categories-grid-8,
+  .gcs-workshops-grid,
+  .gcs-templates-grid-5,
+  .interest-grid { grid-template-columns: 1fr; gap: var(--ui-16); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   11. HEADER
+   The markup was already right — brand left, nav centre, actions right.
+   What was missing was separation from the content beneath it while
+   stuck, and a predictable height.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface, #ffffff);
+  border-bottom: 1px solid var(--color-border, #E2E8F0);
+  transition: box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* Set by app.js once the page is scrolled, so the bar lifts off the
+   content instead of blending into it. */
+.gcs-header.is-stuck { box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08); }
+
+.gcs-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-16);
+  min-height: 64px;
+}
+
+.gcs-nav { display: flex; align-items: center; gap: var(--ui-4); }
+
+.gcs-nav-link {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
+}
+.gcs-nav-link:hover { background: var(--gcs-green-subtle, #E8F5E9); }
+
+.gcs-brand { display: flex; align-items: center; gap: var(--ui-12); text-decoration: none; }
+.gcs-brand-title { font-family: var(--font-heading); font-weight: 800; line-height: 1.1; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   12. FOOTER
+   Five columns were falling into a two-column grid, so the last row sat
+   half empty and the columns did not line up with anything.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(4, 1fr);   /* brand wider than the link columns */
+  gap: var(--ui-32);
+  align-items: start;
+}
+
+.gcs-footer-col h4 {
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 var(--ui-16);
+  opacity: 0.75;
+}
+
+.gcs-footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ui-12); }
+.gcs-footer-col a { font-size: var(--text-sm); text-decoration: none; opacity: 0.85; transition: opacity var(--duration-fast) var(--ease-out); }
+.gcs-footer-col a:hover { opacity: 1; text-decoration: underline; }
+
+.gcs-social-row { display: flex; gap: var(--ui-12); margin-top: var(--ui-16); }
+.gcs-social-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+.gcs-social-link:hover { background: rgba(255, 255, 255, 0.2); }
+
+@media (max-width: 900px) {
+  .gcs-footer-grid { grid-template-columns: repeat(2, 1fr); gap: var(--ui-24); }
+  .gcs-footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .gcs-footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   13. HERO
+   One primary action and one secondary, with any further link demoted to
+   text so the eye has a single obvious next step.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-hero-ctas { display: flex; flex-wrap: wrap; gap: var(--ui-12); align-items: center; }
+
+.gcs-btn-cta-3 {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-8);
+  min-height: 44px;
+  padding: 11px 4px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--gcs-green-primary, #1B4D3E);
+  text-decoration: none;
+  cursor: pointer;
+}
+.gcs-btn-cta-3:hover { text-decoration: underline; }
+
+.gcs-hero-sub-en, .gcs-hero-sub-te { max-width: 54ch; }
+
+@media (max-width: 480px) {
+  .gcs-btn-cta-3 { width: auto; justify-content: flex-start; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   14. SECTION RHYTHM
+   Sections carried their own margin-bottom inline, between 20px and 40px
+   depending on the page, so the vertical spacing changed as you moved
+   around the site. One rhythm, set here, applies everywhere.
+   ══════════════════════════════════════════════════════════════════════ */
+
+main > section,
+main > .ui-section,
+main > div.gcs-section {
+  margin-bottom: var(--section-gap);
+}
+main > section:last-of-type { margin-bottom: 0; }
+
+/* Heading, then a short description, then the content. The gap below a
+   heading that is followed by body copy is tighter than the gap below a
+   heading that leads straight into cards. */
+main > section > h2,
+main > section > .gcs-section-header-title,
+.ui-section > h2 { margin-bottom: var(--ui-8); }
+
+main > section > h2 + p,
+.ui-section > h2 + p {
+  margin-top: 0;
+  margin-bottom: var(--ui-24);
+  color: var(--color-text-muted, #64748B);
+  max-width: 68ch;
+}
+
+/* Page hero: consistent band at the top of every inner page. */
+.gcs-page-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-32);
+  flex-wrap: wrap;
+  margin-bottom: var(--section-gap);
+}
+.gcs-page-hero-content { flex: 1 1 320px; min-width: 0; }
+.gcs-page-hero-visual { flex: 0 1 260px; }
+.gcs-page-hero-visual img { width: 100%; height: auto; display: block; }
+.gcs-page-hero-desc { font-size: var(--text-lg); color: var(--color-text-muted, #475569); max-width: 60ch; margin: 0 0 var(--ui-8); }
+.gcs-page-hero-telugu { font-family: var(--font-telugu); color: var(--color-text-muted, #64748B); max-width: 60ch; margin: 0; }
+
+.gcs-breadcrumb { margin-bottom: var(--ui-20); font-size: var(--text-sm); }
+
+@media (max-width: 768px) {
+  .gcs-page-hero { gap: var(--ui-20); }
+  .gcs-page-hero-visual { display: none; }   /* decorative only */
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   15. DIALOGS
+   Three dialog implementations had grown side by side: the roadmap's
+   <dialog>, the shared .gcs-info-dialog from actions.js, and the
+   .gcs-modal-* overlay. They now share one shell so a modal looks the
+   same wherever it opens.
+   ══════════════════════════════════════════════════════════════════════ */
+
+dialog,
+.gcs-info-dialog,
+.road-dialog,
+.gcs-modal-box,
+.modal-dialog {
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  max-width: 560px;
+  width: calc(100% - 32px);
+  color: var(--color-text, #0F172A);
+  box-shadow: var(--shadow-modal, 0 20px 50px rgba(15, 23, 42, 0.22));
+}
+
+dialog::backdrop { background: rgba(15, 23, 42, 0.45); }
+
+.gcs-info-dialog,
+.gcs-modal-box { padding: var(--ui-24); }
+
+.gcs-info-dialog h3,
+.gcs-modal-box h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  margin: 0 0 var(--ui-16);
+}
+
+.gcs-info-dialog ol,
+.gcs-info-dialog ul {
+  margin: 0 0 var(--ui-24);
+  padding-left: 20px;
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+.gcs-info-dialog li { margin-bottom: var(--ui-8); }
+
+.gcs-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ui-16);
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.gcs-modal-overlay.open { display: flex; }
+
+.gcs-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-subtle, #F1F5F9);
+  color: var(--color-text-muted, #475569);
+  cursor: pointer;
+}
+.gcs-modal-close:hover { background: var(--color-border, #E2E8F0); }
+
+/* A dialog taller than the screen must scroll inside, not clip. */
+dialog > *, .gcs-modal-box { max-height: 85vh; overflow-y: auto; }
+
+@media (max-width: 480px) {
+  dialog, .gcs-info-dialog, .road-dialog, .gcs-modal-box, .modal-dialog {
+    width: calc(100% - 24px);
+    max-height: 88vh;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   16. REMAINING GRID CONTAINERS AND SMALL TEXT
+   Picked up on a second pass: several named grids still used fixed column
+   counts and did not stretch, so their cards ended at different heights,
+   and two rules in landing.css set text at 0.72rem (11.5px).
+   ══════════════════════════════════════════════════════════════════════ */
+
+.gcs-scholarships-grid-4,
+.gcs-categories-grid,
+.gcs-framework-grid,
+.gcs-metrics-grid,
+.gcs-quiz-reaction-grid,
+.dash-stats-grid,
+.dash-3col-grid {
+  display: grid;
+  gap: var(--ui-24);
+  align-items: stretch;
+}
+
+.gcs-scholarships-grid-4 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gcs-categories-grid     { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.gcs-framework-grid      { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gcs-metrics-grid        { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.gcs-quiz-reaction-grid  { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.dash-stats-grid         { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+.dash-3col-grid          { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+.scholarship-card-item,
+.scheme-card-item,
+.gcs-metric-card,
+.dash-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Form filter rows: label above control, wrapping instead of squeezing. */
+.gcs-filter-grid,
+.gcs-filter-grid--jobs,
+.gcs-filter-grid--sch,
+.gcs-filter-selects-grid,
+.form-grid {
+  display: grid;
+  gap: var(--ui-16);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: end;
+}
+
+/* 11.5px is too small to read on a phone held at arm's length. */
+.gcs-ws-date-month,
+.gcs-pill-tag,
+.gcs-card-badge { font-size: var(--text-xs); }
+
+@media (max-width: 480px) {
+  .gcs-scholarships-grid-4,
+  .gcs-categories-grid,
+  .gcs-framework-grid,
+  .gcs-metrics-grid,
+  .dash-stats-grid,
+  .dash-3col-grid,
+  .gcs-filter-grid,
+  .gcs-filter-grid--jobs,
+  .gcs-filter-grid--sch,
+  .gcs-filter-selects-grid,
+  .form-grid { grid-template-columns: 1fr; gap: var(--ui-12); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   17. SEMANTIC TEXT AND ROW CLASSES
+   These replace the handful of inline patterns that repeated often enough
+   to be real components — a card title, a field label, meta text, an icon
+   beside a label. Naming them means a card title can be adjusted in one
+   place instead of in 25.
+
+   The long tail is deliberately left inline: 604 distinct patterns remain,
+   most used once or twice, and inventing 604 class names would be worse
+   than the inline styles they replaced.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ui-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--ui-4);
+}
+
+.ui-card-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--ui-12);
+}
+
+.ui-title-sm {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--ui-4);
+}
+
+.ui-label-inline {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.ui-meta-xs {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Icon beside a label — the most repeated layout on the site. */
+.ui-icon-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-8);
+}
+.ui-icon-row--gap-12 { gap: var(--ui-12); }
+.ui-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-12);
+}
+
+/* Header brand and sign-in must not wrap: a wrapped brand grows taller than the
+   70px bar and its first line is clipped off the top of the page. */
+.gcs-brand { flex-shrink: 0; }
+.gcs-brand-title, .gcs-brand-sub { white-space: nowrap; line-height: 1.25; }
+.gcs-header .gcs-btn, .gcs-header a[href*="login"] { white-space: nowrap; }

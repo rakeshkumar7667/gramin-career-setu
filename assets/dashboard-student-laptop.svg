@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="dashBgSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EFF6FF" />
+      <stop offset="100%" stop-color="#F8FAFC" />
+    </linearGradient>
+    <linearGradient id="dashHills" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A7F3D0" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Backing -->
+  <rect width="500" height="240" fill="url(#dashBgSky)" rx="20" />
+
+  <!-- Sun -->
+  <circle cx="430" cy="55" r="28" fill="#FEF08A" opacity="0.6" />
+  <circle cx="430" cy="55" r="20" fill="#FDE047" opacity="0.8" />
+
+  <!-- Background Rolling Hills -->
+  <path d="M0,160 Q120,110 260,135 T500,120 L500,240 L0,240 Z" fill="url(#dashHills)" opacity="0.5" />
+  <path d="M0,180 Q160,140 320,165 T500,150 L500,240 L0,240 Z" fill="#10B981" opacity="0.8" />
+
+  <!-- Distant Wind Turbines -->
+  <g stroke="#94A3B8" stroke-width="2">
+    <line x1="380" y1="140" x2="380" y2="50" />
+    <circle cx="380" cy="50" r="3" fill="#64748B" />
+    <line x1="380" y1="50" x2="380" y2="20" stroke-width="1.6" />
+    <line x1="380" y1="50" x2="405" y2="65" stroke-width="1.6" />
+    <line x1="380" y1="50" x2="355" y2="65" stroke-width="1.6" />
+  </g>
+
+  <g stroke="#CBD5E1" stroke-width="1.6">
+    <line x1="430" y1="150" x2="430" y2="75" />
+    <circle cx="430" cy="75" r="2.5" fill="#94A3B8" />
+    <line x1="430" y1="75" x2="430" y2="50" stroke-width="1.2" />
+    <line x1="430" y1="75" x2="450" y2="88" stroke-width="1.2" />
+    <line x1="430" y1="75" x2="410" y2="88" stroke-width="1.2" />
+  </g>
+
+  <!-- Distant Cottages -->
+  <rect x="330" y="145" width="30" height="18" fill="#FFFBEB" stroke="#B45309" stroke-width="0.8" />
+  <polygon points="326,145 345,133 364,145" fill="#DC2626" />
+
+  <rect x="445" y="148" width="28" height="16" fill="#F8FAFC" stroke="#64748B" stroke-width="0.8" />
+  <polygon points="442,148 459,137 476,148" fill="#EA580C" />
+
+  <!-- Trees -->
+  <circle cx="315" cy="150" r="14" fill="#047857" />
+  <circle cx="370" cy="152" r="12" fill="#065F46" />
+  <circle cx="420" cy="155" r="15" fill="#047857" />
+
+  <!-- Table / Desk in Foreground -->
+  <path d="M120,200 L420,200 L440,240 L100,240 Z" fill="#B45309" />
+  <rect x="100" y="200" width="340" height="8" fill="#D97706" />
+
+  <!-- Student Character (Ravi) -->
+  <!-- Body (Green Hoodie) -->
+  <path d="M180,185 C180,135 280,135 280,185 L280,240 L180,240 Z" fill="#15803D" />
+  <!-- Hoodie Collar -->
+  <path d="M210,145 Q230,165 250,145" stroke="#166534" stroke-width="4" fill="none" />
+  <line x1="225" y1="155" x2="225" y2="175" stroke="#FDE047" stroke-width="2" />
+  <line x1="235" y1="155" x2="235" y2="175" stroke="#FDE047" stroke-width="2" />
+
+  <!-- Head & Face -->
+  <ellipse cx="230" cy="95" rx="22" ry="26" fill="#FBBF24" />
+  <!-- Hair -->
+  <path d="M208,95 C206,62 254,62 252,95 C248,82 225,78 208,95 Z" fill="#0F172A" />
+  <!-- Eyes & Smile -->
+  <circle cx="222" cy="95" r="2.5" fill="#0F172A" />
+  <circle cx="238" cy="95" r="2.5" fill="#0F172A" />
+  <path d="M224,107 Q230,114 236,107" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round" fill="none" />
+  <ellipse cx="218" cy="104" rx="3.5" ry="2" fill="#F87171" opacity="0.6" />
+  <ellipse cx="242" cy="104" rx="3.5" ry="2" fill="#F87171" opacity="0.6" />
+
+  <!-- Left Arm Waving Friendly -->
+  <!-- Upper arm -->
+  <path d="M205,145 L180,110 L195,95 L220,135 Z" fill="#15803D" />
+  <!-- Waving Hand -->
+  <g transform="rotate(-15 180 90)">
+    <circle cx="180" cy="88" r="9" fill="#FBBF24" />
+    <rect x="173" y="74" width="4" height="12" rx="2" fill="#FBBF24" />
+    <rect x="178" y="72" width="4" height="14" rx="2" fill="#FBBF24" />
+    <rect x="183" y="74" width="4" height="12" rx="2" fill="#FBBF24" />
+    <rect x="188" y="77" width="3.5" height="9" rx="1.5" fill="#FBBF24" />
+    <ellipse cx="172" cy="87" rx="3" ry="5" fill="#FBBF24" />
+  </g>
+
+  <!-- Laptop on Desk -->
+  <!-- Screen Lid (Open Angle) -->
+  <polygon points="250,145 320,145 315,198 245,198" fill="#334155" stroke="#1E293B" stroke-width="1.5" />
+  <!-- Display -->
+  <polygon points="253,148 317,148 312,195 248,195" fill="#0284C7" />
+  <!-- Code lines on screen -->
+  <line x1="258" y1="158" x2="285" y2="158" stroke="#38BDF8" stroke-width="2" />
+  <line x1="262" y1="165" x2="300" y2="165" stroke="#FFFFFF" stroke-width="2" />
+  <line x1="262" y1="172" x2="292" y2="172" stroke="#4ADE80" stroke-width="2" />
+  <line x1="258" y1="179" x2="275" y2="179" stroke="#FBBF24" stroke-width="2" />
+
+  <!-- Laptop Keyboard Base -->
+  <polygon points="245,198 315,198 330,208 230,208" fill="#64748B" stroke="#475569" stroke-width="1" />
+  <!-- Trackpad -->
+  <polygon points="275,202 288,202 289,206 274,206" fill="#94A3B8" />
+
+  <!-- Right Arm typing/resting on table -->
+  <path d="M260,150 L275,195 L265,200 L248,160 Z" fill="#15803D" />
+  <circle cx="270" cy="198" r="6" fill="#FBBF24" />
+</svg>

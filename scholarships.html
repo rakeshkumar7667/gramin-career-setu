@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-scholarships" />
+  <title>స్కాలర్‌షిప్ ఫైండర్ — Scholarship Finder | Gramin Career Setu</title>
+  <meta name="description" content="Find and apply for the best scholarships that match your profile." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="scholarships.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">school</span>
+                <span>Scholarship Finder</span>
+              </a>
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="schemes.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_balance</span>
+                <span>Govt Schemes</span>
+              </a>
+              <a href="roadmap.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">alt_route</span>
+                <span>Career Roadmap</span>
+              </a>
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="scholarships.html" style="font-weight: 600; color: #1B4D3E;">Scholarship Finder</a>
+      <a href="schemes.html" style="font-weight: 500; color: #334155;">Govt Schemes</a>
+      <a href="roadmap.html" style="font-weight: 500; color: #334155;">Career Roadmap</a>
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <a href="resources.html">Scholarships</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Find Scholarships</span>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-scholarships">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">school</span>
+          <span data-lang-text>Scholarship Finder</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Find and apply for the best scholarships that match your profile.</p>
+        <p class="gcs-page-hero-telugu">మీ అర్హతకు సరిపోయే స్కాలర్‌షిప్పులను కనుగొని దరఖాస్తు చేయండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px">
+        <img src="assets/scholarships-hero-cap.svg" alt="Scholarship Finder Illustration" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Multi-Filter Selection Card -->
+    <section class="ui-card" style="margin-bottom: 32px">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px">
+        <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0">Find Scholarships That Match You</h2>
+        <button type="button" onclick="resetScholarshipFilters()" style="background: none; border: none; font-size: var(--text-sm); color: var(--color-text-muted); cursor: pointer; display: flex; align-items: center; gap: 4px">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">restart_alt</span>
+          <span data-lang-key="btn-clear">Clear Filters</span>
+        </button>
+      </div>
+
+      <div class="gcs-filter-grid gcs-filter-grid--sch">
+        <div>
+          <label for="schQual" style="display: block; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">Qualification</label>
+          <select id="schQual" aria-label="Select Qualification" class="gcs-form-input" onchange="filterScholarshipCards()" style="width: 100%; padding: 8px 12px; font-size: var(--text-sm)">
+            <option value="all">All Qualifications</option>
+            <option value="10th" selected>10th Passed</option>
+            <option value="inter">Intermediate / 12th</option>
+            <option value="degree">Degree / B.Tech</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="schCat" style="display: block; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">Category</label>
+          <select id="schCat" aria-label="Select Category" class="gcs-form-input" onchange="filterScholarshipCards()" style="width: 100%; padding: 8px 12px; font-size: var(--text-sm)">
+            <option value="all">All Categories</option>
+            <option value="obc" selected>OBC / BC</option>
+            <option value="sc">SC</option>
+            <option value="st">ST</option>
+            <option value="general">General / EWS</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="schGen" style="display: block; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">Gender</label>
+          <select id="schGen" aria-label="Select Gender" class="gcs-form-input" onchange="filterScholarshipCards()" style="width: 100%; padding: 8px 12px; font-size: var(--text-sm)">
+            <option value="all">All Genders</option>
+            <option value="male" selected>Male</option>
+            <option value="female">Female (Girl Child Schemes)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="schInc" style="display: block; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">Annual Family Income</label>
+          <select id="schInc" aria-label="Select Annual Family Income" class="gcs-form-input" onchange="filterScholarshipCards()" style="width: 100%; padding: 8px 12px; font-size: var(--text-sm)">
+            <option value="all">Any Income</option>
+            <option value="2.5" selected>Below ₹2,50,000</option>
+            <option value="5.0">Below ₹5,00,000</option>
+          </select>
+        </div>
+
+        <div>
+          <button type="button" class="gcs-btn-cta-1" onclick="filterScholarshipCards()" style="padding: 8px 20px; font-size: var(--text-sm); border: none; cursor: pointer; white-space: nowrap">
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">search</span>
+            <span>Search Scholarships</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px">
+      <div class="ui-title-sm" id="schCount">Showing 8 scholarships</div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: var(--text-sm); color: var(--color-text-muted)">
+        <label for="schSort" data-lang-key="label-sort-by">Sort by:</label>
+        <select id="schSort" aria-label="Sort scholarships" style="padding: 4px 8px; border-radius: 6px; border: 1px solid #CBD5E1; font-size: var(--text-sm)">
+          <option>Deadline Soon</option>
+          <option>Highest Amount</option>
+          <option>Newest Added</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Scholarship Cards (4 Grid) -->
+    <div id="scholarshipsGrid" class="gcs-scholarships-grid-4">
+      
+      <!-- Card 1: AP RTF -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700">State · 100% Fee</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">school</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Post-Matric Fee Reimbursement (RTF)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">AP Social Welfare &amp; BC Welfare Departments</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Complete tuition fee reimbursement for SC, ST, BC, EWS and Minority students in ITI, Polytechnic, Degree, and Professional colleges.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">Full Tuition Fee (Direct to College)</span></div>
+            <div>🎓 <strong>Eligibility:</strong> ITI / Polytechnic / Degree / Professional</div>
+            <div>📅 <strong>Deadline:</strong> Annual Academic State Cycle</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://jnanabhumi.ap.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-rtf-fee-reimbursement" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 2: AP MTF -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #EFF6FF; color: #2563EB; font-size: var(--text-xs); font-weight: 700">State · Hostel &amp; Living</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">hotel</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Post-Matric Maintenance Allowance (MTF)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">AP Social Welfare &amp; Tribal Welfare Departments</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Financial assistance for boarding, mess, and hostel expenses for students staying in attached or college hostels.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹10,000 – ₹20,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> ITI (₹10k), Poly (₹15k), Degree/PG (₹20k)</div>
+            <div>📅 <strong>Deadline:</strong> Annual Academic State Cycle</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://jnanabhumi.ap.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-mtf-maintenance-allowance" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 3: PM-USP CSSS -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700">Central · Merit</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">emoji_events</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">PM-USP Central Sector Scholarship (CSSS)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">Dept of Higher Education, Govt. of India</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Pradhan Mantri Uchchatar Shiksha Protsahan scholarship for meritorious students pursuing regular university degrees.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹12,000 – ₹20,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> Class 12 &gt; 80th percentile, Income &lt; ₹4.5L</div>
+            <div>📅 <strong>Deadline:</strong> 31 December (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-pm-usp-csss" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 4: AICTE Pragati -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #FDF2F8; color: #DB2777; font-size: var(--text-xs); font-weight: 700">Girl Child Only</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #FDF2F8; color: #DB2777; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">female</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">AICTE Pragati Scholarship for Girls</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">AICTE / Ministry of Education, Govt. of India</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Prestigious national scholarship dedicated to empowering girl students entering technical degree and diploma courses.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹50,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> Girls in 1st Yr Technical, Income &lt; ₹8L</div>
+            <div>📅 <strong>Deadline:</strong> 31 October (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-aicte-pragati" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 5: PM-YASASVI -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700">OBC / EBC / DNT</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">menu_book</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">PM-YASASVI Scholarship Scheme</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">Ministry of Social Justice &amp; Empowerment</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">PM Young Achievers Scholarship for Vibrant India for meritorious OBC, EBC and DNT students in Class 9-12 and College.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹75,000 – ₹1,25,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> OBC/EBC/DNT, Income &lt; ₹2.5L</div>
+            <div>📅 <strong>Deadline:</strong> 30 November (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-pm-yasasvi" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 6: NMMSS -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700">School · Merit</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">workspace_premium</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">National Means-cum-Merit Scholarship (NMMSS)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">Dept of School Education &amp; Literacy</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Monthly scholarship support to prevent dropouts and help rural government school students complete high school education.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹12,000 / year (₹1,000 / mo)</span></div>
+            <div>🎓 <strong>Eligibility:</strong> Class 8 Pass (&gt;=55%), Income &lt; ₹3.5L</div>
+            <div>📅 <strong>Deadline:</strong> 31 October (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-nmmss" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 7: AICTE Saksham -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #FAF5FF; color: #7C3AED; font-size: var(--text-xs); font-weight: 700">Divyang Support</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">accessible</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">AICTE Saksham Scholarship (Divyang)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">AICTE / Ministry of Education, Govt. of India</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Financial assistance dedicated to specially-abled students pursuing professional and polytechnic diploma courses.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹50,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> Specially-abled (disability &gt;= 40%)</div>
+            <div>📅 <strong>Deadline:</strong> 31 October (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://scholarships.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-aicte-saksham" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+
+      <!-- Card 8: INSPIRE SHE -->
+      <article class="scholarship-card-item ui-card" style="justify-content: space-between; position: relative">
+        <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700">Science Talent</span>
+        <div>
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+            <span class="material-symbols-outlined">biotech</span>
+          </div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">INSPIRE Scholarship (SHE)</h3>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 8px">Dept of Science &amp; Technology (DST)</div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin: 0 0 12px 0">Premier scholarship for higher education in pure sciences (B.Sc, B.S., Int. M.Sc) for top 1% board exam rankers.</p>
+          
+          <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px">
+            <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700">₹80,000 / year</span></div>
+            <div>🎓 <strong>Eligibility:</strong> Top 1% in 12th Board, Pure Sciences</div>
+            <div>📅 <strong>Deadline:</strong> 30 November (Annual)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <a href="https://online-inspire.gov.in/" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" data-lang-key="btn-view-details" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details</a>
+          <button type="button" class="gcs-btn-cta-2" data-bookmark-type="scholarships" data-bookmark-id="sch-inspire-she" aria-label="Bookmark scholarship" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark_border</span></button>
+        </div>
+      </article>
+    </div>
+
+        <!-- Document Readiness Callout Banner -->
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: #22C55E; color: #ffffff">
+          <span class="material-symbols-outlined">lightbulb</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Tip: Keep your documents ready!</h3>
+          <p class="gcs-banner-callout-sub" style="color: #047857">Aadhaar Card, Caste Certificate, Income Certificate, Bank Passbook, Mark Sheets.</p>
+        </div>
+      </div>
+      <button type="button" class="gcs-btn-cta-1" onclick="GCS_ACTIONS.showSteps(GCS_I18N.t('sch-steps-title'), [GCS_I18N.t('sch-step-1'), GCS_I18N.t('sch-step-2'), GCS_I18N.t('sch-step-3'), GCS_I18N.t('sch-step-4')])" style="border: none; cursor: pointer; white-space: nowrap">How to Apply &rarr;</button>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://scholarships.gov.in" target="_blank" rel="noopener">National Scholarship Portal</a></li>
+            <li><a href="https://epass.apcfss.in" target="_blank" rel="noopener">AP ePass Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="scholarships.html">Scholarship Finder</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="scholarships.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">school</span>
+      <span>Scholarships</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Search & API Script -->
+  <script>
+    async function loadLiveScholarships() {
+      if (!window.GCS_API || !window.GCS_API.scholarships) return;
+      try {
+        const list = await window.GCS_API.scholarships.getAll({ all: true });
+        if (list && list.length > 0) {
+          const grid = document.getElementById('scholarshipsGrid');
+          if (!grid) return;
+          const isTe = (document.documentElement.lang || 'te') === 'te';
+          grid.innerHTML = list.map(item => `
+            <article class="scholarship-card-item" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+              <span class="gcs-pill-tag" style="position: absolute; top: 16px; right: 16px; background: #ECFDF5; color: #059669; font-size: var(--text-xs); font-weight: 700;">${item.category || 'Scholarship'}</span>
+              <div>
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px;">
+                  <span class="material-symbols-outlined">school</span>
+                </div>
+                <h3 style="font-size: var(--text-lg); font-weight: 800; color: #0F172A; margin: 0 0 4px 0;">${isTe && item.titleTe ? item.titleTe : item.titleEn}</h3>
+                <div style="font-size: var(--text-sm); color: #64748B; margin-bottom: 8px;">${item.titleEn}</div>
+                <p style="font-size: var(--text-sm); color: #475569; line-height: 1.5; margin: 0 0 14px 0;">Official financial scholarship support under state & national schemes.</p>
+                <div style="font-size: var(--text-sm); color: #334155; display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;">
+                  <div>💰 <strong>Amount:</strong> <span style="color: #059669; font-weight: 700;">${item.amountRange || 'Available'}</span></div>
+                  <div>🎓 <strong>Eligibility:</strong> ${item.eligibility || 'Eligible Candidates'}</div>
+                  <div>📅 <strong>Deadline:</strong> ${item.deadline || 'Rolling'}</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <a href="${item.portalUrl || 'https://scholarships.gov.in'}" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none;" data-lang-key="btn-view-details">View Details</a>
+                <button type="button" class="gcs-btn-cta-2" style="padding: 8px 10px;" data-bookmark-type="scholarships" data-bookmark-id="${item.id}" aria-label="Bookmark scholarship"><span class="material-symbols-outlined" style="font-size: var(--text-base);">bookmark_border</span></button>
+              </div>
+            </article>
+          `).join('');
+
+          const countEl = document.getElementById('schCount');
+          if (countEl) countEl.textContent = `Showing ${list.length} scholarships`;
+        }
+      } catch (err) {
+        console.warn('[Scholarships] Live hydration error:', err);
+      }
+    }
+
+    function filterScholarshipCards() {
+      const cards = document.querySelectorAll('.scholarship-card-item');
+      cards.forEach(c => c.style.display = 'flex');
+      document.getElementById('schCount').textContent = 'Showing ' + cards.length + ' scholarships matching your filters';
+    }
+
+    function resetScholarshipFilters() {
+      document.getElementById('schQual').value = 'all';
+      document.getElementById('schCat').value = 'all';
+      document.getElementById('schGen').value = 'all';
+      document.getElementById('schInc').value = 'all';
+      filterScholarshipCards();
+    }
+
+    window.addEventListener('DOMContentLoaded', loadLiveScholarships);
+  </script>
+</body>
+</html>

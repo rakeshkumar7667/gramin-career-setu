@@ -1,0 +1,11 @@
+{
+  "name": "Gramin Career Setu",
+  "short_name": "Career Setu",
+  "description": "Career guidance portal for rural youth — గ్రామీణ యువతకు కెరీర్ మార్గదర్శకత్వం",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1b5e20",
+  "lang": "te",
+  "categories": ["education", "social"]
+}

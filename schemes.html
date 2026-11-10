@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-schemes" />
+  <title>ప్రభుత్వ పథకాలు — Government Scheme Explorer | Gramin Career Setu</title>
+  <meta name="description" content="Discover government schemes and apply for the support you deserve." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="scholarships.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">school</span>
+                <span>Scholarship Finder</span>
+              </a>
+              <a href="schemes.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_balance</span>
+                <span>Govt Schemes</span>
+              </a>
+              <a href="roadmap.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">alt_route</span>
+                <span>Career Roadmap</span>
+              </a>
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="scholarships.html" style="font-weight: 500; color: #334155;">Scholarship Finder</a>
+      <a href="schemes.html" style="font-weight: 600; color: #1B4D3E;">Govt Schemes</a>
+      <a href="roadmap.html" style="font-weight: 500; color: #334155;">Career Roadmap</a>
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Government Schemes</span>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-schemes">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">account_balance</span>
+          <span data-lang-text>Government Scheme Explorer</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Discover government schemes and apply for the support you deserve.</p>
+        <p class="gcs-page-hero-telugu">మీకు అందుబాటులో ఉన్న ప్రభుత్వ పథకాలు తెలుసుకోండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
+        <img src="assets/schemes-hero-citizens.svg" alt="Government Schemes Explorer" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Filter Category Pills (6 Pills) -->
+    <div style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; padding-bottom: 4px">
+      <button type="button" class="gcs-pill-tag active" onclick="filterSchemeCategory('all', this)" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 8px 16px">All Schemes</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('skill', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🎓 Skill Development</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('financial', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">💰 Financial Support</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('employment', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">💼 Employment</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('entrepreneurship', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🚀 Entrepreneurship</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterSchemeCategory('social', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🤝 Social Welfare</button>
+    </div>
+
+    <!-- 5 Government Scheme Cards (5 Grid) -->
+    <div id="schemesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px">
+      
+      <!-- Scheme 1: Skill India -->
+      <article class="scheme-card-item ui-card" data-cat="skill" style="justify-content: space-between">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
+              <span class="material-symbols-outlined">workspace_premium</span>
+            </div>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #ECFDF5; color: #059669">Skill Dev</span>
+          </div>
+
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Skill India</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
+            Empowering youth with industry relevant skills and better employment opportunities.
+          </p>
+
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
+            <div>🛡️ <strong>Benefits:</strong> Free skill training</div>
+            <div>👤 <strong>Eligibility:</strong> 10th Pass &amp; above</div>
+            <div>🌐 <strong>Apply:</strong> Online / Offline</div>
+          </div>
+        </div>
+
+        <a href="https://www.skillindia.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
+      </article>
+
+      <!-- Scheme 2: PMKVY -->
+      <article class="scheme-card-item ui-card" data-cat="skill" style="justify-content: space-between">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
+              <span class="material-symbols-outlined">school</span>
+            </div>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FFFBEB; color: #D97706">Skill Dev</span>
+          </div>
+
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">PMKVY</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
+            Short-term skill training programs with certification and placement assistance.
+          </p>
+
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
+            <div>🛡️ <strong>Benefits:</strong> Stipend + Certificate</div>
+            <div>👤 <strong>Eligibility:</strong> 18 – 45 years</div>
+            <div>🌐 <strong>Apply:</strong> Training Center</div>
+          </div>
+        </div>
+
+        <a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
+      </article>
+
+      <!-- Scheme 3: Mudra Loan -->
+      <article class="scheme-card-item ui-card" data-cat="financial" style="justify-content: space-between">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
+              <span class="material-symbols-outlined">account_balance_wallet</span>
+            </div>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #EFF6FF; color: #2563EB">Financial</span>
+          </div>
+
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Mudra Loan</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
+            Collateral-free loans up to ₹10 lakh for non-corporate small enterprises.
+          </p>
+
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
+            <div>🛡️ <strong>Benefits:</strong> Up to ₹10,00,000</div>
+            <div>👤 <strong>Eligibility:</strong> Self Employed</div>
+            <div>🌐 <strong>Apply:</strong> Bank / Online</div>
+          </div>
+        </div>
+
+        <a href="https://www.mudra.org.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
+      </article>
+
+      <!-- Scheme 4: APSSDC -->
+      <article class="scheme-card-item ui-card" data-cat="employment" style="justify-content: space-between">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
+              <span class="material-symbols-outlined">business_center</span>
+            </div>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FAF5FF; color: #7C3AED">Employment</span>
+          </div>
+
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">APSSDC</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
+            Skilling &amp; placement support for youth in Andhra Pradesh across sectors.
+          </p>
+
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
+            <div>🛡️ <strong>Benefits:</strong> Training + Jobs</div>
+            <div>👤 <strong>Eligibility:</strong> 10th / Inter / Degree</div>
+            <div>🌐 <strong>Apply:</strong> APSSDC Portal</div>
+          </div>
+        </div>
+
+        <a href="https://apssdc.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
+      </article>
+
+      <!-- Scheme 5: NULM -->
+      <article class="scheme-card-item ui-card" data-cat="social" style="justify-content: space-between">
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl)">
+              <span class="material-symbols-outlined">diversity_3</span>
+            </div>
+            <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #FFF1F2; color: #E11D48">Welfare</span>
+          </div>
+
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">NULM</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 12px 0">
+            Empowering rural &amp; urban poor through self employment initiatives.
+          </p>
+
+          <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px">
+            <div>🛡️ <strong>Benefits:</strong> Self Employment</div>
+            <div>👤 <strong>Eligibility:</strong> Low Income Families</div>
+            <div>🌐 <strong>Apply:</strong> Municipal / Ward</div>
+          </div>
+        </div>
+
+        <a href="https://nulm.gov.in" target="_blank" rel="noopener" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none">View Details &rarr;</a>
+      </article>
+    </div>
+
+    <!-- Need Help Callout Banner -->
+    <section class="gcs-banner-callout" style="background: var(--color-surface-sunken); border-color: #CBD5E1">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: #F1F5F9; color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined">support_agent</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: var(--color-text-primary)">Need Help to Apply?</h3>
+          <p class="gcs-banner-callout-sub" style="color: var(--color-text-muted)">Visit your nearest MeeSeva / CSC Center or contact your village volunteer for free application assistance.</p>
+        </div>
+      </div>
+      <button type="button" class="gcs-btn-cta-2" onclick="GCS_ACTIONS.showSteps(GCS_I18N.t('meeseva-title'), [GCS_I18N.t('meeseva-1'), GCS_I18N.t('meeseva-2'), GCS_I18N.t('meeseva-3')])" style="white-space: nowrap; background: var(--color-surface)">
+        <span class="material-symbols-outlined">location_on</span>
+        <span>Find Help Centers</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="scholarships.html">Scholarship Finder</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="schemes.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">account_balance</span>
+      <span>Schemes</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Filter & API Script -->
+  <script>
+    async function loadLiveSchemes() {
+      if (!window.GCS_API || !window.GCS_API.schemes) return;
+      try {
+        const list = await window.GCS_API.schemes.getAll({ all: true });
+        if (list && list.length > 0) {
+          const grid = document.getElementById('schemesGrid');
+          if (!grid) return;
+          const isTe = (document.documentElement.lang || 'te') === 'te';
+          grid.innerHTML = list.map(item => `
+            <article class="scheme-card-item" data-cat="${(item.category || '').toLowerCase()}" style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <div style="width: 44px; height: 44px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl);">
+                    <span class="material-symbols-outlined">workspace_premium</span>
+                  </div>
+                  <span class="gcs-pill-tag" style="font-size: var(--text-xs); background: #ECFDF5; color: #059669;">${item.category || 'Scheme'}</span>
+                </div>
+                <h3 style="font-size: var(--text-lg); font-weight: 800; color: #0F172A; margin: 0 0 6px 0;">${isTe && item.titleTe ? item.titleTe : item.titleEn}</h3>
+                <div style="font-size: var(--text-sm); color: #64748B; margin-bottom: 8px;">${item.ministry || 'Govt of India'}</div>
+                <p style="font-size: var(--text-sm); color: #64748B; line-height: 1.5; margin: 0 0 12px 0;">
+                  ${item.benefit || 'Subsidies, credit linkage, and livelihood support.'}
+                </p>
+                <div style="font-size: var(--text-sm); color: #475569; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+                  <div>🛡️ <strong>Benefits:</strong> ${item.benefit || 'Financial Support'}</div>
+                  <div>👤 <strong>Eligibility:</strong> ${item.eligibility || 'Eligible Rural Citizens'}</div>
+                  <div>🌐 <strong>Category:</strong> ${item.category || 'General'}</div>
+                </div>
+              </div>
+              <a href="${item.applicationUrl || 'https://www.india.gov.in'}" target="_blank" rel="noopener noreferrer" class="gcs-btn-cta-2" style="width: 100%; justify-content: center; padding: 8px; font-size: var(--text-sm); text-decoration: none;">View Details &rarr;</a>
+            </article>
+          `).join('');
+        }
+      } catch (err) {
+        console.warn('[Schemes] Live hydration error:', err);
+      }
+    }
+
+    function filterSchemeCategory(cat, btn) {
+      if (btn) {
+        document.querySelectorAll('.gcs-pill-tag').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = '#fff';
+          b.style.color = '#334155';
+        });
+        btn.classList.add('active');
+        btn.style.background = 'var(--gcs-green-primary)';
+        btn.style.color = '#fff';
+      }
+
+      const cards = document.querySelectorAll('.scheme-card-item');
+      cards.forEach(c => {
+        if (cat === 'all' || (c.getAttribute('data-cat') || '').includes(cat)) {
+          c.style.display = 'flex';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', loadLiveSchemes);
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "appId": "org.gramincareersetu.app",
+  "appName": "Gramin Career Setu",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": true
+  }
+}

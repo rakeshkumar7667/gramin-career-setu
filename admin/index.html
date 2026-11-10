@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-admin" />
+  <title>అడ్మిన్ డాష్‌బోర్డ్ — Admin Dashboard | Gramin Career Setu</title>
+  <meta name="description" content="Volunteer Admin Panel for managing jobs, workshops, resources and statistics." />
+  <link rel="manifest" href="../manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../assets/tokens.css" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../assets/saas.css" />
+  <link rel="stylesheet" href="../assets/landing.css" />
+  <link rel="stylesheet" href="../assets/ui.css" />
+</head>
+
+<body style="background: #F8FAFC; color: #0F172A; margin: 0; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;">
+  
+  <!-- Admin Layout Grid (Sidebar + Main View) -->
+  <div style="display: grid; grid-template-columns: 240px 1fr; min-height: 100vh;">
+    
+    <!-- Sidebar Navigation -->
+    <aside style="background: #ffffff; border-right: 1px solid #E2E8F0; padding: 20px 16px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <!-- Brand -->
+        <a href="../index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 28px;">
+          <div style="width: 36px; height: 36px; border-radius: 10px; background: #ECFDF5; color: var(--gcs-green-primary); display: flex; align-items: center; justify-content: center;">
+            <span class="material-symbols-outlined fill-1" style="font-size: 20px;">spa</span>
+          </div>
+          <div>
+            <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A; line-height: 1.1;">Gramin Career Setu</div>
+            <div style="font-size: 0.72rem; color: #64748B;">Volunteer Admin</div>
+          </div>
+        </a>
+
+        <!-- Menu Section 1 -->
+        <div style="margin-bottom: 20px;">
+          <a href="index.html" class="gcs-btn-cta-1" style="width: 100%; justify-content: flex-start; padding: 8px 12px; font-size: 0.85rem; border-radius: 8px; text-decoration: none; margin-bottom: 6px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">dashboard</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <!-- Manage Content -->
+        <div style="margin-bottom: 20px;">
+          <div style="font-size: 0.72rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; padding-left: 8px;">Manage Content</div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <a href="../jobs.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">work</span> Jobs
+            </a>
+            <a href="../workshops.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">event</span> Workshops
+            </a>
+            <a href="../resources.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">folder</span> Resources
+            </a>
+            <a href="../scholarships.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">school</span> Scholarships
+            </a>
+            <a href="../schemes.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">account_balance</span> Schemes
+            </a>
+            <a href="../stories.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span> Success Stories
+            </a>
+          </div>
+        </div>
+
+        <!-- System & Analytics -->
+        <div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; padding-left: 8px;">System</div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <a href="../profile.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">group</span> Users
+            </a>
+            <a href="../dashboard.html" style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; text-decoration: none;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">settings</span> Settings
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Help Center Box -->
+      <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 14px;">
+        <div style="font-size: 0.85rem; font-weight: 800; color: #064E3B; margin-bottom: 2px;">Need Help?</div>
+        <p style="font-size: 0.75rem; color: #047857; margin: 0 0 8px 0;">Check volunteer guide or sync with Google Sheets.</p>
+        <a href="../index.html" style="font-size: 0.78rem; font-weight: 700; color: var(--gcs-green-primary); text-decoration: none;">View Public Site &rarr;</a>
+      </div>
+    </aside>
+
+    <!-- Main Admin Dashboard View -->
+    <div style="padding: 24px 32px; overflow-y: auto;">
+      
+      <!-- Top Bar: Welcome + Profile + Sync -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h1 style="font-size: 1.6rem; font-weight: 800; color: #0F172A; margin: 0 0 2px 0;">Admin Dashboard</h1>
+          <p style="font-size: 0.85rem; color: #64748B; margin: 0;">Welcome back, Volunteer Admin! Here's what's happening today.</p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="../index.html" target="_blank" class="gcs-btn-cta-1" style="padding: 8px 18px; font-size: 0.85rem; text-decoration: none;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">open_in_new</span>
+            <span>View Site</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 5 Metric Cards Row -->
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px;">
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="material-symbols-outlined" style="color: #059669; font-size: 24px;">work</span>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Live</span>
+          </div>
+          <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;" id="statTotalJobs">22</div>
+          <div style="font-size: 0.78rem; color: #64748B;">Total Jobs</div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="material-symbols-outlined" style="color: #D97706; font-size: 24px;">event</span>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Live</span>
+          </div>
+          <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;" id="statTotalWorkshops">3</div>
+          <div style="font-size: 0.78rem; color: #64748B;">Workshops</div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="material-symbols-outlined" style="color: #7C3AED; font-size: 24px;">folder</span>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Active</span>
+          </div>
+          <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;" id="statTotalApplications">0</div>
+          <div style="font-size: 0.78rem; color: #64748B;">Applications</div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="material-symbols-outlined" style="color: #2563EB; font-size: 24px;">group</span>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Verified</span>
+          </div>
+          <div style="font-size: 1.45rem; font-weight: 800; color: #0F172A;" id="statTotalUsers">0</div>
+          <div style="font-size: 0.78rem; color: #64748B;">Registered Users</div>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="material-symbols-outlined" style="color: #059669; font-size: 24px;">description</span>
+            <span style="font-size: 0.72rem; color: #059669; font-weight: 700;">Saved</span>
+          </div>
+          <div style="font-size: 1.45rem; font-weight: 800; color: var(--gcs-green-primary);" id="statTotalResumes">0</div>
+          <div style="font-size: 0.78rem; color: #64748B;">Resumes Built</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons (6 Cards) -->
+      <div style="margin-bottom: 28px;">
+        <div style="font-size: 0.95rem; font-weight: 800; color: #0F172A; margin-bottom: 12px;">Quick Actions</div>
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;">
+        </div>
+      </div>
+
+      <!-- Content Overview & Statistics Summary -->
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; margin-bottom: 28px;">
+        <!-- Content Overview Table -->
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+          <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 14px 0;">Content Overview</h2>
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1.5px solid #E2E8F0; color: #64748B;">
+                <th style="padding: 8px 6px;">Content Type</th>
+                <th style="padding: 8px 6px;">Total</th>
+                <th style="padding: 8px 6px;">Published</th>
+                <th style="padding: 8px 6px;">Pending</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">💼 Jobs</td>
+                <td style="padding: 10px 6px;">128</td>
+                <td style="padding: 10px 6px; color: #059669; font-weight: 700;">118</td>
+                <td style="padding: 10px 6px; color: #D97706;">10</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">📅 Workshops</td>
+                <td style="padding: 10px 6px;">24</td>
+                <td style="padding: 10px 6px; color: #059669; font-weight: 700;">21</td>
+                <td style="padding: 10px 6px; color: #D97706;">3</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">📁 Resources</td>
+                <td style="padding: 10px 6px;">156</td>
+                <td style="padding: 10px 6px; color: #059669; font-weight: 700;">142</td>
+                <td style="padding: 10px 6px; color: #D97706;">14</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #F1F5F9;">
+                <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">🎓 Scholarships</td>
+                <td style="padding: 10px 6px;">32</td>
+                <td style="padding: 10px 6px; color: #059669; font-weight: 700;">30</td>
+                <td style="padding: 10px 6px; color: #D97706;">2</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 6px; font-weight: 700; color: #0F172A;">🏛️ Schemes</td>
+                <td style="padding: 10px 6px;">18</td>
+                <td style="padding: 10px 6px; color: #059669; font-weight: 700;">18</td>
+                <td style="padding: 10px 6px; color: #64748B;">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Statistics Summary Graph -->
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 22px;">
+          <h2 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 14px 0;">Statistics Summary</h2>
+          <div style="height: 180px; width: 100%;">
+            <svg viewBox="0 0 400 180" style="width: 100%; height: 100%;">
+              <polyline fill="none" stroke="#059669" stroke-width="3" points="30,130 110,95 190,65 270,40 350,25" />
+              <polyline fill="none" stroke="#2563EB" stroke-width="2.5" points="30,150 110,130 190,105 270,75 350,55" />
+              <text x="30" y="170" font-size="10" fill="#94A3B8">1 May</text>
+              <text x="110" y="170" font-size="10" fill="#94A3B8">8 May</text>
+              <text x="190" y="170" font-size="10" fill="#94A3B8">15 May</text>
+              <text x="270" y="170" font-size="10" fill="#94A3B8">22 May</text>
+              <text x="350" y="170" font-size="10" fill="#94A3B8">29 May</text>
+            </svg>
+          </div>
+          <div style="display: flex; gap: 14px; font-size: 0.78rem; justify-content: center;">
+            <span><strong style="color: #059669;">●</strong> Page Views</span>
+            <span><strong style="color: #2563EB;">●</strong> Applications</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Sheets Sync & Storage Info -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="material-symbols-outlined" style="color: #059669;">table_chart</span>
+              <strong style="font-size: 0.95rem; color: #0F172A;">Google Sheets Integration</strong>
+            </div>
+            <p style="font-size: 0.78rem; color: #64748B; margin: 4px 0 0 0;">All survey and registration data automatically backed up.</p>
+          </div>
+          <span style="background: #ECFDF5; color: #059669; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: 6px;">Connected</span>
+        </div>
+
+        <div style="background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: #0F172A; margin-bottom: 6px;">
+            <span>Storage Usage</span>
+            <span>2.4 GB / 10 GB</span>
+          </div>
+          <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden;">
+            <div style="width: 24%; height: 100%; background: var(--gcs-green-primary);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deferred, and ordered: dictionary -> engine, app -> actions. -->
+  <script src="../assets/i18n-dict.js" defer></script>
+  <script src="../assets/i18n.js" defer></script>
+  <script src="../assets/firebase-config.js" defer></script>
+  <script src="../assets/api.js" defer></script>
+  <script src="../assets/app.js" defer></script>
+  <script src="../assets/actions.js" defer></script>
+  <script src="../assets/auth.js" defer></script>
+  <script src="../assets/landing.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.GCS_AUTH && !window.GCS_AUTH.requireAuth(['admin', 'volunteer'])) {
+        return;
+      }
+      try {
+        const updateStatsDom = (d) => {
+          const el = id => document.getElementById(id);
+          if (el('statTotalJobs') && d.totalJobs != null) el('statTotalJobs').textContent = d.totalJobs;
+          if (el('statTotalWorkshops') && d.totalWorkshops != null) el('statTotalWorkshops').textContent = d.totalWorkshops;
+          if (el('statTotalApplications') && d.totalApplications != null) el('statTotalApplications').textContent = d.totalApplications;
+          if (el('statTotalUsers') && d.totalUsers != null) el('statTotalUsers').textContent = d.totalUsers;
+          if (el('statTotalResumes') && d.totalResumes != null) el('statTotalResumes').textContent = d.totalResumes;
+        };
+
+        // 1. Check Cloud Firestore stats in real-time
+        if (window.GCS_FIREBASE && window.GCS_FIREBASE.getAdminStats) {
+          const fbStats = await window.GCS_FIREBASE.getAdminStats().catch(() => null);
+          if (fbStats) updateStatsDom(fbStats);
+        }
+
+        // 2. Fallback to API stats
+        if (window.GCS_API) {
+          const res = await window.GCS_API.request('/admin/stats').catch(() => null);
+          if (res && res.success && res.data) {
+            updateStatsDom(res.data);
+          }
+        }
+      } catch (e) {
+        console.debug('Admin stats fetch:', e);
+      }
+    });
+  </script>
+</body>
+</html>

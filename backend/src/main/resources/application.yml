@@ -1,0 +1,61 @@
+server:
+  port: ${PORT:8085}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: gramin-career-setu-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  jackson:
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db,diskSpace
+
+logging:
+  level:
+    root: INFO
+    com.gramincareersetu: DEBUG
+    org.springframework.security: INFO
+
+app:
+  jwt:
+    # Left empty on purpose: the service generates a random key and warns when
+    # this is unset, rather than falling back to a secret committed to the repo.
+    secret: ${APP_JWT_SECRET:}
+    expiration-ms: ${APP_JWT_EXPIRATION_MS:86400000}
+  rate-limiting:
+    enabled: ${RATE_LIMITING_ENABLED:true}
+    max-requests-per-minute: ${RATE_LIMIT_MAX_PER_MINUTE:30}

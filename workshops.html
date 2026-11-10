@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-workshops" />
+  <title>వర్క్‌షాప్‌లు — Workshops & Events | Gramin Career Setu</title>
+  <meta name="description" content="Free career-guidance workshops held in villages, in Telugu." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/workshops.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link active" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Workshops &amp; Events</span>
+    </nav>
+
+    <!-- Hero Banner with Live Online Class Illustration -->
+    <section class="gcs-page-hero">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-workshops">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">event</span>
+          <span data-lang-text>Workshops &amp; Events</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Free sessions held in your village, in Telugu. Here is what we cover and when we are next out.</p>
+        <p class="gcs-page-hero-telugu">మీ గ్రామంలోనే ఉచిత సెషన్లు, తెలుగులో. మేము ఏమి నేర్పుతామో, ఎప్పుడు వస్తామో ఇక్కడ చూడండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
+        <img src="assets/workshops-hero-class.webp" alt="Workshops and Events Classroom Illustration" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         WORKSHOPS
+         ------------------------------------------------------------
+         Rendered entirely from data/workshops.js. Sessions appear here only
+         once they have actually been arranged; until then the page shows
+         what we are set up to teach and says plainly that nothing is booked.
+
+         The previous version listed six sessions dated May 2024 under an
+         "Upcoming" heading, each with a working Register button.
+         ============================================================ -->
+
+    <!-- Scheduled sessions, or an honest empty state -->
+    <section style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">Next sessions</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px">తదుపరి వర్క్‌షాప్‌లు</p>
+
+      <div id="wsNone" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 24px">
+        <div style="display: flex; align-items: flex-start; gap: 12px">
+          <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">event_busy</span>
+          <div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px">No sessions are booked right now</h3>
+            <p style="font-size: var(--text-base); font-weight: 700; color: #92400E; margin: 0 0 8px">ప్రస్తుతం ఎటువంటి సెషన్లు నిర్ణయించబడలేదు</p>
+            <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 4px; max-width: 70ch">
+              We run these workshops in villages, in person. When a date is fixed it appears here with
+              the village and venue. Ask your village volunteer to request one, or use the guides on
+              this site in the meantime — they cover the same ground.
+            </p>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 12px; max-width: 70ch">
+              మేము ఈ వర్క్‌షాప్‌లను గ్రామాల్లో ప్రత్యక్షంగా నిర్వహిస్తాము. తేదీ నిర్ణయమైన వెంటనే
+              గ్రామం, వేదికతో సహా ఇక్కడ కనిపిస్తుంది.
+            </p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <a href="apply-online.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">Read the apply-online guide</a>
+              <a href="roadmap.html" class="gcs-btn-cta-2" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">See your roadmap</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="wsScheduled" hidden style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px"></div>
+    </section>
+
+    <!-- What we teach. Descriptions, not events — no dates, no registration. -->
+    <section style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">What we cover</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px">మేము ఏమి నేర్పుతాము</p>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px; max-width: 72ch">
+        These are the sessions this project is set up to run. They are free, held in the village,
+        and taught in Telugu.
+      </p>
+      <div id="wsCurriculum" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px"></div>
+    </section>
+
+    <!-- The record of sessions actually held -->
+    <section id="wsHeldSection" hidden style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">Sessions we have held</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px">మేము నిర్వహించిన సెషన్లు</p>
+      <div class="ui-card" style="overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm); text-align: left">
+          <thead>
+            <tr style="border-bottom: 1.5px solid #E2E8F0; color: var(--color-text-muted)">
+              <th scope="col" style="padding: 8px 4px">Date</th>
+              <th scope="col" style="padding: 8px 4px">Session</th>
+              <th scope="col" style="padding: 8px 4px">Village</th>
+              <th scope="col" style="padding: 8px 4px; text-align: right">Attended</th>
+            </tr>
+          </thead>
+          <tbody id="wsHeldRows"></tbody>
+        </table>
+        <p style="font-size: var(--text-sm); color: #94A3B8; margin: 12px 0 0">
+          Survey results from these sessions are on the
+          <a href="results.html" style="color: var(--gcs-green-primary); font-weight: 700">impact dashboard</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Request a workshop -->
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined">groups</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Want a workshop in your village?</h3>
+          <p class="gcs-banner-callout-sub">మీ గ్రామంలో వర్క్‌షాప్ కావాలా? మీ గ్రామ వాలంటీర్ లేదా సచివాలయాన్ని సంప్రదించండి.</p>
+        </div>
+      </div>
+      <a href="about.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">Contact the team</a>
+    </section>
+
+    <script>
+      /**
+       * Renders workshops from data/workshops.js.
+       *
+       * Registration is offered only for a session that exists in `scheduled`
+       * with a real date and village. There is deliberately no way to register
+       * for a curriculum topic: a topic is not an event, and the previous page
+       * let students sign up for sessions that were never going to happen.
+       */
+      (function () {
+        'use strict';
+
+        function esc(s) {
+          return (window.GCS_APP && window.GCS_APP.escapeHtml)
+            ? window.GCS_APP.escapeHtml(s)
+            : String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function formatDate(iso) {
+          var d = new Date(iso + 'T00:00:00');
+          if (isNaN(d)) return esc(iso);
+          return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function render() {
+          var data = window.GCS_WORKSHOPS;
+          if (!data) return;
+
+          var topicById = {};
+          data.curriculum.forEach(function (c) { topicById[c.id] = c; });
+
+          // ── What we cover ──────────────────────────────────────────────
+          document.getElementById('wsCurriculum').innerHTML = data.curriculum.map(function (c) {
+            return '<article class="ui-card">'
+              + '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px">'
+              +   '<span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-2xl)">' + esc(c.icon) + '</span>'
+              +   '<span class="gcs-pill-tag" style="background: #F1F5F9; color: var(--color-text-secondary); font-size: var(--text-xs)">' + esc(c.durationEn) + '</span>'
+              + '</div>'
+              + '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">' + esc(c.titleEn) + '</h3>'
+              + '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 8px">' + esc(c.titleTe) + '</p>'
+              + '<p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 4px">' + esc(c.descEn) + '</p>'
+              + '<p style="font-size: var(--text-sm); color: #94A3B8; margin: 0">' + esc(c.descTe) + '</p>'
+              + '</article>';
+          }).join('');
+
+          // ── Scheduled sessions ─────────────────────────────────────────
+          var scheduled = Array.isArray(data.scheduled) ? data.scheduled : [];
+          if (!scheduled.length) {
+            document.getElementById('wsNone').hidden = false;
+          } else {
+            var wrap = document.getElementById('wsScheduled');
+            wrap.innerHTML = scheduled.map(function (s) {
+              var topic = topicById[s.curriculumId] || {};
+              return '<article class="ui-card">'
+                + '<span class="gcs-pill-tag" style="background: #ECFDF5; color: #047857; font-size: var(--text-xs)">' + formatDate(s.date) + (s.time ? ' · ' + esc(s.time) : '') + '</span>'
+                + '<h3 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 8px 0 2px">' + esc(topic.titleEn || s.curriculumId) + '</h3>'
+                + '<p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 8px">' + esc(topic.titleTe || '') + '</p>'
+                + '<p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin: 0 0 4px"><strong>' + esc(s.village) + '</strong>, ' + esc(s.district) + '</p>'
+                + (s.venue ? '<p style="font-size: var(--text-sm); color: #94A3B8; margin: 0 0 12px">' + esc(s.venue) + '</p>' : '<div style="height: 12px"></div>')
+                + '<button type="button" class="gcs-btn-cta-1"'
+                +   ' data-workshop-id="' + esc(s.id) + '" data-workshop-title="' + esc(topic.titleEn || s.curriculumId) + '" style="width: 100%; justify-content: center; border: none; cursor: pointer">'
+                +   '<span data-action-label>Register</span>'
+                + '</button>'
+                + '</article>';
+            }).join('');
+            wrap.hidden = false;
+
+            // Hand the buttons to the shared registration handler, which
+            // stores locally and only reaches the backend with real details.
+            if (window.GCS_ACTIONS && window.GCS_ACTIONS.toggleWorkshop) {
+              wrap.querySelectorAll('[data-workshop-id]').forEach(function (btn) {
+                var id = btn.getAttribute('data-workshop-id');
+                if (window.GCS_ACTIONS.isRegistered(id)) {
+                  btn.querySelector('[data-action-label]').textContent = 'Registered ✓';
+                  btn.setAttribute('aria-pressed', 'true');
+                }
+                btn.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  window.GCS_ACTIONS.toggleWorkshop(id, btn.getAttribute('data-workshop-title'), btn);
+                });
+              });
+            }
+          }
+
+          // ── Sessions held ──────────────────────────────────────────────
+          var held = Array.isArray(data.held) ? data.held : [];
+          if (held.length) {
+            document.getElementById('wsHeldRows').innerHTML = held.map(function (h) {
+              var topic = topicById[h.curriculumId] || {};
+              return '<tr style="border-bottom: 1px solid #F1F5F9">'
+                + '<td style="padding: 8px 4px; color: var(--color-text-secondary)">' + formatDate(h.date) + '</td>'
+                + '<td style="padding: 8px 4px; font-weight: 700; color: var(--color-text-primary)">' + esc(topic.titleEn || h.curriculumId) + '</td>'
+                + '<td style="padding: 8px 4px; color: var(--color-text-muted)">' + esc(h.village) + ', ' + esc(h.district) + '</td>'
+                + '<td style="padding: 8px 4px; text-align: right; font-weight: 700">' + esc(h.attended) + '</td>'
+                + '</tr>';
+            }).join('');
+            document.getElementById('wsHeldSection').hidden = false;
+          }
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+        else render();
+
+        // Real-time Cloud Database synchronization
+        if (window.GCS_FIREBASE && window.GCS_FIREBASE.onWorkshops) {
+          window.GCS_FIREBASE.onWorkshops(function (liveWs) {
+            if (Array.isArray(liveWs) && liveWs.length > 0 && window.GCS_WORKSHOPS) {
+              window.GCS_WORKSHOPS.scheduled = liveWs;
+              render();
+            }
+          });
+        }
+      })();
+    </script>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="workshops.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">event</span>
+      <span data-lang-key="nav-workshops">Workshops</span>
+    </a>
+  </nav>
+
+</body>
+</html>

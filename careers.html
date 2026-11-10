@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-careers" />
+  <title>కెరీర్ ఎక్స్‌ప్లోరర్ — Career Explorer | Gramin Career Setu</title>
+  <meta name="description" content="Explore detailed career guides and find the right path for your future." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <!-- Skip to content (a11y) -->
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link active" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="index.html#workshops" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="index.html#workshops" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px;">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Career Explorer</span>
+    </nav>
+
+    <!-- Page Hero Banner with Image -->
+    <section class="gcs-page-hero">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-careers">Career Explorer</h1>
+        <p class="gcs-page-hero-desc" data-lang-key="hero-sub-careers">Explore detailed career guides and find the right path for your future.</p>
+      </div>
+      <div class="gcs-page-hero-visual">
+        <img src="assets/career-explorer-hero.webp" alt="Student exploring career pathways at crossroads" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Search & Multi-Filter Card -->
+    <section class="gcs-search-filter-card">
+      <div class="gcs-search-input-row">
+        <span class="material-symbols-outlined" style="color: var(--color-text-muted);">search</span>
+        <input type="text" id="careerSearchInput" placeholder="Search careers, e.g., Engineer, Teacher, Police..." data-lang-placeholder="jobs-search-placeholder" oninput="filterCareers()" />
+        <button type="button" class="gcs-voice-search-btn" id="voiceSearchBtn" onclick="triggerVoiceSearch()" title="Voice Search" aria-label="Voice Search">
+          <span class="material-symbols-outlined" style="font-size: var(--text-xl);">mic</span>
+        </button>
+        <button type="button" class="gcs-speak-search-btn" onclick="speakSearchHelp()">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg);">volume_up</span>
+          <span>Speak Search</span>
+        </button>
+      </div>
+
+      <div class="gcs-filter-selects-grid">
+        <div class="gcs-filter-select-box">
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">school</span> Qualification</label>
+          <select id="filterQual" onchange="filterCareers()">
+            <option value="all">All Qualifications</option>
+            <option value="10th">10th Pass</option>
+            <option value="inter">Intermediate (10+2)</option>
+            <option value="degree">Degree (Any Stream)</option>
+            <option value="btech">B.Tech / B.E</option>
+            <option value="nursing">B.Sc Nursing</option>
+            <option value="agri">B.Sc Agriculture</option>
+          </select>
+        </div>
+
+        <div class="gcs-filter-select-box">
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">favorite</span> Interest Area</label>
+          <select id="filterInterest" onchange="filterCareers()">
+            <option value="all">All Interests</option>
+            <option value="Engineering">Technology / Engineering</option>
+            <option value="Teaching">Teaching / Education</option>
+            <option value="Police & Defense">Police & Defense</option>
+            <option value="Healthcare">Healthcare / Medical</option>
+            <option value="Banking & Finance">Banking & Finance</option>
+            <option value="Agriculture">Agriculture / Farming</option>
+            <option value="IT & Software">IT & Software</option>
+            <option value="Business">Business / Startup</option>
+          </select>
+        </div>
+
+        <div class="gcs-filter-select-box">
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">payments</span> Salary Range</label>
+          <select id="filterSalary" onchange="filterCareers()">
+            <option value="all">All Salary</option>
+            <option value="low">₹2L - ₹4L / year</option>
+            <option value="mid">₹4L - ₹8L / year</option>
+            <option value="high">₹8L - ₹15L / year</option>
+            <option value="growth">Variable / High Growth</option>
+          </select>
+        </div>
+
+        <div class="gcs-filter-select-box">
+          <label><span class="material-symbols-outlined" style="font-size: var(--text-sm);">work</span> Job Type</label>
+          <select id="filterJobType" onchange="filterCareers()">
+            <option value="all">All Job Types</option>
+            <option value="govt" data-lang-key="filter-government">Government</option>
+            <option value="pvt">Private Sector</option>
+            <option value="self">Self Employment</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="gcs-filter-action-row">
+        <button type="button" class="gcs-clear-filters-link" onclick="resetFilters()">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base);">restart_alt</span>
+          <span data-lang-key="btn-clear">Clear Filters</span>
+        </button>
+        <button type="button" class="gcs-apply-filters-btn" onclick="filterCareers()">Apply Filters</button>
+      </div>
+    </section>
+
+    <!-- Browse by Categories (8 Grid) -->
+    <section>
+      <div class="gcs-section-header-row">
+        <h2 class="gcs-section-header-title">Browse by Categories</h2>
+        <a href="#" class="gcs-section-view-all-btn" onclick="selectCategory('all', null); return false;">View All</a>
+      </div>
+
+      <div class="gcs-categories-grid-8">
+        <div class="gcs-cat-tile" onclick="selectCategory('Engineering', this)">
+          <div class="gcs-cat-tile-icon" style="background: #EEF2FF; color: #4F46E5;">
+            <span class="material-symbols-outlined">settings</span>
+          </div>
+          <span class="gcs-cat-tile-name">Engineering</span>
+          <span class="gcs-cat-tile-count">41 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Teaching', this)">
+          <div class="gcs-cat-tile-icon" style="background: #FDF2F8; color: #DB2777;">
+            <span class="material-symbols-outlined">menu_book</span>
+          </div>
+          <span class="gcs-cat-tile-name">Teaching</span>
+          <span class="gcs-cat-tile-count">18 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Police & Defense', this)">
+          <div class="gcs-cat-tile-icon" style="background: #FFFBEB; color: #D97706;">
+            <span class="material-symbols-outlined">shield</span>
+          </div>
+          <span class="gcs-cat-tile-name">Police &amp; Defense</span>
+          <span class="gcs-cat-tile-count">12 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Healthcare', this)">
+          <div class="gcs-cat-tile-icon" style="background: #FEF2F2; color: #DC2626;">
+            <span class="material-symbols-outlined">medical_services</span>
+          </div>
+          <span class="gcs-cat-tile-name">Healthcare</span>
+          <span class="gcs-cat-tile-count">16 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Banking & Finance', this)">
+          <div class="gcs-cat-tile-icon" style="background: #F0F9FF; color: #0284C7;">
+            <span class="material-symbols-outlined">account_balance</span>
+          </div>
+          <span class="gcs-cat-tile-name">Banking &amp; Finance</span>
+          <span class="gcs-cat-tile-count">15 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Agriculture', this)">
+          <div class="gcs-cat-tile-icon" style="background: #ECFDF5; color: #059669;">
+            <span class="material-symbols-outlined">eco</span>
+          </div>
+          <span class="gcs-cat-tile-name">Agriculture</span>
+          <span class="gcs-cat-tile-count">14 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('IT & Software', this)">
+          <div class="gcs-cat-tile-icon" style="background: var(--color-surface-sunken); color: #0284C7;">
+            <span class="material-symbols-outlined">computer</span>
+          </div>
+          <span class="gcs-cat-tile-name">IT &amp; Software</span>
+          <span class="gcs-cat-tile-count">22 Careers</span>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="selectCategory('Business', this)">
+          <div class="gcs-cat-tile-icon" style="background: #FAF5FF; color: #9333EA;">
+            <span class="material-symbols-outlined">business_center</span>
+          </div>
+          <span class="gcs-cat-tile-name" data-lang-key="filter-business">Business</span>
+          <span class="gcs-cat-tile-count">20 Careers</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Career Options Grid (8 Cards) -->
+    <section>
+      <div class="gcs-section-header-row">
+        <h2 class="gcs-section-header-title">Top Career Options</h2>
+        <div class="ui-icon-row">
+          <span class="ui-meta" data-lang-key="label-sort-by">Sort by:</span>
+          <select id="sortSelect" style="padding: 4px 12px; border-radius: 8px; border: 1px solid #CBD5E1; font-weight: 600; outline: none; font-size: var(--text-sm);">
+            <option>Popular</option>
+            <option>High Salary</option>
+            <option>Demand</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="gcs-careers-grid-4" id="careersGrid">
+        <!-- Card 1: Civil Engineer -->
+        <article class="gcs-career-card" data-cat="Engineering" data-qual="btech">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-civil.webp" alt="Civil Engineer at construction site" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Civil Engineer</h3>
+            <div class="gcs-career-card-salary">₹3.5L – ₹8L / year</div>
+            <div class="gcs-career-card-qual">B.Tech Degree</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=civil-engineer" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: School Teacher -->
+        <article class="gcs-career-card" data-cat="Teaching" data-qual="degree">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-teacher.webp" alt="School Teacher teaching students" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">School Teacher</h3>
+            <div class="gcs-career-card-salary">₹2.5L – ₹6L / year</div>
+            <div class="gcs-career-card-qual">B.Ed / D.El.Ed</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=school-teacher" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3: Sub Inspector -->
+        <article class="gcs-career-card" data-cat="Police & Defense" data-qual="degree">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-police.webp" alt="Sub Inspector officer" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Sub Inspector (SI)</h3>
+            <div class="gcs-career-card-salary">₹4L – ₹9L / year</div>
+            <div class="gcs-career-card-qual">Degree (Any Stream)</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=sub-inspector" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4: Staff Nurse -->
+        <article class="gcs-career-card" data-cat="Healthcare" data-qual="nursing">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/profile-lalitha.webp" alt="Staff nurse at work" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Staff Nurse</h3>
+            <div class="gcs-career-card-salary">₹3L – ₹7L / year</div>
+            <div class="gcs-career-card-qual">B.Sc Nursing</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=staff-nurse" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 5: Software Developer -->
+        <article class="gcs-career-card" data-cat="IT & Software" data-qual="btech">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-software.webp" alt="Software Developer programming" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Software Developer</h3>
+            <div class="gcs-career-card-salary">₹4L – ₹12L / year</div>
+            <div class="gcs-career-card-qual">B.Tech / MCA</div>
+            <div class="gcs-career-card-tag" style="background: #F3E8FF; color: #7E22CE;"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">bolt</span> Very High Demand</div>
+            <a href="career-detail.html?career=software-engineer" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 6: Bank Officer -->
+        <article class="gcs-career-card" data-cat="Banking & Finance" data-qual="degree">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-bank.webp" alt="Bank Officer at desk" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Bank Officer</h3>
+            <div class="gcs-career-card-salary">₹3L – ₹7L / year</div>
+            <div class="gcs-career-card-qual">Degree (Any Stream)</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=bank-officer" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 7: Agricultural Officer -->
+        <article class="gcs-career-card" data-cat="Agriculture" data-qual="agri">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/career-agriculture.webp" alt="Agricultural Officer in field" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Agricultural Officer</h3>
+            <div class="gcs-career-card-salary">₹3L – ₹6L / year</div>
+            <div class="gcs-career-card-qual">B.Sc Agriculture</div>
+            <div class="gcs-career-card-tag"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Demand</div>
+            <a href="career-detail.html?career=agricultural-officer" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 8: Entrepreneur -->
+        <article class="gcs-career-card" data-cat="Business" data-qual="all">
+          <div class="gcs-career-card-thumb">
+            <img src="assets/profile-suresh.webp" alt="Small business owner at work" loading="lazy" />
+            <button type="button" class="gcs-card-fav-btn" aria-label="Save Career" onclick="this.classList.toggle('active')"><span class="material-symbols-outlined" style="font-size: var(--text-lg);">favorite</span></button>
+          </div>
+          <div class="gcs-career-card-body">
+            <h3 class="gcs-career-card-title">Entrepreneur</h3>
+            <div class="gcs-career-card-salary">Variable Income</div>
+            <div class="gcs-career-card-qual">Any Qualification</div>
+            <div class="gcs-career-card-tag" style="background: #FEF3C7; color: #B45309;"><span class="material-symbols-outlined" style="font-size: var(--text-sm);">trending_up</span> High Growth</div>
+            <a href="career-detail.html?career=entrepreneur" class="gcs-career-card-btn">
+              <span data-lang-key="btn-view-details">View Details</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base);">arrow_forward</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Bottom Skill Checker CTA Banner -->
+    <section class="gcs-banner-callout">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon">
+          <span class="material-symbols-outlined">quiz</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title">Not sure which career is best for you?</h3>
+          <p class="gcs-banner-callout-sub">Take our Skill Checker Quiz and get personalized career recommendations.</p>
+        </div>
+      </div>
+      <a href="quiz.html" class="gcs-btn-cta-1" style="white-space: nowrap; text-decoration: none;">
+        <span>Take Skill Checker Quiz</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="index.html#workshops" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Search & Voice Script -->
+  <script>
+    let activeCat = 'all';
+
+    function selectCategory(cat, el) {
+      activeCat = cat;
+      document.querySelectorAll('.gcs-cat-tile').forEach(tile => tile.classList.remove('active'));
+      if (el) el.classList.add('active');
+      filterCareers();
+    }
+
+    function filterCareers() {
+      const q = (document.getElementById('careerSearchInput').value || '').toLowerCase().trim();
+      const qual = document.getElementById('filterQual').value;
+      const interest = document.getElementById('filterInterest').value;
+      const cards = document.querySelectorAll('.gcs-career-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.gcs-career-card-title').textContent.toLowerCase();
+        const cat = card.getAttribute('data-cat') || '';
+        const cardQual = card.getAttribute('data-qual') || '';
+
+        const matchesQuery = !q || title.includes(q) || cat.toLowerCase().includes(q);
+        const matchesCat = (activeCat === 'all') || (cat === activeCat);
+        const matchesInterest = (interest === 'all') || (cat === interest);
+        const matchesQual = (qual === 'all') || (cardQual === qual) || (cardQual === 'all');
+
+        if (matchesQuery && matchesCat && matchesInterest && matchesQual) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function resetFilters() {
+      document.getElementById('careerSearchInput').value = '';
+      document.getElementById('filterQual').value = 'all';
+      document.getElementById('filterInterest').value = 'all';
+      document.getElementById('filterSalary').value = 'all';
+      document.getElementById('filterJobType').value = 'all';
+      activeCat = 'all';
+      document.querySelectorAll('.gcs-cat-tile').forEach(tile => tile.classList.remove('active'));
+      filterCareers();
+    }
+
+    function triggerVoiceSearch() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('🎤 Voice recognition is not supported in this browser. Please type your search.');
+        } else {
+          alert('Voice recognition is not supported in this browser. Please type your search.');
+        }
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = document.documentElement.lang === 'te' ? 'te-IN' : 'en-IN';
+      recognition.start();
+      const voiceBtn = document.getElementById('voiceSearchBtn');
+      voiceBtn.style.background = '#EF4444';
+      voiceBtn.style.color = '#ffffff';
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('careerSearchInput').value = transcript;
+        filterCareers();
+      };
+      recognition.onend = () => {
+        voiceBtn.style.background = '#E2E8F0';
+        voiceBtn.style.color = '#1E293B';
+      };
+    }
+
+    function speakSearchHelp() {
+      const isTelugu = document.documentElement.lang === 'te';
+      const msg = isTelugu 
+        ? 'ఇంజనీర్, టీచర్, పోలీస్ లేదా నర్స్ వంటి కెరీర్ల కోసం శోధించండి.'
+        : 'Search for careers like Engineer, Teacher, Police, Nurse or Software Developer.';
+      if (window.GCS_I18N && window.GCS_I18N.speak) {
+        window.GCS_I18N.speak(msg, isTelugu ? 'te' : 'en');
+      } else if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(msg);
+        utterance.lang = isTelugu ? 'te-IN' : 'en-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  </script>
+</body>
+</html>

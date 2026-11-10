@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-resources" />
+  <title>వనరుల కిట్ — Resource Kit | Gramin Career Setu</title>
+  <meta name="description" content="Download useful career guides, government schemes, scholarships, and exam preparation PDFs." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- jsPDF for instant client-side offline downloads -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link active" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Resource Kit</span>
+    </nav>
+
+    <!-- Hero Banner with Resource Folder Illustration -->
+    <section class="gcs-page-hero">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-resources">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">folder_open</span>
+          <span data-lang-text>Resource Kit</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Download useful resources for your career journey.</p>
+        <p class="gcs-page-hero-telugu">మీ career ప్రయాణానికి ఉపయోగపడే వనరులను డౌన్‌లోడ్ చేసుకోండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px">
+        <img src="assets/resources-hero-folder.svg" alt="Resource Kit Download Illustration" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Search Row with Offline Downloads Action -->
+    <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap">
+      <div style="flex: 1; position: relative; min-width: 260px">
+        <input class="ui-card" type="text" id="resourceSearchInput" placeholder="Search resources by topic, scheme or exam..." oninput="filterResources()" / style="width: 100%; font-size: var(--text-base); outline: none">
+        <span class="material-symbols-outlined" style="position: absolute; left: 10px; top: 10px; font-size: var(--text-xl); color: #94A3B8">search</span>
+      </div>
+
+    </div>
+
+    <!-- Category Filter Pills (6 Pills) -->
+    <div style="display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; padding-bottom: 4px">
+      <button type="button" class="gcs-pill-tag active" onclick="filterResourceCategory('all', this)" style="background: var(--gcs-green-primary); color: #fff; border: none; cursor: pointer; padding: 8px 16px">All Resources</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterResourceCategory('guides', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">📖 Career Guides</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterResourceCategory('govt', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🏛️ Govt. Schemes</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterResourceCategory('scholarships', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">🎓 Scholarships</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterResourceCategory('exams', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">📋 Exam Preparation</button>
+      <button type="button" class="gcs-pill-tag" onclick="filterResourceCategory('skills', this)" style="background: var(--color-surface); border: 1px solid #CBD5E1; cursor: pointer; padding: 8px 16px">💻 Skills &amp; Training</button>
+    </div>
+
+    <!-- Popular Resources (4 Cards) -->
+    <section style="margin-bottom: 32px">
+      <div class="gcs-section-header-row">
+        <h2 class="gcs-section-header-title">Popular Resources</h2>
+        <a href="#all" class="gcs-section-view-all-btn">View All &rarr;</a>
+      </div>
+
+      <div class="ui-grid ui-grid--4">
+        <!-- Card 1 -->
+        <article class="resource-card-item ui-card" data-cat="guides" style="justify-content: space-between; position: relative">
+          <span style="position: absolute; top: 14px; right: 14px; background: #FEE2E2; color: #DC2626; font-size: var(--text-xs); font-weight: 800; padding: 2px 4px; border-radius: 4px">PDF</span>
+          <div>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+              <span class="material-symbols-outlined">eco</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Career Guidance for Rural Youth</h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 8px 0">A complete guide to help rural students choose the right career path in Telugu.</p>
+            <div style="font-size: var(--text-xs); color: #94A3B8; margin-bottom: 16px">PDF • 2.4 MB</div>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button type="button" class="gcs-btn-cta-1" onclick="downloadResourcePDF('Career Guidance for Rural Youth')" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); border: none; cursor: pointer">
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">download</span>
+              <span>Download</span>
+            </button>
+            <button type="button" class="gcs-btn-cta-2" data-bookmark-type="resources" data-bookmark-id="resource-1" aria-label="Save this resource" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span></button>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="resource-card-item ui-card" data-cat="govt" style="justify-content: space-between; position: relative">
+          <span style="position: absolute; top: 14px; right: 14px; background: #FEE2E2; color: #DC2626; font-size: var(--text-xs); font-weight: 800; padding: 2px 4px; border-radius: 4px">PDF</span>
+          <div>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+              <span class="material-symbols-outlined">account_balance</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Government Schemes for Youth</h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 8px 0">All important government schemes, benefits, eligibility, and how to apply.</p>
+            <div style="font-size: var(--text-xs); color: #94A3B8; margin-bottom: 16px">PDF • 1.8 MB</div>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button type="button" class="gcs-btn-cta-1" onclick="downloadResourcePDF('Government Schemes for Youth')" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); border: none; cursor: pointer">
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">download</span>
+              <span>Download</span>
+            </button>
+            <button type="button" class="gcs-btn-cta-2" data-bookmark-type="resources" data-bookmark-id="resource-2" aria-label="Save this resource" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span></button>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="resource-card-item ui-card" data-cat="scholarships" style="justify-content: space-between; position: relative">
+          <span style="position: absolute; top: 14px; right: 14px; background: #FEE2E2; color: #DC2626; font-size: var(--text-xs); font-weight: 800; padding: 2px 4px; border-radius: 4px">PDF</span>
+          <div>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+              <span class="material-symbols-outlined">school</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Top Scholarships in India</h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 8px 0">List of state and national scholarships for 10th, 12th, degree, and IT students.</p>
+            <div style="font-size: var(--text-xs); color: #94A3B8; margin-bottom: 16px">PDF • 1.6 MB</div>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button type="button" class="gcs-btn-cta-1" onclick="downloadResourcePDF('Top Scholarships in India')" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); border: none; cursor: pointer">
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">download</span>
+              <span>Download</span>
+            </button>
+            <button type="button" class="gcs-btn-cta-2" data-bookmark-type="resources" data-bookmark-id="resource-3" aria-label="Save this resource" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span></button>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="resource-card-item ui-card" data-cat="exams" style="justify-content: space-between; position: relative">
+          <span style="position: absolute; top: 14px; right: 14px; background: #FEE2E2; color: #DC2626; font-size: var(--text-xs); font-weight: 800; padding: 2px 4px; border-radius: 4px">PDF</span>
+          <div>
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+              <span class="material-symbols-outlined">assignment</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Competitive Exams Guide</h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.5; margin: 0 0 8px 0">Exams syllabus, patterns, previous papers, and preparation tips in Telugu.</p>
+            <div style="font-size: var(--text-xs); color: #94A3B8; margin-bottom: 16px">PDF • 2.1 MB</div>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button type="button" class="gcs-btn-cta-1" onclick="downloadResourcePDF('Competitive Exams Guide')" style="flex: 1; justify-content: center; padding: 8px; font-size: var(--text-sm); border: none; cursor: pointer">
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">download</span>
+              <span>Download</span>
+            </button>
+            <button type="button" class="gcs-btn-cta-2" data-bookmark-type="resources" data-bookmark-id="resource-4" aria-label="Save this resource" style="padding: 8px 8px"><span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span></button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Download Once Notice Banner -->
+
+    <!-- Browse by Categories (8 Grid) -->
+    <section style="margin-bottom: 32px">
+      <div class="gcs-section-header-row">
+        <h2 class="gcs-section-header-title">Browse by Categories</h2>
+      </div>
+
+      <div class="gcs-categories-grid-8">
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('guides', null)">
+          <div class="gcs-cat-tile-icon" style="background: #ECFDF5; color: #059669"><span class="material-symbols-outlined">menu_book</span></div>
+          <div class="gcs-cat-tile-name">Career Guides</div>
+          <div class="gcs-cat-tile-count">25 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('govt', null)">
+          <div class="gcs-cat-tile-icon" style="background: #FFFBEB; color: #D97706"><span class="material-symbols-outlined">account_balance</span></div>
+          <div class="gcs-cat-tile-name">Govt. Schemes</div>
+          <div class="gcs-cat-tile-count">18 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('scholarships', null)">
+          <div class="gcs-cat-tile-icon" style="background: #EFF6FF; color: #2563EB"><span class="material-symbols-outlined">school</span></div>
+          <div class="gcs-cat-tile-name">Scholarships</div>
+          <div class="gcs-cat-tile-count">22 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('exams', null)">
+          <div class="gcs-cat-tile-icon" style="background: #FAF5FF; color: #7C3AED"><span class="material-symbols-outlined">assignment</span></div>
+          <div class="gcs-cat-tile-name">Exam Preparation</div>
+          <div class="gcs-cat-tile-count">30 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('skills', null)">
+          <div class="gcs-cat-tile-icon" style="background: #F0FDF4; color: #059669"><span class="material-symbols-outlined">code</span></div>
+          <div class="gcs-cat-tile-name">Skills &amp; Training</div>
+          <div class="gcs-cat-tile-count">16 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('guides', null)">
+          <div class="gcs-cat-tile-icon" style="background: #FFF1F2; color: #E11D48"><span class="material-symbols-outlined">description</span></div>
+          <div class="gcs-cat-tile-name">Resume &amp; Interview</div>
+          <div class="gcs-cat-tile-count">12 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('exams', null)">
+          <div class="gcs-cat-tile-icon" style="background: #EEF2FF; color: #4F46E5"><span class="material-symbols-outlined">badge</span></div>
+          <div class="gcs-cat-tile-name">Entrance Exams</div>
+          <div class="gcs-cat-tile-count">14 Resources</div>
+        </div>
+
+        <div class="gcs-cat-tile" onclick="filterResourceCategory('all', null)">
+          <div class="gcs-cat-tile-icon" style="background: var(--color-surface-sunken); color: var(--color-text-secondary)"><span class="material-symbols-outlined">hub</span></div>
+          <div class="gcs-cat-tile-name">Others</div>
+          <div class="gcs-cat-tile-count">10 Resources</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recently Added Table -->
+    <section class="ui-card" style="margin-bottom: 32px">
+      <div class="gcs-section-header-row" style="margin-bottom: 16px">
+        <h2 class="gcs-section-header-title">Recently Added</h2>
+        <a href="#all" class="gcs-section-view-all-btn">View All &rarr;</a>
+      </div>
+
+      <div style="overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse; font-size: var(--text-sm); text-align: left">
+          <thead>
+            <tr style="border-bottom: 1.5px solid #E2E8F0; color: var(--color-text-muted)">
+              <th style="padding: 12px 8px">Resource Title</th>
+              <th style="padding: 12px 8px">Category</th>
+                            <th style="padding: 12px 8px; text-align: right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #F1F5F9">
+              <td style="padding: 12px 8px; font-weight: 700; color: var(--color-text-primary)">Simple Steps to Create a Resume</td>
+              <td style="padding: 12px 8px; color: var(--color-text-muted)">Resume &amp; Interview</td>
+              <td style="padding: 12px 8px; text-align: right">
+                <button type="button" onclick="downloadResourcePDF('Simple Steps to Create a Resume')" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)">📥 Download</button>
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9">
+              <td style="padding: 12px 8px; font-weight: 700; color: var(--color-text-primary)">How to Prepare for Group Discussion</td>
+              <td style="padding: 12px 8px; color: var(--color-text-muted)">Skills &amp; Training</td>
+              <td style="padding: 12px 8px; text-align: right">
+                <button type="button" onclick="downloadResourcePDF('How to Prepare for Group Discussion')" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)">📥 Download</button>
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9">
+              <td style="padding: 12px 8px; font-weight: 700; color: var(--color-text-primary)">PMKVY - Complete Information</td>
+              <td style="padding: 12px 8px; color: var(--color-text-muted)">Govt. Schemes</td>
+              <td style="padding: 12px 8px; text-align: right">
+                <button type="button" onclick="downloadResourcePDF('PMKVY Complete Information')" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)">📥 Download</button>
+              </td>
+            </tr>
+            <tr style="border-bottom: 1px solid #F1F5F9">
+              <td style="padding: 12px 8px; font-weight: 700; color: var(--color-text-primary)">Top IT Courses After Intermediate</td>
+              <td style="padding: 12px 8px; color: var(--color-text-muted)">Career Guides</td>
+              <td style="padding: 12px 8px; text-align: right">
+                <button type="button" onclick="downloadResourcePDF('Top IT Courses After Intermediate')" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)">📥 Download</button>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 8px; font-weight: 700; color: var(--color-text-primary)">AP EAMCET – Preparation Guide</td>
+              <td style="padding: 12px 8px; color: var(--color-text-muted)">Exam Preparation</td>
+              <td style="padding: 12px 8px; text-align: right">
+                <button type="button" onclick="downloadResourcePDF('AP EAMCET Preparation Guide')" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)">📥 Download</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Request a Resource CTA Banner -->
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="resources.html" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resources.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">folder</span>
+      <span data-lang-key="nav-resources">Resources</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Search & Offline PDF Generator Scripts -->
+  <script>
+    function filterResourceCategory(cat, btn) {
+      if (btn) {
+        document.querySelectorAll('.gcs-pill-tag').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = '#fff';
+          b.style.color = '#334155';
+        });
+        btn.classList.add('active');
+        btn.style.background = 'var(--gcs-green-primary)';
+        btn.style.color = '#fff';
+      }
+
+      const cards = document.querySelectorAll('.resource-card-item');
+      cards.forEach(c => {
+        if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+          c.style.display = 'flex';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    function filterResources() {
+      const q = (document.getElementById('resourceSearchInput').value || '').toLowerCase();
+      document.querySelectorAll('.resource-card-item').forEach(c => {
+        c.style.display = (!q || c.textContent.toLowerCase().includes(q)) ? 'flex' : 'none';
+      });
+    }
+
+    async function downloadResourcePDF(title) {
+      const lib = await GCS_PDF.load().catch(() => null);
+      if (!lib) { window.print(); return; }
+      const { jsPDF } = lib;
+      if (!jsPDF) {
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('Downloading resource: ' + title);
+        } else {
+          alert('Downloading resource PDF: ' + title);
+        }
+        return;
+      }
+      const doc = new jsPDF();
+      doc.setFillColor(27, 77, 62);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text('Gramin Career Setu - Study Resource', 14, 18);
+
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(18);
+      doc.text(title, 14, 45);
+
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Comprehensive handbook published for rural students in Telugu and English.', 14, 60);
+      doc.text('Includes schemes, eligibility, exam patterns, and direct links to government portals.', 14, 70);
+
+      doc.save(title.replace(/\s+/g, '_') + '.pdf');
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show('✅ Downloaded ' + title + '!');
+      }
+    }
+  </script>
+</body>
+</html>

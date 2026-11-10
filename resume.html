@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-resume" />
+  <title>రెజ్యూమ్ బిల్డర్ — Resume Builder | Gramin Career Setu</title>
+  <meta name="description" content="Create your professional resume in minutes. Easy, simple and effective." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/resume-builder-engine.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link active" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Resume Builder</span>
+    </nav>
+
+    <!-- Page Hero Banner with Clipboard Illustration -->
+    <section class="gcs-page-hero" style="margin-bottom: 20px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-resume">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">assignment</span>
+          <span data-lang-text>Resume Builder</span>
+        </h1>
+        <p class="gcs-page-hero-desc" data-lang-key="hero-sub-resume">Create your professional resume in minutes. Easy, simple and effective.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 260px">
+        <img src="assets/resume-hero-clipboard.webp" alt="Resume Builder Clipboard Illustration" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Security & Privacy Notice -->
+    <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px">
+      <div style="display: flex; align-items: center; gap: 8px; font-size: var(--text-base); color: #166534; font-weight: 600">
+        <span class="material-symbols-outlined" style="color: #15803D">verified_user</span>
+        <span>Your data is private and secure. We never share your information. (100% Offline Storage)</span>
+      </div>
+      <button type="button" class="gcs-speak-search-btn" onclick="speakResumeHelp()">
+        <span class="material-symbols-outlined" style="font-size: var(--text-lg)">volume_up</span>
+        <span data-lang-key="btn-listen">Listen</span>
+      </button>
+    </div>
+
+    <!-- 3-Column Resume Builder Engine -->
+    <div class="gcs-resume-builder-layout">
+      
+      <!-- Column 1: 7-Step Sidebar Navigation -->
+      <aside class="gcs-resume-steps-sidebar">
+        <button type="button" class="gcs-resume-step-nav-btn active" onclick="switchResumeStep(1, this)">
+          <div class="gcs-step-circle-num">1</div>
+          <div>
+            <div class="gcs-step-info-title">Personal Details</div>
+            <div class="gcs-step-info-sub">Basic information</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(2, this)">
+          <div class="gcs-step-circle-num">2</div>
+          <div>
+            <div class="gcs-step-info-title">Education</div>
+            <div class="gcs-step-info-sub">Academic background</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(3, this)">
+          <div class="gcs-step-circle-num">3</div>
+          <div>
+            <div class="gcs-step-info-title">Skills</div>
+            <div class="gcs-step-info-sub">Your skills &amp; expertise</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(4, this)">
+          <div class="gcs-step-circle-num">4</div>
+          <div>
+            <div class="gcs-step-info-title">Projects</div>
+            <div class="gcs-step-info-sub">Academic projects</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(5, this)">
+          <div class="gcs-step-circle-num">5</div>
+          <div>
+            <div class="gcs-step-info-title">Experience</div>
+            <div class="gcs-step-info-sub">Work &amp; internships</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(6, this)">
+          <div class="gcs-step-circle-num">6</div>
+          <div>
+            <div class="gcs-step-info-title">Achievements</div>
+            <div class="gcs-step-info-sub">Certifications &amp; awards</div>
+          </div>
+        </button>
+
+        <button type="button" class="gcs-resume-step-nav-btn" onclick="switchResumeStep(7, this)">
+          <div class="gcs-step-circle-num">7</div>
+          <div>
+            <div class="gcs-step-info-title">Preview &amp; Download</div>
+            <div class="gcs-step-info-sub">Review and download</div>
+          </div>
+        </button>
+      </aside>
+
+      <!-- Column 2: Interactive Form Panel -->
+      <section class="gcs-form-panel">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #F1F5F9; padding-bottom: 12px">
+          <div>
+            <h2 id="formStepTitle" style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">Personal Details</h2>
+            <p id="formStepSub" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 4px 0 0">Let’s start with your basic contact information</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap">
+          <button type="button" class="gcs-pill-tag" onclick="window.loadPresetProfile('ramesh')" style="cursor: pointer; background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; font-weight: 700">🔧 Example: ITI trade</button>
+          <button type="button" class="gcs-pill-tag" onclick="window.loadPresetProfile('padma')" style="cursor: pointer; background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; font-weight: 700">📚 Example: after Intermediate</button>
+          <button type="button" class="gcs-pill-tag" onclick="window.loadPresetProfile('ravi')" style="cursor: pointer; background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; font-weight: 700">💻 Example: after a degree</button>
+          <button type="button" class="gcs-pill-tag" onclick="window.loadPresetProfile('blank')" style="cursor: pointer; background: var(--color-surface-sunken); color: var(--color-text-muted); border: 1px solid #CBD5E1">🧹 Clear Form</button>
+        </div>
+
+        <form id="resumeForm" onsubmit="event.preventDefault(); validateBeforePreview();">
+          <!-- Step 1: Personal Details -->
+          <fieldset id="step-1" class="resume-step-panel" style="border: none; padding: 0; margin: 0">
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputFullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="inputFullName" class="gcs-form-input" placeholder="e.g. Ravi Teja" oninput="updateLivePreview()" required />
+            </div>
+
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputTitle">Professional Headline / Title</label>
+              <input type="text" id="inputTitle" class="gcs-form-input" placeholder="e.g. Aspiring Software Developer" oninput="updateLivePreview()" />
+            </div>
+
+            <div class="gcs-form-row-2">
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputPhone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="inputPhone" class="gcs-form-input" placeholder="e.g. +91 98765 43210" oninput="updateLivePreview()" required />
+              </div>
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputEmail">Email Address <span class="req">*</span></label>
+                <input type="email" id="inputEmail" class="gcs-form-input" placeholder="e.g. raviteja@gmail.com" oninput="updateLivePreview()" required />
+              </div>
+            </div>
+
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputAddress">Address <span class="req">*</span></label>
+              <input type="text" id="inputAddress" class="gcs-form-input" placeholder="e.g. Gudur, Tirupati District, Andhra Pradesh" oninput="updateLivePreview()" required />
+            </div>
+
+            <div class="gcs-form-row-2">
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputDob">Date of Birth</label>
+                <input type="date" id="inputDob" class="gcs-form-input" oninput="updateLivePreview()" />
+              </div>
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputGender">Gender</label>
+                <select id="inputGender" class="gcs-form-select">
+                  <option value="Male" selected>Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="gcs-form-row-2">
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputLinkedIn">LinkedIn Profile (Optional)</label>
+                <input type="text" id="inputLinkedIn" class="gcs-form-input" placeholder="e.g. linkedin.com/in/raviteja" oninput="updateLivePreview()" />
+              </div>
+              <div class="gcs-form-group" style="margin-bottom: 0">
+                <label class="gcs-form-label" for="inputGitHub">GitHub Profile (Optional)</label>
+                <input type="text" id="inputGitHub" class="gcs-form-input" placeholder="e.g. github.com/raviteja" oninput="updateLivePreview()" />
+              </div>
+            </div>
+
+            <div class="gcs-form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center">
+                <label class="gcs-form-label" for="inputObjective">Career Objective <span class="req">*</span></label>
+                <span class="ui-meta" id="charCount">0/200</span>
+              </div>
+              <textarea id="inputObjective" class="gcs-form-textarea" rows="3" maxlength="200" placeholder="Brief statement about your career aspirations and key strengths..." oninput="updateObjectiveCounter()" required></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(2)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Education</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 2: Education -->
+          <fieldset id="step-2" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <p style="font-size: var(--text-base); color: var(--color-text-muted); margin-bottom: 16px">Add your educational qualifications starting from the latest degree or diploma.</p>
+            <div id="educationContainer" style="display: flex; flex-direction: column; gap: 12px"></div>
+            <button type="button" class="gcs-btn-cta-2" onclick="window.addEducationRow()" style="margin-top: 16px; width: 100%; justify-content: center; border-style: dashed; padding: 8px">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span>Add Another Qualification</span>
+            </button>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(1)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(3)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Skills</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 3: Skills -->
+          <fieldset id="step-3" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputSkills">Technical &amp; Hard Skills (Comma-separated) <span class="req">*</span></label>
+              <input type="text" id="inputSkills" class="gcs-form-input" placeholder="e.g. Java, Spring Boot, React.js, SQL, Git, Problem Solving" />
+              <small style="color: var(--color-text-muted); font-size: var(--text-sm); display: block; margin-top: 4px">Separate skills with commas. These help ATS match your profile to job descriptions.</small>
+            </div>
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputSoftSkills">Soft Skills (Comma-separated)</label>
+              <input type="text" id="inputSoftSkills" class="gcs-form-input" placeholder="e.g. Teamwork, Communication, Time Management, Adaptability" />
+            </div>
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputLanguages">Languages Known (Comma-separated)</label>
+              <input type="text" id="inputLanguages" class="gcs-form-input" placeholder="e.g. Telugu, English, Hindi" />
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(2)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(4)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Projects</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 4: Projects -->
+          <fieldset id="step-4" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <p style="font-size: var(--text-base); color: var(--color-text-muted); margin-bottom: 16px">Add key academic, college, or personal projects that demonstrate your ability.</p>
+            <div id="projectsContainer" style="display: flex; flex-direction: column; gap: 12px"></div>
+            <button type="button" class="gcs-btn-cta-2" onclick="window.addProjectRow()" style="margin-top: 16px; width: 100%; justify-content: center; border-style: dashed; padding: 8px">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span>Add Another Project</span>
+            </button>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(3)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(5)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Experience</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 5: Experience -->
+          <fieldset id="step-5" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <p style="font-size: var(--text-base); color: var(--color-text-muted); margin-bottom: 16px">Add any internships, apprenticeships, part-time jobs, or volunteer experience.</p>
+            <div id="experienceContainer" style="display: flex; flex-direction: column; gap: 12px"></div>
+            <button type="button" class="gcs-btn-cta-2" onclick="window.addExperienceRow()" style="margin-top: 16px; width: 100%; justify-content: center; border-style: dashed; padding: 8px">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span>Add Another Experience</span>
+            </button>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(4)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(6)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Certifications</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 6: Certifications & Achievements -->
+          <fieldset id="step-6" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <div class="gcs-form-group">
+              <label class="gcs-form-label" for="inputAchievements">Certifications &amp; Achievements (One per line)</label>
+              <textarea id="inputAchievements" class="gcs-form-textarea" rows="5" placeholder="e.g. APSSDC Certified Java Full Stack Developer&#10;1st Prize in Rural Smart Hackathon 2023&#10;NPTEL Elite Certificate in Programming"></textarea>
+              <small style="color: var(--color-text-muted); font-size: var(--text-sm); display: block; margin-top: 4px">Enter each certificate, hackathon award, or achievement on a new line.</small>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(5)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <button type="button" class="gcs-btn-cta-1" onclick="switchResumeStep(7)" style="border: none; cursor: pointer; padding: 8px 24px">
+                <span>Next: Review &amp; Download</span>
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Step 7: Review & Template Selection -->
+          <fieldset id="step-7" class="resume-step-panel" style="border: none; padding: 0; margin: 0; display: none">
+            <div style="background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 12px; padding: 16px; margin-bottom: 20px">
+              <div style="display: flex; align-items: center; gap: 8px; color: #065F46; font-weight: 700; margin-bottom: 4px">
+                <span class="material-symbols-outlined" style="color: #059669">check_circle</span>
+                <span>Your Resume Details Are Complete!</span>
+              </div>
+              <p style="font-size: var(--text-sm); color: #047857; margin: 0; line-height: 1.5">
+                All entered sections have been synchronized to local storage. You can now choose a template below or open the full A4 printable preview to export your professional PDF.
+              </p>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0">
+              <button type="button" class="gcs-btn-cta-2" onclick="switchResumeStep(6)" style="padding: 8px 20px">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Back</span>
+              </button>
+              <a href="#" onclick="return validateBeforePreview()" class="gcs-btn-cta-1" style="text-decoration: none; border: none; cursor: pointer; padding: 8px 24px">
+                <span>View Full Preview &amp; Download PDF</span>
+                <span class="material-symbols-outlined">fullscreen</span>
+              </a>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <!-- Column 3: A4 Live Mini Preview -->
+      <aside class="gcs-live-preview-box">
+        <div class="gcs-live-preview-header">
+          <div style="display: flex; align-items: center; gap: 4px">
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: var(--gcs-green-primary)">visibility</span>
+            <span>Live Preview</span>
+          </div>
+          <div style="display: flex; gap: 4px">
+            <button type="button" style="background: none; border: none; cursor: pointer; color: var(--gcs-green-primary)"><span class="material-symbols-outlined" style="font-size: var(--text-lg)">desktop_windows</span></button>
+            <button type="button" style="background: none; border: none; cursor: pointer; color: #94A3B8"><span class="material-symbols-outlined" style="font-size: var(--text-lg)">smartphone</span></button>
+          </div>
+        </div>
+
+        <div class="gcs-a4-mini-body">
+          <img src="assets/resume-avatar-ravi.webp" alt="Sample resume photograph" class="gcs-a4-avatar" />
+          <h3 id="prevName" style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">Ravi Teja</h3>
+          <div style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); margin-bottom: 12px">Aspiring Software Developer</div>
+
+          <div style="font-size: var(--text-xs); color: var(--color-text-secondary); line-height: 1.6; text-align: left; width: 100%; border-top: 1px solid #F1F5F9; padding-top: 8px; margin-bottom: 12px">
+            <div>📞 <span id="prevPhone">+91 98765 43210</span></div>
+            <div>✉️ <span id="prevEmail">raviteja@gmail.com</span></div>
+            <div>📍 <span id="prevAddress">Gudur, Andhra Pradesh</span></div>
+            <div>🔗 <span id="prevLinkedIn">linkedin.com/in/raviteja</span></div>
+            <div>💻 <span id="prevGitHub">github.com/raviteja</span></div>
+          </div>
+
+          <div style="text-align: left; width: 100%; border-top: 1px solid #F1F5F9; padding-top: 8px">
+            <div style="font-size: var(--text-xs); font-weight: 800; color: var(--color-text-primary); text-transform: uppercase; margin-bottom: 4px">Career Objective</div>
+            <p id="prevObjective" style="font-size: var(--text-xs); color: var(--color-text-muted); line-height: 1.4; margin: 0">
+              To work in a challenging environment and utilize my skills in software development to contribute to the growth of the organization and enhance my professional skills.
+            </p>
+          </div>
+
+          <div style="margin-top: 20px; width: 100%">
+            <a href="resume-preview.html" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; text-decoration: none; font-size: var(--text-sm); padding: 8px">
+              <span>Preview Full Resume</span>
+              <span class="material-symbols-outlined">fullscreen</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Choose a Template Section (5 Templates) -->
+    <section style="margin-bottom: 32px">
+      <div style="margin-bottom: 12px">
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Choose a Template</h2>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0">Select a template that best represents you</p>
+      </div>
+
+      <div class="gcs-templates-grid-5">
+        <!-- Template 1: Modern -->
+        <div class="gcs-template-card-item selected" onclick="selectTemplate(0, this)">
+          <span class="material-symbols-outlined gcs-template-check">check</span>
+          <div class="gcs-template-dummy-sheet" style="background: #F0FDF4; border-color: #86EFAC">
+            <div style="width: 30%; height: 6px; background: #059669; border-radius: 3px"></div>
+            <div style="width: 70%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 50%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 85%; height: 4px; background: #CBD5E1; border-radius: 2px; margin-top: 8px"></div>
+          </div>
+          <div class="ui-title-sm">Modern</div>
+        </div>
+
+        <!-- Template 2: Professional -->
+        <div class="gcs-template-card-item" onclick="selectTemplate(1, this)">
+          <span class="material-symbols-outlined gcs-template-check">check</span>
+          <div class="gcs-template-dummy-sheet" style="background: #EFF6FF; border-color: #93C5FD">
+            <div style="width: 40%; height: 6px; background: #2563EB; border-radius: 3px"></div>
+            <div style="width: 60%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 80%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 75%; height: 4px; background: #CBD5E1; border-radius: 2px; margin-top: 8px"></div>
+          </div>
+          <div class="ui-title-sm">Professional</div>
+        </div>
+
+        <!-- Template 3: Creative -->
+        <div class="gcs-template-card-item" onclick="selectTemplate(2, this)">
+          <span class="material-symbols-outlined gcs-template-check">check</span>
+          <div class="gcs-template-dummy-sheet" style="background: #FAF5FF; border-color: #D8B4FE">
+            <div style="width: 35%; height: 6px; background: #9333EA; border-radius: 3px"></div>
+            <div style="width: 65%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 90%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 60%; height: 4px; background: #CBD5E1; border-radius: 2px; margin-top: 8px"></div>
+          </div>
+          <div class="ui-title-sm">Creative</div>
+        </div>
+
+        <!-- Template 4: Minimal -->
+        <div class="gcs-template-card-item" onclick="selectTemplate(3, this)">
+          <span class="material-symbols-outlined gcs-template-check">check</span>
+          <div class="gcs-template-dummy-sheet">
+            <div style="width: 30%; height: 6px; background: #475569; border-radius: 3px"></div>
+            <div style="width: 70%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 50%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 80%; height: 4px; background: #CBD5E1; border-radius: 2px; margin-top: 8px"></div>
+          </div>
+          <div class="ui-title-sm">Minimal</div>
+        </div>
+
+        <!-- Template 5: Classic -->
+        <div class="gcs-template-card-item" onclick="selectTemplate(4, this)">
+          <span class="material-symbols-outlined gcs-template-check">check</span>
+          <div class="gcs-template-dummy-sheet" style="background: #FFFBEB; border-color: #FDE68A">
+            <div style="width: 45%; height: 6px; background: #D97706; border-radius: 3px"></div>
+            <div style="width: 55%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 85%; height: 4px; background: #CBD5E1; border-radius: 2px"></div>
+            <div style="width: 70%; height: 4px; background: #CBD5E1; border-radius: 2px; margin-top: 8px"></div>
+          </div>
+          <div class="ui-title-sm">Classic</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Score & ATS Meters Row -->
+    <div class="ui-grid ui-grid--2" style="margin-bottom: 32px">
+      <div class="ui-card" style="align-items: center; gap: 20px">
+        <div id="builderScoreValue" style="width: 72px; height: 72px; border-radius: 50%; border: 4px solid var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: var(--text-xl); font-weight: 800; color: var(--gcs-green-primary); flex-shrink: 0">
+          0<span class="ui-meta-xs">/100</span>
+        </div>
+        <div>
+          <div style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">Resume Score</div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 2px 0 4px 0">Great Score!</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 4px 0">Your resume looks strong. Follow suggestions to make it even better.</p>
+          <a href="resume-preview.html" style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); text-decoration: none">View Suggestions &rarr;</a>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 20px">
+        <div id="builderAtsValue" style="width: 72px; height: 72px; border-radius: 50%; border: 4px solid #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-xl); font-weight: 800; color: #2563EB; flex-shrink: 0">
+          0%
+        </div>
+        <div>
+          <div style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">ATS Compatibility</div>
+          <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 2px 0 4px 0">Excellent</h3>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 4px 0">Your resume is ATS-friendly and has a high chance to pass initial screening.</p>
+          <a href="resume-preview.html" style="font-size: var(--text-sm); font-weight: 700; color: #2563EB; text-decoration: none">Learn More &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Feature Badges -->
+    <div class="ui-grid ui-grid--4" style="margin-bottom: 32px">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-2xl)">save</span>
+        <div>
+          <div class="ui-label-inline">Auto Save</div>
+          <div class="ui-meta-xs">Your progress is saved</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #2563EB; font-size: var(--text-2xl)">wifi_off</span>
+        <div>
+          <div class="ui-label-inline">Offline Access</div>
+          <div class="ui-meta-xs">Work without internet</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #9333EA; font-size: var(--text-2xl)">picture_as_pdf</span>
+        <div>
+          <div class="ui-label-inline">Export PDF</div>
+          <div class="ui-meta-xs">High quality download</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl)">volunteer_activism</span>
+        <div>
+          <div class="ui-label-inline">100% Free</div>
+          <div class="ui-meta-xs">Always free for rural youth</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Need Help Callout Banner -->
+    <section class="gcs-banner-callout" style="background: #FFFBEB; border-color: #FDE68A">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: #FEF3C7; color: #B45309">
+          <span class="material-symbols-outlined">smart_display</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #78350F">Need help creating your resume?</h3>
+          <p class="gcs-banner-callout-sub" style="color: #92400E">Watch our step-by-step video guide in Telugu to craft a winning resume.</p>
+        </div>
+      </div>
+      <a href="workshops.html" class="gcs-btn-cta-2" style="background: var(--color-surface); white-space: nowrap; text-decoration: none">
+        <span class="material-symbols-outlined">play_circle</span>
+        <span>Watch Guide</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Scripts -->
+  <script>
+    function switchResumeStep(step, btn) {
+      // Hide all step panels
+      document.querySelectorAll('.resume-step-panel').forEach(function(p) {
+        p.style.display = 'none';
+      });
+      // Show the target panel
+      var panel = document.getElementById('step-' + step);
+      if (panel) panel.style.display = 'block';
+
+      // Sync sidebar active class
+      var navBtns = document.querySelectorAll('.gcs-resume-step-nav-btn');
+      navBtns.forEach(function(b) { b.classList.remove('active'); });
+      if (btn && btn.classList && btn.classList.contains('gcs-resume-step-nav-btn')) {
+        btn.classList.add('active');
+      } else if (navBtns[step - 1]) {
+        navBtns[step - 1].classList.add('active');
+      }
+
+      // Update form header
+      var titles = ['Personal Details', 'Education', 'Skills', 'Projects', 'Experience', 'Certifications & Achievements', 'Review & Download'];
+      var subs = [
+        "Let's start with your basic contact information",
+        'Add your educational qualifications starting from the latest',
+        'List your technical, soft skills and languages',
+        'Add key academic or personal projects',
+        'Add internships, jobs, or volunteer experience',
+        'Add certifications, awards, and achievements',
+        'Review your resume and download PDF'
+      ];
+      var titleEl = document.getElementById('formStepTitle');
+      var subEl = document.getElementById('formStepSub');
+      if (titleEl) titleEl.textContent = titles[step - 1] || '';
+      if (subEl) subEl.textContent = subs[step - 1] || '';
+
+      // Auto-save form data and update preview on step switch
+      if (window.GCS_RESUME && window.GCS_RESUME.onStepSwitch) {
+        window.GCS_RESUME.onStepSwitch();
+      }
+
+      // Scroll form panel into view on mobile
+      var formPanel = document.querySelector('.gcs-form-panel');
+      if (formPanel && window.innerWidth < 768) {
+        formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function updateLivePreview() {
+      var el = function(id) { return document.getElementById(id); };
+      if (el('prevName')) el('prevName').textContent = (el('inputFullName') ? el('inputFullName').value : '') || 'Your Name';
+      if (el('prevPhone')) el('prevPhone').textContent = (el('inputPhone') ? el('inputPhone').value : '') || '+91 00000 00000';
+      if (el('prevEmail')) el('prevEmail').textContent = (el('inputEmail') ? el('inputEmail').value : '') || 'email@example.com';
+      if (el('prevAddress')) el('prevAddress').textContent = (el('inputAddress') ? el('inputAddress').value : '') || 'Location';
+      if (el('prevLinkedIn')) el('prevLinkedIn').textContent = (el('inputLinkedIn') ? el('inputLinkedIn').value : '') || '';
+      if (el('prevGitHub')) el('prevGitHub').textContent = (el('inputGitHub') ? el('inputGitHub').value : '') || '';
+    }
+
+    function updateObjectiveCounter() {
+      var objective = document.getElementById('inputObjective');
+      var val = objective.value.slice(0, 200);
+      if (objective.value !== val) objective.value = val;
+      document.getElementById('charCount').textContent = val.length + '/200';
+      if (document.getElementById('prevObjective')) {
+        document.getElementById('prevObjective').textContent = val || 'Your career objective will appear here...';
+      }
+    }
+
+    function selectTemplate(idx, el) {
+      document.querySelectorAll('.gcs-template-card-item').forEach(function(c) { c.classList.remove('selected'); });
+      if (el) el.classList.add('selected');
+    }
+
+    function speakResumeHelp() {
+      var isTelugu = (document.documentElement.lang || 'te') === 'te';
+      var msg = isTelugu
+        ? 'రెజ్యూమె బిల్డర్\u200Cకు స్వాగతం. మీ విద్య, నైపుణ్యాలు మరియు ప్రాజెక్ట్\u200Cలను నమోదు చేసి ప్రొఫెషనల్ రెజ్యూమెను రూపొందించండి.'
+        : 'Welcome to the Resume Builder. Fill in your personal details, education, skills, and projects to generate a professional ATS-friendly resume.';
+      if (window.GCS_I18N && window.GCS_I18N.speak) {
+        window.GCS_I18N.speak(msg, isTelugu ? 'te' : 'en');
+      } else if ('speechSynthesis' in window) {
+        var utterance = new SpeechSynthesisUtterance(msg);
+        utterance.lang = isTelugu ? 'te-IN' : 'en-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function validateBeforePreview() {
+      var required = [
+        { id: 'inputFullName', label: 'Full Name' },
+        { id: 'inputPhone', label: 'Phone Number' },
+        { id: 'inputEmail', label: 'Email Address' },
+        { id: 'inputAddress', label: 'Address' },
+        { id: 'inputObjective', label: 'Career Objective' }
+      ];
+      var missing = [];
+      required.forEach(function(f) {
+        var el = document.getElementById(f.id);
+        if (!el || !el.value.trim()) missing.push(f.label);
+      });
+      if (missing.length > 0) {
+        var msg = 'Please fill in: ' + missing.join(', ');
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('⚠️ ' + msg);
+        } else {
+          alert(msg);
+        }
+        return false;
+      }
+      // Save before navigating
+      if (window.GCS_RESUME && window.GCS_RESUME.onStepSwitch) {
+        window.GCS_RESUME.onStepSwitch();
+      }
+      window.location.href = 'resume-preview.html';
+      return false;
+    }
+  </script>
+</body>
+</html>

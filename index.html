@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+
+  <!-- SEO -->
+  <meta name="gcs-title-key" content="page-title-index" />
+  <title>గ్రామీణ కెరీర్ సేతు — Gramin Career Setu | A Bridge To Your Career</title>
+  <meta name="description" content="— Career guidance, jobs, skill development and opportunities for rural youth." />
+  <meta name="theme-color" content="#1B4D3E" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Public Sans, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <!-- Skip to content (a11y) -->
+  <a href="#main-content" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <!-- Brand Logo -->
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link active" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="#workshops" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="dashboard.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #059669;">dashboard</span>
+                <span>Student Dashboard</span>
+              </a>
+              <a href="login.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #2563EB;">login</span>
+                <span>Sign In / Register</span>
+              </a>
+              <hr style="border: none; border-top: 1px solid #F1F5F9; margin: 4px 0;" />
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Right Header Actions (Language Toggle & Mobile Menu) -->
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="#workshops" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="dashboard.html" style="font-weight: 700; color: #059669;">Student Dashboard</a>
+      <a href="login.html" style="font-weight: 700; color: #2563EB;">Sign In / Register</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <!-- ============================================================
+         HERO SECTION (Full-Bleed Panoramic Design)
+         ============================================================ -->
+    <section class="gcs-hero" aria-labelledby="hero-title">
+      <!-- Full-bleed background landscape with left fade gradient -->
+      <div class="gcs-hero-landscape-layer" aria-hidden="true">
+        <img
+          src="assets/hero-crossroads.webp"
+          alt="Rural youth at crossroads"
+          class="gcs-hero-landscape-img"
+        />
+        <div class="gcs-hero-landscape-fade"></div>
+      </div>
+
+      <div class="gcs-container gcs-hero-container">
+        <!-- Floating Install App Badge (Top Right) -->
+        <div class="gcs-offline-pill gcs-hero-offline-badge">
+          <span class="gcs-pulse-dot"></span>
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">offline_pin</span>
+          <span data-lang-key="hero-badge">Install App · Works Offline</span>
+        </div>
+
+        <!-- Left Text Content -->
+        <div class="gcs-hero-left">
+          <h1 class="gcs-hero-title" id="hero-title">
+            <span data-lang-key="hero-title-prefix">A Bridge To</span><br />
+            <span class="gcs-highlight" data-lang-key="hero-title-highlight">Your Career</span>
+          </h1>
+          <p class="gcs-hero-sub-en" data-lang-key="hero-sub">
+            Career guidance, jobs, skill development and opportunities for rural youth.
+          </p>
+
+          <div class="gcs-hero-ctas">
+            <a href="careers.html" class="gcs-btn-cta-1">
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">explore</span>
+              <span data-lang-key="cta-career">Find Career Path</span>
+            </a>
+            <a href="jobs.html" class="gcs-btn-cta-2">
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">work</span>
+              <span data-lang-key="cta-jobs">Explore Jobs</span>
+            </a>
+            <a href="resume.html" class="gcs-btn-cta-3">
+              <span class="material-symbols-outlined" style="font-size: var(--text-xl)">description</span>
+              <span data-lang-key="cta-resume">Build Resume</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Side: Interactive Career Path Nodes Layer (Positioned along paths) -->
+        <div class="gcs-hero-nodes-layer">
+          <!-- 1. Engineer (Top Center path) -->
+          <a href="career-detail.html?career=software-engineer" class="gcs-path-node gcs-node-engineer" title="Engineer Pathway">
+            <div class="gcs-node-circle green">
+              <span class="material-symbols-outlined">settings</span>
+            </div>
+            <span class="gcs-node-tag" data-lang-key="node-engineer">Engineer</span>
+          </a>
+
+          <!-- 2. Teacher (Upper Left path to school) -->
+          <a href="career-detail.html?career=school-teacher" class="gcs-path-node gcs-node-teacher" title="Teacher Pathway">
+            <div class="gcs-node-circle blue">
+              <span class="material-symbols-outlined">menu_book</span>
+            </div>
+            <span class="gcs-node-tag" data-lang-key="node-teacher">Teacher</span>
+          </a>
+
+          <!-- 3. Police (Upper Right path to govt office) -->
+          <a href="career-detail.html?career=sub-inspector" class="gcs-path-node gcs-node-police" title="Police & Uniformed Services">
+            <div class="gcs-node-circle navy">
+              <span class="material-symbols-outlined">shield</span>
+            </div>
+            <span class="gcs-node-tag" data-lang-key="node-police">Police</span>
+          </a>
+
+          <!-- 4. Nurse (Lower Left branch) -->
+          <a href="career-detail.html?career=staff-nurse" class="gcs-path-node gcs-node-nurse" title="Healthcare & Nursing">
+            <div class="gcs-node-circle cyan">
+              <span class="material-symbols-outlined">add</span>
+            </div>
+            <span class="gcs-node-tag" data-lang-key="node-nurse">Nurse</span>
+          </a>
+
+          <!-- 5. Entrepreneur (Lower Right branch) -->
+          <a href="career-detail.html?career=entrepreneur" class="gcs-path-node gcs-node-entrepreneur" title="Self Employment & Business">
+            <div class="gcs-node-circle teal">
+              <span class="material-symbols-outlined">bar_chart</span>
+            </div>
+            <span class="gcs-node-tag" data-lang-key="node-entrepreneur">Entrepreneur</span>
+          </a>
+        </div>
+
+        <!-- Mobile-Only Dedicated Illustration Box -->
+        <div class="gcs-hero-mobile-visual">
+          <img
+            src="assets/hero-crossroads.webp"
+            alt="Rural youth at crossroads with 5 career directions"
+            class="gcs-mobile-hero-img"
+          />
+          <!-- Mobile overlay nodes -->
+          <a href="career-detail.html?career=software-engineer" class="gcs-path-node gcs-mobile-node-engineer">
+            <div class="gcs-node-circle green"><span class="material-symbols-outlined">settings</span></div>
+            <span class="gcs-node-tag" data-lang-key="node-engineer">Engineer</span>
+          </a>
+          <a href="career-detail.html?career=school-teacher" class="gcs-path-node gcs-mobile-node-teacher">
+            <div class="gcs-node-circle blue"><span class="material-symbols-outlined">menu_book</span></div>
+            <span class="gcs-node-tag" data-lang-key="node-teacher">Teacher</span>
+          </a>
+          <a href="career-detail.html?career=sub-inspector" class="gcs-path-node gcs-mobile-node-police">
+            <div class="gcs-node-circle navy"><span class="material-symbols-outlined">shield</span></div>
+            <span class="gcs-node-tag" data-lang-key="node-police">Police</span>
+          </a>
+          <a href="career-detail.html?career=staff-nurse" class="gcs-path-node gcs-mobile-node-nurse">
+            <div class="gcs-node-circle cyan"><span class="material-symbols-outlined">add</span></div>
+            <span class="gcs-node-tag" data-lang-key="node-nurse">Nurse</span>
+          </a>
+          <a href="career-detail.html?career=entrepreneur" class="gcs-path-node gcs-mobile-node-entrepreneur">
+            <div class="gcs-node-circle teal"><span class="material-symbols-outlined">bar_chart</span></div>
+            <span class="gcs-node-tag" data-lang-key="node-entrepreneur">Entrepreneur</span>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         METRICS / TRUST BAR
+         ============================================================ -->
+
+    <!-- ============================================================
+         TELL US YOUR LEVEL
+         ------------------------------------------------------------
+         One question, asked once. Everything downstream is filtered by it:
+         the job list shows only roles this student is eligible for, and the
+         roadmap starts at their stage instead of assuming a degree.
+
+         Only education is asked. District would be the obvious second
+         question, but nothing on the site filters by district yet, and
+         collecting an answer we cannot use is how forms get long enough
+         that people abandon them.
+         ============================================================ -->
+    <section class="gcs-section" id="personalise" aria-labelledby="personalise-title" style="padding-top: 0">
+      <div class="gcs-container">
+        <div class="ui-card" id="eduPrompt">
+          <h2 id="personalise-title" style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px">
+            What have you studied?
+          </h2>
+          <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px">మీరు ఎంత వరకు చదివారు?</p>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 12px; max-width: 65ch">
+            Tell us once and we will only show you jobs you can actually apply for.
+            <span style="color: #94A3B8">ఒక్కసారి చెప్పండి — మీరు దరఖాస్తు చేయగలిగిన ఉద్యోగాలను మాత్రమే చూపుతాము.</span>
+          </p>
+          <div id="eduChoices" style="display: flex; flex-wrap: wrap; gap: 8px"></div>
+        </div>
+
+        <div id="eduChosen" hidden style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+          <p style="margin: 0; font-size: var(--text-base); color: #065F46">
+            Showing what suits <strong id="eduChosenLabel"></strong>.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <a id="eduChosenJobs" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 16px; font-size: var(--text-sm)">See my jobs</a>
+            <button type="button" id="eduChange" class="gcs-btn-cta-2" style="padding: 8px 16px; font-size: var(--text-sm); cursor: pointer">Change</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /**
+       * The one question the whole site keys off. Stored in the shared
+       * `gcs_student` record that jobs.html, roadmap.html and quiz-results
+       * all read, so the student is never asked twice.
+       */
+      (function () {
+        'use strict';
+        var LEVELS = [
+          { id: 'below10', en: 'Still in school', te: 'ఇంకా బడిలో' },
+          { id: '10th',    en: '10th pass',       te: '10వ తరగతి' },
+          { id: 'inter',   en: 'Intermediate',    te: 'ఇంటర్' },
+          { id: 'iti',     en: 'ITI / Diploma',   te: 'ఐటీఐ / డిప్లొమా' },
+          { id: 'degree',  en: 'Degree',          te: 'డిగ్రీ' }
+        ];
+
+        function store() { return (window.GCS_APP && window.GCS_APP.storage) || null; }
+        function student() { var s = store(); return (s && s.get('student', {})) || {}; }
+
+        function show(level) {
+          var prompt = document.getElementById('eduPrompt');
+          var chosen = document.getElementById('eduChosen');
+          var match = LEVELS.filter(function (l) { return l.id === level; })[0];
+          if (!match) { prompt.hidden = false; chosen.hidden = true; return; }
+          document.getElementById('eduChosenLabel').textContent = match.en + ' / ' + match.te;
+          document.getElementById('eduChosenJobs').href = 'jobs.html?edu=' + encodeURIComponent(level);
+          prompt.hidden = true;
+          chosen.hidden = false;
+        }
+
+        function init() {
+          var wrap = document.getElementById('eduChoices');
+          if (!wrap) return;
+
+          LEVELS.forEach(function (l) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'gcs-pill-tag';
+            btn.style.cssText = 'cursor:pointer; background:#fff; border:1.5px solid #CBD5E1; padding:9px 16px; font-weight:700;';
+            btn.innerHTML = l.en + ' <span style="color: #94A3B8; font-weight: 600">' + l.te + '</span>';
+            btn.addEventListener('click', function () {
+              var s = store();
+              if (s) {
+                var cur = student();
+                cur.education = l.id;
+                s.set('student', cur);
+              }
+              show(l.id);
+            });
+            wrap.appendChild(btn);
+          });
+
+          document.getElementById('eduChange').addEventListener('click', function () {
+            document.getElementById('eduPrompt').hidden = false;
+            document.getElementById('eduChosen').hidden = true;
+          });
+
+          show(student().education);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+      })();
+    </script>
+
+    <section class="gcs-metrics-section" aria-label="Key Metrics">
+      <div class="gcs-container">
+        <div class="gcs-metrics-grid">
+          
+          <div class="gcs-metric-card">
+            <div class="gcs-metric-icon green">
+              <span class="material-symbols-outlined">school</span>
+            </div>
+            <div>
+              <!-- Keep in step with the real content count in careers.html -->
+              <div class="gcs-metric-num">8</div>
+              <div class="gcs-metric-label" data-lang-key="metric-paths">Career Paths</div>
+            </div>
+          </div>
+
+          <div class="gcs-metric-card">
+            <div class="gcs-metric-icon blue">
+              <span class="material-symbols-outlined">work</span>
+            </div>
+            <div>
+              <!-- Count of roles in data/jobs.csv; regenerate with
+                   node scripts/build-jobs-data.js after editing the CSV -->
+              <div class="gcs-metric-num">22</div>
+              <div class="gcs-metric-label" data-lang-key="metric-jobs">Job Resources</div>
+            </div>
+          </div>
+
+          <div class="gcs-metric-card">
+            <div class="gcs-metric-icon purple">
+              <span class="material-symbols-outlined">translate</span>
+            </div>
+            <div>
+              <div class="gcs-metric-num">తెలుగు</div>
+              <div class="gcs-metric-label" data-lang-key="metric-telugu">Support</div>
+            </div>
+          </div>
+
+          <div class="gcs-metric-card">
+            <div class="gcs-metric-icon amber">
+              <span class="material-symbols-outlined">wifi_off</span>
+            </div>
+            <div>
+              <div class="gcs-metric-num" data-lang-key="metric-offline-val">Offline</div>
+              <div class="gcs-metric-label" data-lang-key="metric-access">Access</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         OUR 4A FRAMEWORK
+         ============================================================ -->
+    <section class="gcs-section" id="framework" aria-labelledby="framework-title">
+      <div class="gcs-container">
+        <div class="gcs-section-header center">
+          <div>
+            <h2 class="gcs-section-title" id="framework-title" data-lang-key="framework-heading">Our 4A Framework</h2>
+            <p class="gcs-section-sub" data-lang-key="framework-sub">A proven model to transform rural careers from awareness to sustainable livelihood.</p>
+          </div>
+        </div>
+
+        <div class="gcs-framework-grid">
+          <!-- 1. Awareness -->
+          <article class="gcs-framework-card awareness">
+            <div class="gcs-framework-icon">
+              <span class="material-symbols-outlined">campaign</span>
+            </div>
+            <h3 data-lang-key="4a-awareness-title">Awareness</h3>
+            <p data-lang-key="4a-awareness-desc">Help villagers know what jobs and paths exist.</p>
+            <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Awareness')">
+              <span data-lang-key="learn-more">Learn More</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
+            </button>
+          </article>
+
+          <!-- 2. Access -->
+          <article class="gcs-framework-card access">
+            <div class="gcs-framework-icon">
+              <span class="material-symbols-outlined">language</span>
+            </div>
+            <h3 data-lang-key="4a-access-title">Access</h3>
+            <p data-lang-key="4a-access-desc">Make information reachable regardless of internet, device or literacy.</p>
+            <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Access')">
+              <span data-lang-key="learn-more">Learn More</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
+            </button>
+          </article>
+
+          <!-- 3. Action -->
+          <article class="gcs-framework-card action">
+            <div class="gcs-framework-icon">
+              <span class="material-symbols-outlined">track_changes</span>
+            </div>
+            <h3 data-lang-key="4a-action-title">Action</h3>
+            <p data-lang-key="4a-action-desc">Turn awareness into a completed step, not just information.</p>
+            <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Action')">
+              <span data-lang-key="learn-more">Learn More</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
+            </button>
+          </article>
+
+          <!-- 4. Accountability -->
+          <article class="gcs-framework-card account">
+            <div class="gcs-framework-icon">
+              <span class="material-symbols-outlined">verified_user</span>
+            </div>
+            <h3 data-lang-key="4a-account-title">Accountability</h3>
+            <p data-lang-key="4a-account-desc">Prove it worked and make sure it keeps working after the team leaves.</p>
+            <button type="button" class="gcs-framework-link" onclick="openFrameworkDetail('Accountability')">
+              <span data-lang-key="learn-more">Learn More</span>
+              <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_forward</span>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CAREER CATEGORIES (8 Cards)
+         ============================================================ -->
+    <section class="gcs-section" id="categories" aria-labelledby="cat-heading" style="background: var(--color-surface)">
+      <div class="gcs-container">
+        <div class="gcs-section-header">
+          <div>
+            <h2 class="gcs-section-title" id="cat-heading" data-lang-key="categories-heading">Career Categories</h2>
+            <p class="gcs-section-sub" data-lang-key="categories-sub">Choose a domain to view curated paths, exams, and verified jobs.</p>
+          </div>
+          <a href="jobs.html" class="gcs-btn-view-all">
+            <span data-lang-key="view-all">View All</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-base)">chevron_right</span>
+          </a>
+        </div>
+
+        <div class="gcs-categories-grid">
+          <!-- 1. Govt Jobs -->
+          <a href="jobs.html?filter=government" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-govt">
+              <span class="material-symbols-outlined">account_balance</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-govt">Government Jobs</span>
+          </a>
+
+          <!-- 2. Private Jobs -->
+          <a href="jobs.html?filter=private" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-private">
+              <span class="material-symbols-outlined">apartment</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-private">Private Jobs</span>
+          </a>
+
+          <!-- 3. IT Careers -->
+          <a href="careers.html" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-it">
+              <span class="material-symbols-outlined">computer</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-it">IT Careers</span>
+          </a>
+
+          <!-- 4. Polytechnic -->
+          <a href="careers.html" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-poly">
+              <span class="material-symbols-outlined">precision_manufacturing</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-poly">Polytechnic</span>
+          </a>
+
+          <!-- 5. ITI -->
+          <a href="jobs.html?filter=apprentice" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-iti">
+              <span class="material-symbols-outlined">handyman</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-iti">ITI</span>
+          </a>
+
+          <!-- 6. Self Employment -->
+          <a href="career-detail.html?career=entrepreneur" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-self">
+              <span class="material-symbols-outlined">storefront</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-self">Self Employment</span>
+          </a>
+
+          <!-- 7. Agri Tech -->
+          <a href="career-detail.html?career=agricultural-officer" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-agri">
+              <span class="material-symbols-outlined">eco</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-agri">Agriculture Technology</span>
+          </a>
+
+          <!-- 8. Competitive Exams -->
+          <a href="careers.html" class="gcs-category-card">
+            <div class="gcs-cat-icon gcs-cat-exam">
+              <span class="material-symbols-outlined">assignment</span>
+            </div>
+            <span class="gcs-cat-title" data-lang-key="cat-exam">Competitive Exams</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SUCCESS STORIES
+         ------------------------------------------------------------
+         Three named students with photographs and video-story buttons
+         (Ramesh / Lalitha / Suresh) used to sit here, introduced as "Real
+         youth from rural Andhra Pradesh & Telangana". They were written as
+         examples, not collected from real participants, so they have been
+         removed: this is the landing page of a Community Service Project and
+         it must not claim outcomes that did not happen.
+
+         Stories return here from stories.html once a real participant has
+         given written consent. See the checklist on that page.
+         ============================================================ -->
+    <section class="gcs-section" id="stories" aria-labelledby="stories-title">
+      <div class="gcs-container">
+        <div class="gcs-section-header">
+          <div>
+            <h2 class="gcs-section-title" id="stories-title" data-lang-key="stories-heading">Success Stories</h2>
+            <p class="gcs-section-sub">Journeys of students from our workshops — published with their consent.</p>
+          </div>
+        </div>
+
+        <div style="background: var(--color-surface-sunken); border: 1px dashed #CBD5E1; border-radius: 16px; padding: 32px 24px; text-align: center">
+          <span class="material-symbols-outlined" style="font-size: 40px; color: #94A3B8">history_edu</span>
+          <h3 style="margin: 8px 0 4px; font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary)">
+            Our first workshops are still ahead
+          </h3>
+          <p style="margin: 0 0 4px; font-size: var(--text-base); color: var(--color-text-secondary)">
+            We will publish a student’s journey here only after they have taken part and
+            agreed to share it. Nothing on this page is an illustration.
+          </p>
+          <p style="margin: 0 0 16px; font-size: var(--text-sm); color: var(--color-text-muted)">
+            వర్క్‌షాప్‌లో పాల్గొని, అనుమతి ఇచ్చిన విద్యార్థుల కథలను మాత్రమే ప్రజురిస్తాము.
+          </p>
+          <a href="workshops.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">
+            See upcoming workshops
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         UPCOMING WORKSHOPS
+         ============================================================ -->
+    <section class="gcs-section" id="workshops" aria-labelledby="ws-heading" style="background: var(--color-surface)">
+      <div class="gcs-container">
+        <div class="gcs-section-header">
+          <div>
+            <h2 class="gcs-section-title" id="ws-heading" data-lang-key="workshops-heading">Upcoming Workshops</h2>
+            <p class="gcs-section-sub" data-lang-key="workshops-sub">Free village sessions with career counseling, form-filling & mock tests.</p>
+          </div>
+          <a href="#workshops" class="gcs-btn-view-all">
+            <span data-lang-key="view-all">View All</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-base)">chevron_right</span>
+          </a>
+        </div>
+
+        <div class="gcs-workshops-grid">
+          
+          <!-- Workshop 1 -->
+          <div class="gcs-workshop-card">
+            <div class="gcs-ws-header">
+              <div class="gcs-ws-date green">
+                <span class="gcs-ws-date-num">25</span>
+                <span class="gcs-ws-date-month">MAY</span>
+              </div>
+              <div>
+                <h3 class="gcs-ws-title" data-lang-key="ws1-title">Government Jobs Workshop</h3>
+                <div class="gcs-ws-location">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #16A34A">location_on</span>
+                  <span>ZP High School, Marripalem</span>
+                </div>
+                <div class="gcs-ws-time">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
+                  <span>10:00 AM - 1:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="gcs-ws-footer">
+              <span class="gcs-seats-badge">Seats: 20</span>
+              <button type="button" class="gcs-btn-reg green" onclick="openWorkshopRegister('Government Jobs Workshop', 'ZP High School, Marripalem', '25 MAY')">
+                <span data-lang-key="register-now">Register Now</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Workshop 2 -->
+          <div class="gcs-workshop-card">
+            <div class="gcs-ws-header">
+              <div class="gcs-ws-date blue">
+                <span class="gcs-ws-date-num">01</span>
+                <span class="gcs-ws-date-month">JUN</span>
+              </div>
+              <div>
+                <h3 class="gcs-ws-title" data-lang-key="ws2-title">Private & BPO Jobs Workshop</h3>
+                <div class="gcs-ws-location">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #2563EB">location_on</span>
+                  <span>Community Hall, Pedakurapadu</span>
+                </div>
+                <div class="gcs-ws-time">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
+                  <span>10:00 AM - 1:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="gcs-ws-footer">
+              <span class="gcs-seats-badge">Seats: 20</span>
+              <button type="button" class="gcs-btn-reg blue" onclick="openWorkshopRegister('Private & BPO Jobs Workshop', 'Community Hall, Pedakurapadu', '01 JUN')">
+                <span data-lang-key="register-now">Register Now</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Workshop 3 -->
+          <div class="gcs-workshop-card">
+            <div class="gcs-ws-header">
+              <div class="gcs-ws-date orange">
+                <span class="gcs-ws-date-num">08</span>
+                <span class="gcs-ws-date-month">JUN</span>
+              </div>
+              <div>
+                <h3 class="gcs-ws-title" data-lang-key="ws3-title">Self Employment Workshop</h3>
+                <div class="gcs-ws-location">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base); color: #EA580C">location_on</span>
+                  <span>Panchayat Office, Lingala</span>
+                </div>
+                <div class="gcs-ws-time">
+                  <span class="material-symbols-outlined" style="font-size: var(--text-base)">schedule</span>
+                  <span>10:00 AM - 1:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="gcs-ws-footer">
+              <span class="gcs-seats-badge">Seats: 20</span>
+              <button type="button" class="gcs-btn-reg orange" onclick="openWorkshopRegister('Self Employment Workshop', 'Panchayat Office, Lingala', '08 JUN')">
+                <span data-lang-key="register-now">Register Now</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Download Resource Kit Banner -->
+        <div class="gcs-resource-banner" id="resources">
+          <div class="gcs-resource-left">
+            <div class="gcs-resource-icon">
+              <span class="material-symbols-outlined">folder_zip</span>
+            </div>
+            <div class="gcs-resource-text">
+              <h3 data-lang-key="resource-kit-title">Download Resource Kit</h3>
+              <p data-lang-key="resource-kit-sub">Get all career guides, exam calendars, scholarship lists and workshop materials in one PDF.</p>
+            </div>
+          </div>
+          <button type="button" class="gcs-btn-download" onclick="downloadResourceKit()">
+            <span data-lang-key="download-now">Download Now</span>
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">download</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        
+        <!-- Column 1: Brand & Social -->
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Important Links -->
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Quick Links -->
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="roadmap.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="#workshops" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Support -->
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 5: Language & Attribution -->
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       INTERACTIVE MODALS
+       ============================================================ -->
+  <!-- Workshop Registration Modal -->
+  <div class="gcs-modal-overlay" id="workshopRegisterModal" role="dialog" aria-modal="true" aria-labelledby="modalWsTitle">
+    <div class="gcs-modal-box">
+      <button type="button" class="gcs-modal-close" onclick="closeGcsModal('workshopRegisterModal')" aria-label="Close dialog">✕</button>
+      <h3 style="font-size: 1.25rem; font-weight: 700; color: #0F172A; margin-bottom: 4px;" id="modalWsTitle">Register for Workshop</h3>
+      <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 18px;" id="modalWsDetails"></p>
+      
+      <form id="workshopRegForm" onsubmit="handleWorkshopFormSubmit(event)">
+        <div style="margin-bottom: 14px;">
+          <label for="wsRegName" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Full Name (పూర్తి పేరు) *</label>
+          <input type="text" id="wsRegName" required style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="e.g. Ramesh Kumar" />
+        </div>
+        <div style="margin-bottom: 14px;">
+          <label for="wsRegPhone" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Mobile Number (ఫోన్ నంబర్) *</label>
+          <input type="tel" id="wsRegPhone" required pattern="[0-9]{10}" style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="10-digit phone number" />
+        </div>
+        <div style="margin-bottom: 18px;">
+          <label for="wsRegVillage" style="display: block; font-size: 0.84rem; font-weight: 600; color: #334155; margin-bottom: 4px;">Village / Mandal (గ్రామం / మండలం) *</label>
+          <input type="text" id="wsRegVillage" required style="width: 100%; padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px;" placeholder="e.g. Marripalem" />
+        </div>
+        <button type="submit" class="gcs-btn-cta-1" style="width: 100%; justify-content: center;">
+          <span>Confirm Free Registration</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Video Testimonial Modal -->
+  <div class="gcs-modal-overlay" id="storyVideoModal" role="dialog" aria-modal="true" aria-labelledby="storyModalName">
+    <div class="gcs-modal-box">
+      <button type="button" class="gcs-modal-close" onclick="closeGcsModal('storyVideoModal')" aria-label="Close dialog">✕</button>
+      <div style="background: #0F172A; border-radius: 12px; height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; margin-bottom: 16px;">
+        <span class="material-symbols-outlined" style="font-size: 48px; color: #34D399;">play_circle</span>
+        <span style="font-size: 0.82rem; color: #94A3B8; margin-top: 8px;">Audio / Video Story Player (Offline Ready)</span>
+      </div>
+      <h3 style="font-size: 1.15rem; font-weight: 700; color: #0F172A; margin-bottom: 2px;" id="storyModalName"></h3>
+      <span style="font-size: 0.82rem; color: #047857; font-weight: 600;" id="storyModalRole"></span>
+      <p style="font-size: 0.88rem; color: #475569; margin-top: 10px; line-height: 1.5;" id="storyModalDesc"></p>
+    </div>
+  </div>
+
+  <!-- 4A Framework Detail Modal -->
+  <div class="gcs-modal-overlay" id="frameworkDetailModal" role="dialog" aria-modal="true" aria-labelledby="frameworkModalHeading">
+    <div class="gcs-modal-box">
+      <button type="button" class="gcs-modal-close" onclick="closeGcsModal('frameworkDetailModal')" aria-label="Close dialog">✕</button>
+      <h3 style="font-size: 1.2rem; font-weight: 700; color: #0F172A; margin-bottom: 8px;" id="frameworkModalHeading"></h3>
+      <p style="font-size: 0.92rem; color: #334155; line-height: 1.6;" id="frameworkModalBody"></p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+</body>
+</html>

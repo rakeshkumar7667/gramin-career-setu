@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-quiz" />
+  <title>నైపుణ్య పరీక్ష — Skill Checker Quiz | Gramin Career Setu</title>
+  <meta name="description" content="Answer a few simple questions and get personalized career recommendations." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/quiz.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link active" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="index.html#workshops" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="index.html#workshops" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px; max-width: 960px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Skill Checker Quiz</span>
+    </nav>
+
+    <!-- Hero Banner with Studying Student Image -->
+    <section class="gcs-page-hero">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-quiz">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-3xl)">check_circle</span>
+          <span data-lang-text>Skill Checker Quiz</span>
+        </h1>
+        <p class="gcs-page-hero-desc" data-lang-key="hero-sub-quiz">Answer a few simple questions and get personalized career recommendations.</p>
+      </div>
+      <div class="gcs-page-hero-visual">
+        <img src="assets/quiz-hero-student.webp" alt="Student studying at desk" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Quiz Question Stepper Card -->
+    <section class="gcs-search-filter-card" id="quizStepperCard" style="padding: 24px 32px">
+      <!-- Stepper Top Bar: Progress & Audio -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+        <div style="flex: 1; max-width: 380px">
+          <div style="display: flex; justify-content: space-between; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-secondary); margin-bottom: 4px">
+            <span>Your Progress</span>
+            <span id="quizProgressNum">Question 1 of 5</span>
+          </div>
+          <div style="height: 8px; background: #E2E8F0; border-radius: 4px; overflow: hidden">
+            <div id="quizProgressBar" style="height: 100%; width: 20%; background: var(--gcs-green-primary); transition: width 0.3s ease"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px">
+          <button type="button" class="gcs-speak-search-btn" onclick="speakQuestion('en')">
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">volume_up</span>
+            <span data-lang-key="btn-listen">Listen</span>
+          </button>
+          <button type="button" class="gcs-speak-search-btn" onclick="speakQuestion('te')">
+            <span class="material-symbols-outlined" style="font-size: var(--text-lg)">translate</span>
+            <span>తెలుగు లో వినండి</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Content Area -->
+      <div style="text-align: center; margin: 32px auto; max-width: 680px">
+        <div id="questionIcon" style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; border: 2px solid #86EFAC; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: var(--text-3xl); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-3xl)">calculate</span>
+        </div>
+
+        <div id="questionStepLabel" style="font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px">
+          Question 1
+        </div>
+
+        <h2 id="questionTitleEn" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0; line-height: 1.3">
+          Do you enjoy solving mathematical or logical problems?
+        </h2>
+
+        <p id="questionTitleTe" style="font-size: var(--text-lg); color: var(--color-text-muted); font-weight: 600; margin: 0">
+          మీకు గణిత లేదా తార్కిక సమస్యలు పరిష్కరించడం ఇష్టమా?
+        </p>
+      </div>
+
+      <!-- 4 Reaction Option Buttons (Dynamically rendered from QUIZ_DATA) -->
+      <div class="gcs-quiz-reaction-grid" id="quizOptionsContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Stepper Action Buttons -->
+      <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #E2E8F0; padding-top: 20px; margin-top: 8px">
+        <button type="button" class="gcs-btn-cta-2" id="btnQuizPrev" onclick="prevQuestion()" style="opacity: 0.5; pointer-events: none">
+          <span class="material-symbols-outlined">arrow_back</span>
+          <span data-lang-key="btn-previous">Previous</span>
+        </button>
+
+        <button type="button" class="gcs-btn-cta-1" id="btnQuizNext" onclick="nextQuestion()" style="border: none; cursor: pointer">
+          <span data-lang-key="btn-next">Next</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+      </div>
+
+      <!-- Tip Callout -->
+      <div style="margin-top: 20px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px">
+        <span style="font-size: var(--text-xl)">💡</span>
+        <div style="font-size: var(--text-base); color: #92400E; font-weight: 500">
+          <strong>There are no right or wrong answers.</strong> Be honest! / సరైన లేదా తప్పు సమాధానాలు లేవు. నిజాయితీగా సమాధానం ఇవ్వండి!
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Features Badges (4 Column Grid) -->
+    <div class="ui-grid ui-grid--4" style="margin-bottom: 32px">
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #F0FDF4; color: var(--gcs-green-primary); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
+          <span class="material-symbols-outlined">volume_up</span>
+        </div>
+        <div>
+          <div class="ui-title-sm">Text to Speech</div>
+          <div class="ui-meta">Listen in Telugu or English</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
+          <span class="material-symbols-outlined">psychology</span>
+        </div>
+        <div>
+          <div class="ui-title-sm">Personalized Results</div>
+          <div class="ui-meta">Tailored to your skills</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
+          <span class="material-symbols-outlined">quiz</span>
+        </div>
+        <div>
+          <div class="ui-title-sm">5-Minute Quick Quiz</div>
+          <div class="ui-meta">Fast &amp; easy evaluation</div>
+        </div>
+      </div>
+
+      <div class="ui-card" style="align-items: center; gap: 12px">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); flex-shrink: 0">
+          <span class="material-symbols-outlined">lock</span>
+        </div>
+        <div>
+          <div class="ui-title-sm">100% Private</div>
+          <div class="ui-meta">No registration needed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What You'll Get Section -->
+    <section style="margin-bottom: 32px">
+      <div style="text-align: center; margin-bottom: 24px">
+        <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">What You'll Get</h2>
+        <div style="width: 48px; height: 3px; background: var(--gcs-green-primary); margin: 0 auto; border-radius: 2px"></div>
+      </div>
+
+      <div class="ui-grid ui-grid--4">
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
+            <span class="material-symbols-outlined">track_changes</span>
+          </div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Career Match Score</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">See how well careers match your skills.</div>
+        </div>
+
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
+            <span class="material-symbols-outlined">timeline</span>
+          </div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Personalized Roadmap</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Step-by-step path to your goal.</div>
+        </div>
+
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
+            <span class="material-symbols-outlined">star</span>
+          </div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Top 5 Careers</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Recommended for your profile.</div>
+        </div>
+
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
+            <span class="material-symbols-outlined">school</span>
+          </div>
+          <div style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Skills &amp; Courses</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Free courses on SWAYAM.</div>
+        </div>
+
+        <div class="ui-card" style="text-align: center">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: var(--text-2xl)">
+            <span class="material-symbols-outlined">description</span>
+          </div>
+          <div data-lang-key="btn-download-report" style="font-size: var(--text-base); font-weight: 700; color: var(--color-text-primary); margin-bottom: 4px">Download Report</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.4">Save results as PDF report.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Action Banner -->
+    <section class="gcs-banner-callout" style="background: var(--color-surface-sunken); border-color: #CBD5E1">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: var(--gcs-green-tint); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined">checklist</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: var(--color-text-primary)">Ready to discover your perfect career path?</h3>
+          <p class="gcs-banner-callout-sub" style="color: var(--color-text-secondary)">Take the quick assessment above and view your full career compatibility report.</p>
+        </div>
+      </div>
+      <button type="button" class="gcs-btn-cta-1" onclick="document.getElementById('quizStepperCard').scrollIntoView({behavior: 'smooth'})" style="border: none; cursor: pointer; white-space: nowrap">
+        <span data-lang-key="btn-start-quiz">Start Quiz Now</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="index.html#workshops" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+
+  <!-- Interactive Quiz Engine Script -->
+  <script>
+    let currentQ = 0;
+    const userAnswers = [];
+
+    function getQuestions() {
+      return (window.QUIZ_DATA && window.QUIZ_DATA.questions) ? window.QUIZ_DATA.questions : [];
+    }
+
+    function renderQuestion() {
+      const questions = getQuestions();
+      if (!questions.length) return;
+      const q = questions[currentQ];
+      const total = questions.length;
+
+      document.getElementById('questionStepLabel').textContent = `Question ${currentQ + 1} of ${total}`;
+      document.getElementById('quizProgressNum').textContent = `Question ${currentQ + 1} of ${total}`;
+      document.getElementById('quizProgressBar').style.width = `${((currentQ + 1) / total) * 100}%`;
+      document.getElementById('questionTitleEn').textContent = q.text_en;
+      document.getElementById('questionTitleTe').textContent = q.text_te;
+      document.getElementById('questionIcon').innerHTML = `<span class="material-symbols-outlined" style="font-size: var(--text-3xl);">${q.icon}</span>`;
+
+      // Render options dynamically
+      const optContainer = document.getElementById('quizOptionsContainer');
+      if (optContainer) {
+        optContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'gcs-quiz-option-btn' + (userAnswers[currentQ] === idx ? ' selected' : '');
+          btn.innerHTML = `
+            <div class="gcs-quiz-emoji">${opt.emoji || '🔹'}</div>
+            <div>
+              <div class="gcs-quiz-option-text-main">${opt.text_en}</div>
+              <div class="gcs-quiz-option-text-telugu">${opt.text_te}</div>
+            </div>
+          `;
+          btn.onclick = () => selectQuizOption(idx, btn);
+          optContainer.appendChild(btn);
+        });
+      }
+
+      // Prev button status
+      const prevBtn = document.getElementById('btnQuizPrev');
+      if (currentQ === 0) {
+        prevBtn.style.opacity = '0.5';
+        prevBtn.style.pointerEvents = 'none';
+      } else {
+        prevBtn.style.opacity = '1';
+        prevBtn.style.pointerEvents = 'auto';
+      }
+
+      // Next / Finish button text
+      const nextBtn = document.getElementById('btnQuizNext');
+      if (currentQ === total - 1) {
+        nextBtn.innerHTML = `<span>View Results</span><span class="material-symbols-outlined">insights</span>`;
+      } else {
+        nextBtn.innerHTML = `<span>Next</span><span class="material-symbols-outlined">arrow_forward</span>`;
+      }
+    }
+
+    function selectQuizOption(index, btn) {
+      document.querySelectorAll('.gcs-quiz-option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      userAnswers[currentQ] = index;
+    }
+
+    function nextQuestion() {
+      const questions = getQuestions();
+      if (userAnswers[currentQ] === undefined) {
+        // Default to first option if skipped
+        userAnswers[currentQ] = 0;
+      }
+
+      if (currentQ < questions.length - 1) {
+        currentQ++;
+        renderQuestion();
+      } else {
+        // Calculate scores across paths
+        const finalScores = { government: 0, iti: 0, bpo: 0, business: 0 };
+        userAnswers.forEach((optIdx, qIdx) => {
+          const opt = questions[qIdx].options[optIdx];
+          if (opt && opt.scores) {
+            finalScores.government += (opt.scores.government || 0);
+            finalScores.iti += (opt.scores.iti || 0);
+            finalScores.bpo += (opt.scores.bpo || 0);
+            finalScores.business += (opt.scores.business || 0);
+          }
+        });
+
+        let topPath = 'government';
+        let maxVal = -1;
+        ['government', 'iti', 'bpo', 'business'].forEach(p => {
+          if (finalScores[p] > maxVal) {
+            maxVal = finalScores[p];
+            topPath = p;
+          }
+        });
+
+        const totalPossible = 15;
+        const matchPercentage = Math.min(96, Math.max(72, Math.round((maxVal / totalPossible) * 100)));
+        const pathDetails = (window.QUIZ_DATA && window.QUIZ_DATA.paths) ? window.QUIZ_DATA.paths[topPath] : null;
+
+        const resultPayload = {
+          answers: userAnswers,
+          scores: finalScores,
+          topPath: topPath,
+          pathNameEn: pathDetails ? pathDetails.name_en : 'Government Jobs',
+          pathNameTe: pathDetails ? pathDetails.name_te : 'ప్రభుత్వ ఉద్యోగాలు',
+          matchScore: matchPercentage,
+          timestamp: new Date().toISOString()
+        };
+
+        localStorage.setItem('gcs_quiz_results', JSON.stringify(resultPayload));
+
+        // Submit to Spring Boot modular monolith backend
+        const answersMap = {};
+        userAnswers.forEach((optIdx, qIdx) => {
+          answersMap[`q${qIdx + 1}`] = String(optIdx);
+        });
+
+        if (window.GCS_API && window.GCS_API.quiz) {
+          window.GCS_API.quiz.submit(answersMap, 'General').then(serverData => {
+            if (serverData) {
+              resultPayload.serverAttemptId = serverData.attemptId;
+              resultPayload.matchingJobs = serverData.matchingJobs;
+              resultPayload.roadmapSteps = serverData.roadmapSteps;
+              localStorage.setItem('gcs_quiz_results', JSON.stringify(resultPayload));
+            }
+          }).catch(e => {
+            console.warn('[Quiz] Backend sync skipped, saved locally:', e);
+          }).finally(() => {
+            window.location.href = 'quiz-results.html';
+          });
+        } else {
+          window.location.href = 'quiz-results.html';
+        }
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQ > 0) {
+        currentQ--;
+        renderQuestion();
+      }
+    }
+
+    function speakQuestion(lang) {
+      const questions = getQuestions();
+      if (!questions[currentQ]) return;
+      const q = questions[currentQ];
+      const targetLang = lang || (document.documentElement.lang === 'te' ? 'te' : 'en');
+      const text = targetLang === 'te' ? (q.text_te || q.text) : (q.text_en || q.text);
+      if (window.GCS_I18N && window.GCS_I18N.speak) {
+        window.GCS_I18N.speak(text, targetLang);
+      } else if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = targetLang === 'te' ? 'te-IN' : 'en-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', renderQuestion);
+  </script>
+</body>
+</html>

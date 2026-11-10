@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" width="100%" height="100%">
+  <defs>
+    <filter id="otpShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Background Soft Cloud / Ring -->
+  <circle cx="120" cy="90" r="70" fill="#F0FDF4" />
+  <path d="M160,85 C160,65 145,55 130,55 C118,55 108,62 105,72 C98,72 90,78 90,87 C90,98 100,105 110,105 L160,105 C172,105 180,96 180,85 Z" fill="#E2E8F0" opacity="0.6" />
+
+  <!-- Smartphone Body -->
+  <g filter="url(#otpShadow)">
+    <rect x="75" y="25" width="90" height="135" rx="14" fill="#334155" />
+    <!-- Screen -->
+    <rect x="79" y="32" width="82" height="121" rx="10" fill="#FFFFFF" />
+    <!-- Speaker & Camera -->
+    <rect x="108" y="28" width="24" height="3" rx="1.5" fill="#64748B" />
+    <circle cx="102" cy="29.5" r="1.5" fill="#64748B" />
+  </g>
+
+  <!-- SMS Message Bubble popping out -->
+  <g filter="url(#otpShadow)">
+    <rect x="90" y="60" width="105" height="42" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2" />
+    <!-- Text inside message -->
+    <text x="102" y="78" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="700" fill="#64748B">OTP Code:</text>
+    <text x="102" y="94" font-family="'Plus Jakarta Sans', monospace" font-size="14" font-weight="800" fill="#0F172A" letter-spacing="2">123456</text>
+  </g>
+
+  <!-- Green Verified Badge -->
+  <circle cx="195" cy="85" r="14" fill="#059669" stroke="#FFFFFF" stroke-width="2.5" />
+  <path d="M189,85 L193,89 L201,81" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+
+  <!-- Lock Icon on Phone -->
+  <circle cx="120" cy="125" r="10" fill="#EFF6FF" />
+  <path d="M117,123 L117,120 C117,118 118,117 120,117 C122,117 123,118 123,120 L123,123 Z" fill="none" stroke="#2563EB" stroke-width="1.5" />
+  <rect x="115" y="123" width="10" height="8" rx="2" fill="#2563EB" />
+</svg>

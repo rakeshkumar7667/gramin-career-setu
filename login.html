@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-login" />
+  <title>లాగిన్ & రిజిస్ట్రేషన్ — Login & Sign Up | Gramin Career Setu</title>
+  <meta name="description" content="Sign in or create an account on Gramin Career Setu to access personalized career roadmaps, job alerts, and resume builder." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <style>
+    .auth-flow-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .auth-step-node {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: #64748B;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .auth-step-node.active {
+      color: #064E3B;
+    }
+    .auth-step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: 800;
+    }
+    .auth-step-node.active .auth-step-num {
+      background: #059669;
+      color: #ffffff;
+    }
+    .auth-view-card {
+      display: none;
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .auth-view-card.active {
+      display: block;
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .otp-input-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .otp-digit-box {
+      width: 48px;
+      height: 52px;
+      text-align: center;
+      font-size: var(--text-2xl);
+      font-weight: 800;
+      font-family: monospace;
+      border: 2px solid #CBD5E1;
+      border-radius: 12px;
+      background: #F8FAFC;
+      transition: all 0.2s;
+    }
+    .otp-digit-box:focus {
+      border-color: #059669;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+      outline: none;
+    }
+  </style>
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page" style="background: #F8FAFC;">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+          <a href="index.html" style="font-size: 0.85rem; font-weight: 700; color: #64748B; text-decoration: none; margin-left: 8px;">✕ Close</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN AUTH CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Title & Top Flow Stepper (Images 1 & 3 Match) -->
+    <div style="text-align: center; margin-bottom: 24px">
+      <h1 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Login &amp; Sign Up Flow</h1>
+      <p style="font-size: var(--text-base); color: var(--color-text-muted); margin: 0">Access personalized guidance, resume builder and local employment opportunities.</p>
+    </div>
+
+    <!-- 4-Step Ribbon Indicator -->
+    <div class="auth-flow-stepper">
+      <div class="auth-step-node active" id="stepNode1" onclick="switchAuthView('signin')">
+        <span class="auth-step-num">1</span>
+        <span>Sign In / Sign Up</span>
+      </div>
+      <span style="color: #CBD5E1">&rarr;</span>
+      <div class="auth-step-node" id="stepNode2" onclick="switchAuthView('signup')">
+        <span class="auth-step-num">2</span>
+        <span>Create Account</span>
+      </div>
+      <span style="color: #CBD5E1">&rarr;</span>
+      <div class="auth-step-node" id="stepNode3" onclick="switchAuthView('success')">
+        <span class="auth-step-num">3</span>
+        <span>Verify &amp; Activate</span>
+      </div>
+      <span style="color: #CBD5E1">&rarr;</span>
+      <div class="auth-step-node" id="stepNode4" onclick="switchAuthView('otp')">
+        <span class="auth-step-num">4</span>
+        <span>Welcome</span>
+      </div>
+    </div>
+
+    <!-- Quick Role-Based Switcher Bar -->
+    <div style="max-width: 520px; margin: 0 auto 24px auto; background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px">
+      <div style="font-size: var(--text-sm); font-weight: 800; color: #064E3B; display: flex; align-items: center; gap: 4px">
+        <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #059669">bolt</span>
+        <span>Demo session (no real account):</span>
+      </div>
+      <div style="display: flex; gap: 4px; flex-wrap: wrap">
+        <button type="button" class="gcs-pill-tag" onclick="window.GCS_AUTH.loginDemo('student')" style="cursor: pointer; background: var(--color-surface); border: 1px solid #86EFAC; color: #064E3B; font-weight: 700">👨‍🎓 Student</button>
+        <button type="button" class="gcs-pill-tag" onclick="window.GCS_AUTH.loginDemo('volunteer')" style="cursor: pointer; background: var(--color-surface); border: 1px solid #93C5FD; color: #1E40AF; font-weight: 700">🤝 Volunteer</button>
+        <button type="button" class="gcs-pill-tag" onclick="window.GCS_AUTH.loginDemo('admin')" style="cursor: pointer; background: var(--color-surface); border: 1px solid #C4B5FD; color: #5B21B6; font-weight: 700">🛡️ Admin</button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         VIEW 1: SIGN IN (WELCOME BACK)
+         ============================================================ -->
+    <section class="auth-view-card active" id="viewSignIn">
+      <div style="text-align: center; margin-bottom: 20px">
+        <h2 data-lang-key="login-welcome-back" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Welcome Back!</h2>
+        <p data-lang-key="login-sub" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0">Sign in to continue your journey</p>
+      </div>
+
+      <!-- Quaint Village Banner Illustration -->
+      <div style="height: 110px; border-radius: 14px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--color-border)">
+        <img src="assets/auth-village-hero.svg" alt="Rural Village Illustration" / style="width: 100%; height: 100%; object-fit: cover">
+      </div>
+
+      <form id="signInForm" onsubmit="handleSignInSubmit(event)">
+        <!-- Mobile Number -->
+        <div style="margin-bottom: 12px">
+          <label for="loginPhone" data-lang-key="login-mobile" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Mobile Number</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">call</span>
+            <input type="tel" id="loginPhone" class="gcs-form-input" placeholder="10-digit mobile number" value="9876543210" required / style="width: 100%; padding-left: 32px">
+          </div>
+          <div id="loginPhoneErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
+        </div>
+
+        <!-- Password -->
+        <div style="margin-bottom: 8px">
+          <label for="loginPassword" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Password</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">lock</span>
+            <input type="password" id="loginPassword" class="gcs-form-input" placeholder="Enter password" value="demo123" required / style="width: 100%; padding-left: 32px; padding-right: 32px">
+            <button type="button" aria-label="Toggle password visibility" onclick="togglePassVisibility('loginPassword', this)" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #94A3B8">
+              <span class="material-symbols-outlined" style="font-size: var(--text-lg)">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align: right; margin-bottom: 16px">
+          <a href="javascript:void(0)" onclick="openForgotPassModal()" data-lang-key="login-forgot" style="font-size: var(--text-sm); font-weight: 700; color: #059669; text-decoration: none">Forgot Password?</a>
+        </div>
+
+        <!-- Sign In Button -->
+        <button type="submit" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 12px; font-size: var(--text-base); border: none; cursor: pointer; border-radius: 10px; margin-bottom: 16px">
+          <span>Sign In</span>
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px">
+          <hr / style="flex: 1; border: none; border-top: 1px solid #E2E8F0">
+          <span style="font-size: var(--text-xs); color: #94A3B8; text-transform: uppercase">or continue with</span>
+          <hr / style="flex: 1; border: none; border-top: 1px solid #E2E8F0">
+        </div>
+
+        <!-- Alternate Social / OTP / SSO Logins -->
+        <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginWithOidc()" style="width: 100%; justify-content: center; font-size: var(--text-sm); padding: 8px; margin-bottom: 8px; border: 1.5px solid #2563EB; color: #1D4ED8; background: #EFF6FF; border-radius: 10px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #2563EB">verified_user</span>
+          <span>Single Sign-On (Keycloak / OIDC)</span>
+        </button>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px">
+          <button type="button" class="gcs-btn-cta-2" onclick="window.GCS_AUTH.loginDemo('student')" style="justify-content: center; font-size: var(--text-sm); padding: 8px 8px">
+            <span>🌐 Google</span>
+          </button>
+          <button type="button" class="gcs-btn-cta-2" onclick="switchAuthView('otp')" style="justify-content: center; font-size: var(--text-sm); padding: 8px 8px">
+            <span>📱 Phone OTP</span>
+          </button>
+        </div>
+
+        <!-- New to Gramin Career Setu -->
+        <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 20px">
+          <span data-lang-key="login-new-here">New to Gramin Career Setu?</span>
+          <a href="javascript:void(0)" onclick="switchAuthView('signup')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px">Sign Up</a>
+        </div>
+
+        <!-- 3 Trust Badges -->
+        <div class="ui-grid" style="border-top: 1px solid #F1F5F9; padding-top: 16px; text-align: center">
+          <div style="background: var(--color-surface-sunken); border-radius: 8px; padding: 8px 4px">
+            <div style="font-size: var(--text-xs); font-weight: 800; color: var(--color-text-primary)">100% Free</div>
+            <div class="ui-meta-xs">No hidden charges</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 8px; padding: 8px 4px">
+            <div style="font-size: var(--text-xs); font-weight: 800; color: var(--color-text-primary)">Rural Youth</div>
+            <div class="ui-meta-xs">Simple &amp; easy</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 8px; padding: 8px 4px">
+            <div style="font-size: var(--text-xs); font-weight: 800; color: var(--color-text-primary)">Safe &amp; Secure</div>
+            <div class="ui-meta-xs">Data protected</div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============================================================
+         VIEW 2: CREATE YOUR ACCOUNT (SIGN UP)
+         ============================================================ -->
+    <section class="auth-view-card" id="viewSignUp">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px">
+        <button type="button" onclick="switchAuthView('signin')" style="display: flex; align-items: center; gap: 4px; background: none; border: none; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); cursor: pointer">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">arrow_back</span>
+          <span>Back</span>
+        </button>
+        <span class="gcs-pill-tag" style="background: #EFF6FF; color: #2563EB; font-weight: 700">Step 2 of 4</span>
+      </div>
+
+      <div style="margin-bottom: 20px">
+        <h2 data-lang-key="login-create-account" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Create Your Account</h2>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0">Join thousands of rural youth building their future</p>
+      </div>
+
+      <form id="signUpForm" onsubmit="handleSignUpSubmit(event)">
+        <!-- Full Name -->
+        <div style="margin-bottom: 12px">
+          <label for="regName" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Full Name *</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">person</span>
+            <input type="text" id="regName" class="gcs-form-input" placeholder="Enter your full name" required / style="width: 100%; padding-left: 32px">
+          </div>
+        </div>
+
+        <!-- Mobile Number -->
+        <div style="margin-bottom: 12px">
+          <label for="regPhone" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Mobile Number *</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">call</span>
+            <input type="tel" id="regPhone" class="gcs-form-input" placeholder="10-digit mobile number" required / style="width: 100%; padding-left: 32px">
+          </div>
+          <div id="regPhoneErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
+        </div>
+
+        <!-- Role Selector -->
+        <div style="margin-bottom: 12px">
+          <label for="regRole" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">I am registering as: *</label>
+          <select id="regRole" class="gcs-form-input" style="width: 100%">
+            <option value="student" selected data-lang-key="login-role-student">Student / Job Seeker</option>
+            <option value="volunteer" data-lang-key="login-role-volunteer">Village Coordinator / Volunteer</option>
+            <option value="admin">District Coordinator</option>
+          </select>
+        </div>
+
+        <!-- Email (Optional) -->
+        <div style="margin-bottom: 12px">
+          <label for="regEmail" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Email Address (Optional)</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">mail</span>
+            <input type="email" id="regEmail" class="gcs-form-input" placeholder="Enter your email address" / style="width: 100%; padding-left: 32px">
+          </div>
+        </div>
+
+        <!-- Password with Strength Meter -->
+        <div style="margin-bottom: 12px">
+          <label for="regPassword" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Password *</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">lock</span>
+            <input type="password" id="regPassword" class="gcs-form-input" placeholder="Create a strong password" oninput="updatePasswordStrengthUI()" required / style="width: 100%; padding-left: 32px; padding-right: 32px">
+            <button type="button" onclick="togglePassVisibility('regPassword', this)" style="position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #94A3B8">
+              <span class="material-symbols-outlined" style="font-size: var(--text-lg)">visibility</span>
+            </button>
+          </div>
+          <!-- Strength Bar -->
+          <div style="margin-top: 4px">
+            <div style="height: 4px; background: #E2E8F0; border-radius: 2px; overflow: hidden">
+              <div id="passStrengthBar" style="width: 0%; height: 100%; background: #EF4444; transition: all 0.2s"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px">
+              <span>Strength: <strong id="passStrengthLabel" style="color: var(--color-text-muted)">None</strong></span>
+              <span>Min. 6 characters</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div style="margin-bottom: 16px">
+          <label for="regConfirmPassword" style="display: block; font-size: var(--text-sm); font-weight: 700; color: #334155; margin-bottom: 4px">Confirm Password *</label>
+          <div style="position: relative">
+            <span class="material-symbols-outlined" style="position: absolute; left: 12px; top: 12px; font-size: var(--text-lg); color: #94A3B8">lock_reset</span>
+            <input type="password" id="regConfirmPassword" class="gcs-form-input" placeholder="Confirm your password" required / style="width: 100%; padding-left: 32px">
+          </div>
+          <div id="regConfirmErr" style="font-size: var(--text-xs); color: #DC2626; margin-top: 4px; display: none"></div>
+        </div>
+
+        <!-- Security Guarantee Card -->
+        <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-xl)">verified_user</span>
+          <div>
+            <div data-lang-key="login-data-safe" style="font-size: var(--text-sm); font-weight: 800; color: #064E3B">Your data is safe with us</div>
+            <div data-lang-key="login-no-share" style="font-size: var(--text-xs); color: #047857">We never share your information with anyone.</div>
+          </div>
+        </div>
+
+        <button type="submit" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 12px; font-size: var(--text-base); border: none; cursor: pointer; border-radius: 10px; margin-bottom: 12px">
+          <span>Sign Up</span>
+        </button>
+
+        <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 12px">
+          <span data-lang-key="login-already">Already have an account?</span>
+          <a href="javascript:void(0)" onclick="switchAuthView('signin')" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px">Sign In</a>
+        </div>
+
+        <p style="font-size: var(--text-xs); color: #94A3B8; text-align: center; margin: 0; line-height: 1.4">
+          By signing up, you agree to our <a href="about.html" style="color: var(--color-text-muted)">Terms &amp; Conditions</a> and <a href="about.html" style="color: var(--color-text-muted)">Privacy Policy</a>.
+        </p>
+      </form>
+    </section>
+
+    <!-- ============================================================
+         VIEW 3: ACCOUNT CREATED SUCCESSFULLY (STEP 3)
+         ============================================================ -->
+    <section class="auth-view-card" id="viewSuccess" style="text-align: center">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: #059669; color: #ffffff; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto">
+        <span class="material-symbols-outlined" style="font-size: var(--text-3xl)">check</span>
+      </div>
+
+      <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Account Created Successfully!</h2>
+      <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 16px 0">
+        Welcome to Gramin Career Setu.<br />Your account has been created successfully.
+      </p>
+
+      <!-- 4 Students Celebrating Artwork -->
+      <div style="height: 140px; margin-bottom: 20px">
+        <img src="assets/auth-students-success.svg" alt="Students Success" / style="width: 100%; height: 100%; object-fit: contain">
+      </div>
+
+      <!-- Action Box -->
+      <div style="background: #F0FDF4; border: 1.5px dashed #86EFAC; border-radius: 14px; padding: 16px; margin-bottom: 20px">
+        <div data-lang-key="login-verify-mobile" style="font-size: var(--text-base); font-weight: 800; color: #064E3B; margin-bottom: 4px">Verify your mobile number to start</div>
+        <div style="font-size: var(--text-sm); color: #047857">We cannot send SMS yet, so your code is shown on screen below. Enter it to confirm your number is typed correctly.</div>
+      </div>
+
+      <button type="button" class="gcs-btn-cta-1" onclick="switchAuthView('otp')" style="width: 100%; justify-content: center; padding: 12px; font-size: var(--text-base); border: none; cursor: pointer; border-radius: 10px; margin-bottom: 12px">
+        <span>Verify Mobile Number</span>
+      </button>
+
+      <a href="index.html" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 4px">
+        <span>&rarr; Go to Home</span>
+      </a>
+    </section>
+
+    <!-- ============================================================
+         VIEW 4: 6-DIGIT OTP VERIFICATION (STEP 4)
+         ============================================================ -->
+    <section class="auth-view-card" id="viewOtp">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px">
+        <button type="button" onclick="switchAuthView('signin')" style="display: flex; align-items: center; gap: 4px; background: none; border: none; font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted); cursor: pointer">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">arrow_back</span>
+          <span>Back</span>
+        </button>
+        <span class="gcs-pill-tag" style="background: #ECFDF5; color: #059669; font-weight: 700">Final Step</span>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 16px">
+        <h2 style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Verify Your Mobile Number</h2>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0">
+          Enter the 6-digit code shown below to confirm <strong id="otpTargetPhone">+91 98765 43210</strong>
+        </p>
+      </div>
+
+      <!-- Smartphone OTP Illustration -->
+      <div style="height: 120px; margin-bottom: 12px">
+        <img src="assets/auth-otp-phone.svg" alt="OTP Phone" / style="width: 100%; height: 100%; object-fit: contain">
+      </div>
+
+      <!-- 6 Auto-Advancing Digit Input Boxes -->
+      <div class="otp-input-row">
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp1" placeholder="•" aria-label="OTP digit 1" inputmode="numeric" oninput="handleOtpInput(this, 'otp2')" onkeydown="handleOtpBackspace(this, event, '')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp2" placeholder="•" aria-label="OTP digit 2" inputmode="numeric" oninput="handleOtpInput(this, 'otp3')" onkeydown="handleOtpBackspace(this, event, 'otp1')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp3" placeholder="•" aria-label="OTP digit 3" inputmode="numeric" oninput="handleOtpInput(this, 'otp4')" onkeydown="handleOtpBackspace(this, event, 'otp2')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp4" placeholder="•" aria-label="OTP digit 4" inputmode="numeric" oninput="handleOtpInput(this, 'otp5')" onkeydown="handleOtpBackspace(this, event, 'otp3')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp5" placeholder="•" aria-label="OTP digit 5" inputmode="numeric" oninput="handleOtpInput(this, 'otp6')" onkeydown="handleOtpBackspace(this, event, 'otp4')" />
+        <input type="text" class="otp-digit-box" maxlength="1" id="otp6" placeholder="•" aria-label="OTP digit 6" inputmode="numeric" oninput="handleOtpInput(this, '')" onkeydown="handleOtpBackspace(this, event, 'otp5')" />
+      </div>
+
+      <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 16px">
+        <span>OTP will expire in: </span>
+        <strong id="otpCountdown" style="color: #059669">04:52</strong>
+      </div>
+
+      <button type="button" class="gcs-btn-cta-1" onclick="submitOtpCode()" style="width: 100%; justify-content: center; padding: 12px; font-size: var(--text-base); border: none; cursor: pointer; border-radius: 10px; margin-bottom: 12px">
+        <span>Verify &amp; Continue</span>
+      </button>
+
+      <div style="text-align: center; font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 24px">
+        <span>Didn't receive OTP?</span>
+        <a href="javascript:void(0)" onclick="resendOtpCode()" style="font-weight: 800; color: #059669; text-decoration: none; margin-left: 4px">Resend OTP</a>
+      </div>
+
+      <!-- Why verify mobile number checklist -->
+      <div style="background: var(--color-surface-sunken); border: 1px solid var(--color-border); border-radius: 12px; padding: 16px">
+        <div style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-bottom: 8px">Why verify mobile number?</div>
+        <div style="font-size: var(--text-sm); color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 4px">
+          <div>✔ Secure your account from unauthorized access</div>
+          <div>✔ Keep your saved jobs, quiz result and resume in one place</div>
+          <div>✔ Reset password easily anytime offline</div>
+          <div>✔ Personalized village career recommendations</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         BOTTOM FEATURE RIBBON: YOUR JOURNEY STARTS HERE
+         ============================================================ -->
+    <section class="ui-card" style="margin-top: 48px">
+      <div style="display: grid; grid-template-columns: 280px 1fr 240px; gap: 24px; align-items: center">
+        
+        <!-- Left: Journey Starts Here -->
+        <div style="display: flex; gap: 12px; align-items: flex-start">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">shield_person</span>
+          </div>
+          <div>
+            <h3 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Your Journey<br /><span style="color: #059669">Starts Here</span></h3>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; line-height: 1.4">Sign in or create an account to access all features for free.</p>
+          </div>
+        </div>
+
+        <!-- Center: 5 Features -->
+        <div class="ui-grid ui-grid--4" style="text-align: center">
+          <div style="background: var(--color-surface-sunken); border-radius: 10px; padding: 12px 4px">
+            <span class="material-symbols-outlined" style="color: #059669">explore</span>
+            <div data-lang-key="btn-explore" style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-top: 4px">Explore</div>
+            <div class="ui-meta-xs">Best career paths</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 10px; padding: 12px 4px">
+            <span class="material-symbols-outlined" style="color: #2563EB">work</span>
+            <div style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-top: 4px">Find Jobs</div>
+            <div class="ui-meta-xs">Govt &amp; private</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 10px; padding: 12px 4px">
+            <span class="material-symbols-outlined" style="color: #D97706">quiz</span>
+            <div style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-top: 4px">Test Skills</div>
+            <div class="ui-meta-xs">Know strengths</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 10px; padding: 12px 4px">
+            <span class="material-symbols-outlined" style="color: #7C3AED">description</span>
+            <div data-lang-key="nav-resume" style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-top: 4px">Resume</div>
+            <div class="ui-meta-xs">ATS in minutes</div>
+          </div>
+          <div style="background: var(--color-surface-sunken); border-radius: 10px; padding: 12px 4px">
+            <span class="material-symbols-outlined" style="color: #0284C7">school</span>
+            <div style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary); margin-top: 4px">Learn</div>
+            <div class="ui-meta-xs">Free resources</div>
+          </div>
+        </div>
+
+        <!-- Right: Secure & Trusted -->
+        <div style="background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 14px; padding: 12px; text-align: center">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-2xl)">lock</span>
+          <div style="font-size: var(--text-sm); font-weight: 800; color: #064E3B; margin: 4px 0 2px 0">Secure &amp; Trusted</div>
+          <div style="font-size: var(--text-xs); color: #047857; margin-bottom: 8px">Committed to protecting your privacy.</div>
+          <div style="font-size: var(--text-xs); color: #059669; font-weight: 700">100% Safe • No Spam • No Sharing</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Auth Logic -->
+  <script>
+    function switchAuthView(viewKey) {
+      const views = {
+        'signin': 'viewSignIn',
+        'signup': 'viewSignUp',
+        'success': 'viewSuccess',
+        'otp': 'viewOtp'
+      };
+
+      document.querySelectorAll('.auth-view-card').forEach(c => c.classList.remove('active'));
+      const activeCard = document.getElementById(views[viewKey] || 'viewSignIn');
+      if (activeCard) activeCard.classList.add('active');
+
+      // Update stepper nodes
+      const stepOrder = ['signin', 'signup', 'success', 'otp'];
+      const currentIdx = stepOrder.indexOf(viewKey);
+      document.querySelectorAll('.auth-step-node').forEach((node, i) => {
+        node.classList.toggle('active', i <= currentIdx);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function togglePassVisibility(inputId, btn) {
+      const el = document.getElementById(inputId);
+      if (!el) return;
+      const isPass = el.type === 'password';
+      el.type = isPass ? 'text' : 'password';
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = isPass ? 'visibility_off' : 'visibility';
+    }
+
+    function updatePasswordStrengthUI() {
+      const pass = document.getElementById('regPassword').value;
+      const res = window.GCS_AUTH.calcPasswordStrength(pass);
+
+      const bar = document.getElementById('passStrengthBar');
+      const label = document.getElementById('passStrengthLabel');
+
+      if (bar) {
+        bar.style.width = res.percent + '%';
+        bar.style.background = res.color;
+      }
+      if (label) {
+        label.textContent = res.label;
+        label.style.color = res.color;
+      }
+    }
+
+    async function handleSignInSubmit(e) {
+      e.preventDefault();
+      const phone = document.getElementById('loginPhone').value.trim();
+      const pass = document.getElementById('loginPassword').value.trim();
+
+      const errEl = document.getElementById('loginPhoneErr');
+      if (errEl) errEl.style.display = 'none';
+
+      const res = await window.GCS_AUTH.login(phone, pass);
+      if (res.success) {
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(`Welcome back, ${res.user.name}!`);
+        }
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
+        setTimeout(() => {
+          const defaultTarget = (res.user.role === 'volunteer' || res.user.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
+          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
+        }, 400);
+      } else {
+        if (errEl) {
+          errEl.textContent = res.message;
+          errEl.style.display = 'block';
+        } else {
+          alert(res.message);
+        }
+      }
+    }
+
+    async function handleSignUpSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const role = document.getElementById('regRole').value;
+      const pass = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirmPassword').value;
+
+      if (pass !== confirm) {
+        const err = document.getElementById('regConfirmErr');
+        if (err) {
+          err.textContent = 'Passwords do not match.';
+          err.style.display = 'block';
+        }
+        return;
+      }
+
+      const res = await window.GCS_AUTH.signup({ name, phone, email, role, password: pass, confirmPassword: confirm });
+      if (res.success) {
+        document.getElementById('otpTargetPhone').textContent = '+91 ' + phone;
+        if (res.demoOtpCode && window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(`🔑 Your code is ${res.demoOtpCode} — we cannot send SMS yet.`);
+        }
+        switchAuthView('success');
+      } else {
+        alert(res.message || 'Please fill in all required fields.');
+      }
+    }
+
+    function handleOtpInput(currentInput, nextInputId) {
+      if (currentInput.value.length === 1 && nextInputId) {
+        const next = document.getElementById(nextInputId);
+        if (next) next.focus();
+      }
+    }
+
+    function handleOtpBackspace(currentInput, event, prevInputId) {
+      if (event.key === 'Backspace' && !currentInput.value && prevInputId) {
+        const prev = document.getElementById(prevInputId);
+        if (prev) {
+          prev.focus();
+          prev.value = '';
+        }
+      }
+    }
+
+    async function submitOtpCode() {
+      let code = '';
+      for (let i = 1; i <= 6; i++) {
+        code += (document.getElementById('otp' + i).value || '');
+      }
+
+      const res = await window.GCS_AUTH.verifyOTP(code);
+      if (res.success) {
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(`🎉 Mobile Verified! Welcome, ${res.user.name}`);
+        }
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
+        setTimeout(() => {
+          const defaultTarget = (res.user.role === 'volunteer' || res.user.role === 'admin') ? 'admin/index.html' : 'dashboard.html';
+          window.location.href = window.GCS_AUTH.getSafeNextUrl(next, defaultTarget);
+        }, 400);
+      } else {
+        alert(res.message || 'Invalid OTP code.');
+      }
+    }
+
+    function resendOtpCode() {
+      let pending = null;
+      try {
+        pending = JSON.parse(localStorage.getItem('gcs_pending_signup') || 'null');
+      } catch (e) {}
+      const code = pending ? pending.otpCode : null;
+      if (!code) { return; }  // nothing pending: there is no code to resend
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(`🔑 Your new code is ${code} — we cannot send SMS yet.`);
+      } else {
+        alert(`We cannot send SMS yet. Your code is: ${code}`);
+      }
+    }
+
+    // Auto countdown timer simulation
+    let secondsLeft = 292;
+    setInterval(() => {
+      if (secondsLeft <= 0) return;
+      secondsLeft--;
+      const m = Math.floor(secondsLeft / 60);
+      const s = secondsLeft % 60;
+      const el = document.getElementById('otpCountdown');
+      if (el) el.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }, 1000);
+
+    // Password Reset Modal Logic
+    function openForgotPassModal() {
+      const modal = document.getElementById('forgotPassModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.getElementById('forgotStep1').style.display = 'block';
+        document.getElementById('forgotStep2').style.display = 'none';
+        const msg = document.getElementById('forgotModalMsg');
+        if (msg) msg.style.display = 'none';
+        document.getElementById('forgotPhone').value = document.getElementById('loginPhone').value || '';
+        document.getElementById('forgotPhone').focus();
+      }
+    }
+
+    function closeForgotPassModal() {
+      const modal = document.getElementById('forgotPassModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function handleSendResetOtp() {
+      const phone = document.getElementById('forgotPhone').value.trim();
+      const msg = document.getElementById('forgotModalMsg');
+      const check = window.GCS_AUTH.validateMobile(phone);
+      if (!check.valid) {
+        msg.textContent = check.message;
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      msg.textContent = 'Sending 6-digit verification code...';
+      msg.style.display = 'block';
+      msg.style.background = '#EFF6FF';
+      msg.style.color = '#1D4ED8';
+
+      const res = await window.GCS_AUTH.sendPasswordResetOtp(phone);
+      if (res.success) {
+        msg.textContent = res.otpCode
+          ? `We cannot send SMS yet — your code is ${res.otpCode}`
+          : 'Could not start the reset. Please try again.';
+        msg.style.background = '#ECFDF5';
+        msg.style.color = '#065F46';
+        document.getElementById('forgotStep1').style.display = 'none';
+        document.getElementById('forgotStep2').style.display = 'block';
+        document.getElementById('forgotOtp').focus();
+      } else {
+        msg.textContent = res.message || 'Failed to send OTP.';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+      }
+    }
+
+    async function handleConfirmResetPass() {
+      const phone = document.getElementById('forgotPhone').value.trim();
+      const otp = document.getElementById('forgotOtp').value.trim();
+      const newPass = document.getElementById('forgotNewPass').value;
+      const msg = document.getElementById('forgotModalMsg');
+
+      if (!otp || otp.length !== 6) {
+        msg.textContent = 'Please enter the 6-digit OTP code.';
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      if (!newPass || newPass.length < 6) {
+        msg.textContent = 'New password must be at least 6 characters.';
+        msg.style.display = 'block';
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+        return;
+      }
+
+      msg.textContent = 'Updating password...';
+      msg.style.display = 'block';
+      msg.style.background = '#EFF6FF';
+      msg.style.color = '#1D4ED8';
+
+      const res = await window.GCS_AUTH.resetPassword(phone, otp, newPass);
+      if (res.success) {
+        msg.textContent = res.message;
+        msg.style.background = '#ECFDF5';
+        msg.style.color = '#065F46';
+        setTimeout(() => {
+          closeForgotPassModal();
+          document.getElementById('loginPhone').value = phone;
+          document.getElementById('loginPassword').value = newPass;
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show('✅ Password updated. You can now sign in.');
+          }
+        }, 1200);
+      } else {
+        msg.textContent = res.message;
+        msg.style.background = '#FEE2E2';
+        msg.style.color = '#B91C1C';
+      }
+    }
+  </script>
+
+  <!-- Password Reset Modal -->
+  <div id="forgotPassModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #ffffff; border-radius: 16px; max-width: 420px; width: 100%; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); position: relative; font-family: inherit;">
+      <button type="button" onclick="closeForgotPassModal()" aria-label="Close modal" style="position: absolute; right: 16px; top: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #64748B;">&times;</button>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+        <span class="material-symbols-outlined" style="font-size: 26px; color: #059669;">lock_reset</span>
+        <h3 style="margin: 0; font-size: 1.15rem; color: #0F172A; font-weight: 700;">Reset Password</h3>
+      </div>
+      <p style="font-size: 0.85rem; color: #64748B; margin-top: 0; margin-bottom: 16px;">Enter your registered 10-digit mobile number to verify your identity.</p>
+      
+      <div id="forgotStep1">
+        <label for="forgotPhone" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mobile Number</label>
+        <input type="tel" id="forgotPhone" class="gcs-form-input" style="width: 100%; margin-bottom: 14px; box-sizing: border-box;" placeholder="10-digit mobile number" maxlength="10" />
+        <button type="button" onclick="handleSendResetOtp()" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">Send OTP</button>
+      </div>
+
+      <div id="forgotStep2" style="display: none;">
+        <label for="forgotOtp" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Enter 6-Digit OTP</label>
+        <input type="text" id="forgotOtp" class="gcs-form-input" style="width: 100%; margin-bottom: 12px; letter-spacing: 4px; font-weight: 700; box-sizing: border-box;" placeholder="123456" maxlength="6" />
+        
+        <label for="forgotNewPass" style="display: block; font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">New Password</label>
+        <input type="password" id="forgotNewPass" class="gcs-form-input" style="width: 100%; margin-bottom: 16px; box-sizing: border-box;" placeholder="Minimum 6 characters" />
+        
+        <button type="button" onclick="handleConfirmResetPass()" class="gcs-btn-cta-1" style="width: 100%; justify-content: center; padding: 10px; border-radius: 8px; border: none; cursor: pointer;">Update Password</button>
+      </div>
+      
+      <div id="forgotModalMsg" style="display: none; margin-top: 12px; font-size: 0.82rem; border-radius: 6px; padding: 8px 12px; font-weight: 600;"></div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Pre-render Auth Guard: conceal page and redirect immediately if unauthenticated */
+    (function(){
+      try {
+        var u = localStorage.getItem('gcs_auth_user');
+        if (!u) {
+          document.documentElement.style.display = 'none';
+          var next = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.replace('login.html?next=' + next);
+        }
+      } catch(e) {}
+    })();
+
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-dashboard" />
+  <title>నా డ్యాష్‌బోర్డ్ — Student Dashboard | Gramin Career Setu</title>
+  <meta name="description" content="Personalized career dashboard for rural youth on Gramin Career Setu." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <style>
+    .dash-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+      background: #F8FAFC;
+    }
+    .dash-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #E2E8F0;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #475569;
+      text-decoration: none;
+      font-size: var(--text-base);
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .dash-nav-item:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .dash-nav-item.active {
+      background: #ECFDF5;
+      color: #064E3B;
+      font-weight: 700;
+    }
+    .dash-main {
+      padding: 28px 36px;
+      overflow-y: auto;
+    }
+    .dash-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .dash-search-box {
+      position: relative;
+      flex: 1;
+      max-width: 480px;
+    }
+    .dash-hero-banner {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .dash-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .dash-stat-card {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dash-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+    .dash-3col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .dash-card {
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    @media (max-width: 1024px) {
+      .dash-layout { grid-template-columns: 1fr; }
+      .dash-sidebar { display: none; }
+      .dash-3col-grid { grid-template-columns: 1fr; }
+      .dash-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dash-hero-banner { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="data/jobs-data.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/firebase-config.js" defer></script>
+  <script src="assets/api.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+</head>
+
+<body>
+  <div class="dash-layout">
+
+    <!-- ============================================================
+         LEFT SIDEBAR (MATCHING IMAGE 2)
+         ============================================================ -->
+    <aside class="dash-sidebar" aria-label="Dashboard Sidebar">
+      <a href="index.html" class="gcs-brand" style="margin-bottom: 20px; padding: 0 8px;">
+        <div class="gcs-brand-icon" style="width: 34px; height: 34px;">
+          <span class="material-symbols-outlined fill-1" style="font-size: 20px;">spa</span>
+        </div>
+        <div class="gcs-brand-meta">
+          <span class="gcs-brand-title" style="font-size: 0.95rem;">Gramin Career Setu</span>
+          <span class="gcs-brand-sub" style="font-size: 0.68rem;">A Bridge To Your Career</span>
+        </div>
+      </a>
+
+      <nav style="display: flex; flex-direction: column; gap: 4px;">
+        <a href="dashboard.html" class="dash-nav-item active">
+          <span class="material-symbols-outlined">home</span>
+          <span data-lang-key="nav-home">Home</span>
+        </a>
+        <a href="careers.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">explore</span>
+          <span data-lang-key="nav-careers">Careers</span>
+        </a>
+        <a href="jobs.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">work</span>
+          <span data-lang-key="nav-jobs">Jobs</span>
+        </a>
+        <a href="quiz.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">quiz</span>
+          <span>Skill Checker</span>
+        </a>
+        <a href="resume.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">description</span>
+          <span>Resume Builder</span>
+        </a>
+        <a href="workshops.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">groups</span>
+          <span data-lang-key="nav-workshops">Workshops</span>
+        </a>
+        <a href="resources.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">folder_open</span>
+          <span data-lang-key="nav-resources">Resources</span>
+        </a>
+        <a href="scholarships.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">school</span>
+          <span>Scholarships</span>
+        </a>
+        <a href="schemes.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">policy</span>
+          <span>Schemes</span>
+        </a>
+        <a href="stories.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">military_tech</span>
+          <span>Success Stories</span>
+        </a>
+        <a href="profile.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">download</span>
+          <span>Downloads</span>
+        </a>
+        <a href="about.html" class="dash-nav-item">
+          <span class="material-symbols-outlined">help</span>
+          <span>Help Center</span>
+        </a>
+      </nav>
+
+      <!-- Offline Mode Widget in Sidebar -->
+      <div style="margin-top: auto; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <span class="material-symbols-outlined" style="color: #059669; font-size: 20px;">wifi_off</span>
+          <span style="font-size: 0.8rem; font-weight: 800; color: #064E3B;">Offline Mode</span>
+          <span class="gcs-pulse-dot" style="margin-left: auto;"></span>
+        </div>
+        <div style="font-size: 0.72rem; color: #047857; line-height: 1.4; margin-bottom: 10px;">
+          You're in offline mode. All saved data is available.
+        </div>
+        <a href="profile.html" class="gcs-btn-cta-2" style="display: block; text-align: center; font-size: 0.75rem; padding: 6px; text-decoration: none;">Manage Downloads</a>
+      </div>
+    </aside>
+
+    <!-- ============================================================
+         MAIN DASHBOARD BODY
+         ============================================================ -->
+    <main class="dash-main">
+
+      <!-- Top Search & User Nav Bar -->
+      <header class="dash-header-top">
+        <!-- Global Search Bar -->
+        <div class="dash-search-box">
+          <span class="material-symbols-outlined" style="position: absolute; left: 14px; top: 12px; font-size: var(--text-xl); color: #94A3B8">search</span>
+          <label for="dashboardSearchInput" class="sr-only">Search careers, jobs, and resources</label>
+          <input id="dashboardSearchInput" type="text" class="gcs-form-input" placeholder="Search careers, jobs, resources..." onkeydown="if(event.key==='Enter') window.location.href='jobs.html?q=' + encodeURIComponent(this.value)" / style="width: 100%; padding-left: 48px; border-radius: 24px; background: var(--color-surface)">
+        </div>
+
+        <!-- Right Action Items -->
+        <div class="ui-icon-row ui-icon-row--gap-12">
+          <!-- Language Toggle -->
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <!-- Notification Bell with Badge 3 -->
+
+          <!-- User Profile Dropdown Pill -->
+          <div style="position: relative; display: inline-block">
+            <button class="ui-card" type="button" onclick="toggleHeaderUserMenu(event)" style="align-items: center; gap: 8px; cursor: pointer; font-family: inherit">
+              <img src="assets/resume-avatar-ravi.webp" id="dashUserAvatar" alt="User Avatar" / style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover">
+              <div style="text-align: left">
+                <div id="dashUserName" id="dashUserNameStatic" style="font-size: var(--text-sm); font-weight: 800; color: var(--color-text-primary)">&nbsp;</div>
+                <div class="ui-meta-xs">View Profile ▾</div>
+              </div>
+            </button>
+            <div class="ui-card" id="headerUserMenu" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 190px; z-index: 9999">
+              <a href="profile.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: var(--text-sm); color: #334155; text-decoration: none; font-weight: 600">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #2563EB">account_circle</span>
+                <span>My Profile</span>
+              </a>
+              <a href="resume-preview.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: var(--text-sm); color: #334155; text-decoration: none; font-weight: 600">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg); color: #059669">description</span>
+                <span>My Resumes</span>
+              </a>
+              <hr / style="border: none; border-top: 1px solid #F1F5F9; margin: 4px 0">
+              <button type="button" onclick="window.GCS_AUTH.logout()" style="display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 16px; font-size: var(--text-sm); color: #DC2626; background: none; border: none; text-align: left; cursor: pointer; font-weight: 700">
+                <span class="material-symbols-outlined" style="font-size: var(--text-lg)">logout</span>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- ============================================================
+           HERO WELCOME BANNER (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-hero-banner">
+        <div>
+          <h1 style="font-size: var(--text-3xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">
+            Welcome back, <span id="dashHeroGreetingName">Student</span>! 👋
+          </h1>
+          <p data-lang-key="dash-greeting" style="font-size: var(--text-lg); font-weight: 700; color: #059669; margin: 0 0 8px 0">
+            మీ లక్ష్యానికి మరో అడుగు ముందుకు!
+          </p>
+          <p style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0">
+            Let's continue your learning and career journey.
+          </p>
+        </div>
+
+        <!-- Student with Laptop Hero Vector Illustration -->
+        <div style="height: 140px">
+          <img src="assets/dashboard-student-laptop.svg" alt="Student with Laptop" / style="width: 100%; height: 100%; object-fit: contain">
+        </div>
+      </section>
+
+      <!-- ============================================================
+           4 ACTIVITY METRIC CARDS (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-stats-grid">
+        <!-- 1. Skills Tested -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">bar_chart</span>
+          </div>
+          <div>
+            <div style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">Skills Tested</div>
+            <div id="dashSkillsCount" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 2px 0">0</div>
+            <div data-lang-key="dash-quizzes-done" style="font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: 8px">Quizzes Completed</div>
+            <a href="quiz-results.html" style="font-size: var(--text-sm); font-weight: 700; color: #059669; text-decoration: none">View Results &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 2. Resumes Created -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">description</span>
+          </div>
+          <div>
+            <div data-lang-key="dash-resumes-created" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">Resumes Created</div>
+            <div id="dashResumesCount" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 2px 0">0</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: 8px">Resume Created</div>
+            <a href="resume-preview.html" style="font-size: var(--text-sm); font-weight: 700; color: #2563EB; text-decoration: none">View Resume &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 3. Jobs Saved -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">bookmark</span>
+          </div>
+          <div>
+            <div data-lang-key="dash-jobs-saved" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">Jobs Saved</div>
+            <div id="dashSavedJobsCount" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 2px 0">0</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: 8px">Jobs Saved</div>
+            <a href="jobs.html" style="font-size: var(--text-sm); font-weight: 700; color: #D97706; text-decoration: none">View Jobs &rarr;</a>
+          </div>
+        </div>
+
+        <!-- 4. Workshops Joined -->
+        <div class="dash-stat-card">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #F3E8FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">groups</span>
+          </div>
+          <div>
+            <div data-lang-key="dash-workshops-joined" style="font-size: var(--text-sm); font-weight: 700; color: var(--color-text-muted)">Workshops Joined</div>
+            <div id="dashWorkshopsCount" style="font-size: var(--text-2xl); font-weight: 800; color: var(--color-text-primary); margin: 2px 0">0</div>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: 8px">Workshop Joined</div>
+            <a href="workshops.html" style="font-size: var(--text-sm); font-weight: 700; color: #7C3AED; text-decoration: none">View Workshops &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           3-COLUMN ACTIVITY & RECOMMENDATION SECTION (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section class="dash-3col-grid">
+        
+        <!-- Column 1: Continue Your Journey -->
+        <div class="dash-card">
+          <h2 data-lang-key="dash-continue" style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Continue Your Journey</h2>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <div class="ui-icon-row">
+                <span class="material-symbols-outlined" style="color: #059669; font-size: var(--text-xl)">school</span>
+                <div>
+                  <div class="ui-label-inline" data-lang-key="dash-explore-careers">Explore Career Paths</div>
+                  <div class="ui-meta-xs">Discover the best career options for you</div>
+                </div>
+              </div>
+              <a href="careers.html" class="gcs-btn-cta-1" data-lang-key="btn-explore" style="font-size: var(--text-xs); padding: 4px 12px; text-decoration: none; border-radius: 6px">Explore</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <div class="ui-icon-row">
+                <span class="material-symbols-outlined" style="color: #2563EB; font-size: var(--text-xl)">work</span>
+                <div>
+                  <div class="ui-label-inline" data-lang-key="dash-find-jobs">Find Jobs</div>
+                  <div class="ui-meta-xs">Search latest government &amp; private jobs</div>
+                </div>
+              </div>
+              <a href="jobs.html" class="gcs-btn-cta-1" data-lang-key="btn-search" style="font-size: var(--text-xs); padding: 4px 12px; text-decoration: none; border-radius: 6px">Search</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <div class="ui-icon-row">
+                <span class="material-symbols-outlined" style="color: #7C3AED; font-size: var(--text-xl)">assignment</span>
+                <div>
+                  <div class="ui-label-inline" data-lang-key="dash-test-skills">Test Your Skills</div>
+                  <div class="ui-meta-xs">Take a quiz and know your strengths</div>
+                </div>
+              </div>
+              <a href="quiz.html" class="gcs-btn-cta-1" style="font-size: var(--text-xs); padding: 4px 12px; text-decoration: none; border-radius: 6px">Start Quiz</a>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <div class="ui-icon-row">
+                <span class="material-symbols-outlined" style="color: #EA580C; font-size: var(--text-xl)">description</span>
+                <div>
+                  <div class="ui-label-inline" data-lang-key="dash-build-resume">Build Your Resume</div>
+                  <div class="ui-meta-xs">Create a professional resume in minutes</div>
+                </div>
+              </div>
+              <a href="resume.html" class="gcs-btn-cta-1" style="font-size: var(--text-xs); padding: 4px 12px; text-decoration: none; border-radius: 6px">Create</a>
+            </div>
+
+          </div>
+          <div style="margin-top: 16px; border-top: 1px solid #F1F5F9; padding-top: 12px">
+            <a href="roadmap.html" style="font-size: var(--text-sm); font-weight: 700; color: #059669; text-decoration: none">View All Features &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Column 2: Recommended for You & Daily Inspiration -->
+        <div class="dash-card" style="display: flex; flex-direction: column">
+          <h2 data-lang-key="dash-recommended" style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Recommended for you</h2>
+          <p id="dashRecoBasis" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 12px 0"></p>
+
+          <!-- Filled from the student's saved level and quiz track. This used
+               to be three fixed cards pushing "Software Developer" and APPSC
+               Group 2 (graduates only) at every student, whatever they had
+               studied or answered. -->
+          <div id="dashReco" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px"></div>
+
+          <!-- Daily Inspiration Quote Box -->
+          <div style="margin-top: auto; background: #FFFBEB; border: 1px dashed #FDE68A; border-radius: 12px; padding: 12px">
+            <div style="font-size: var(--text-xs); font-weight: 800; color: #B45309; text-transform: uppercase; margin-bottom: 4px">Daily Inspiration</div>
+            <p style="font-size: var(--text-sm); color: #78350F; font-style: italic; margin: 0 0 4px 0; line-height: 1.4">
+              &ldquo;The future depends on what you do today.&rdquo;
+            </p>
+            <div style="font-size: var(--text-xs); font-weight: 700; color: #92400E; text-align: right">— Mahatma Gandhi</div>
+          </div>
+        </div>
+
+        <!-- Column 3: Upcoming Workshops -->
+        <div class="dash-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px">
+            <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0">Upcoming Workshops</h2>
+            <a href="workshops.html" style="font-size: var(--text-sm); font-weight: 700; color: #059669; text-decoration: none">View All</a>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            
+            <!-- Workshop 1 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px">
+              <div class="ui-icon-row">
+                <div style="background: #ECFDF5; border-radius: 8px; padding: 4px 8px; text-align: center; min-width: 44px">
+                  <div style="font-size: var(--text-xs); font-weight: 800; color: #059669">MAY</div>
+                  <div style="font-size: var(--text-lg); font-weight: 800; color: #064E3B">18</div>
+                </div>
+                <div>
+                  <div class="ui-label-inline">Resume Building</div>
+                  <div class="ui-meta-xs">Sunday, 10:00 AM • Anantapur</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-resume-building" data-workshop-title="Resume Building Workshop" style="font-size: var(--text-xs); padding: 4px 8px">Register</button>
+            </div>
+
+            <!-- Workshop 2 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 8px">
+              <div class="ui-icon-row">
+                <div style="background: #EFF6FF; border-radius: 8px; padding: 4px 8px; text-align: center; min-width: 44px">
+                  <div style="font-size: var(--text-xs); font-weight: 800; color: #2563EB">MAY</div>
+                  <div style="font-size: var(--text-lg); font-weight: 800; color: #1E40AF">25</div>
+                </div>
+                <div>
+                  <div class="ui-label-inline">Interview Skills</div>
+                  <div class="ui-meta-xs">Sunday, 10:00 AM • Kurnool</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-interview-skills" data-workshop-title="Interview Skills Workshop" style="font-size: var(--text-xs); padding: 4px 8px">Register</button>
+            </div>
+
+            <!-- Workshop 3 -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 4px">
+              <div class="ui-icon-row">
+                <div style="background: #FEF3C7; border-radius: 8px; padding: 4px 8px; text-align: center; min-width: 44px">
+                  <div style="font-size: var(--text-xs); font-weight: 800; color: #D97706">JUN</div>
+                  <div style="font-size: var(--text-lg); font-weight: 800; color: #92400E">02</div>
+                </div>
+                <div>
+                  <div class="ui-label-inline">Career Guidance</div>
+                  <div class="ui-meta-xs">Sunday, 10:00 AM • Kadapa</div>
+                </div>
+              </div>
+              <button type="button" class="gcs-btn-cta-2" data-workshop-id="ws-career-guidance" data-workshop-title="Career Guidance Workshop" style="font-size: var(--text-xs); padding: 4px 8px">Register</button>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 16px; border-top: 1px solid #F1F5F9; padding-top: 12px; text-align: center">
+            <a href="workshops.html" style="font-size: var(--text-sm); font-weight: 700; color: #059669; text-decoration: none">View All Workshops &rarr;</a>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================
+           BOTTOM BANNER: KEEP LEARNING, KEEP GROWING! (IMAGE 2 MATCH)
+           ============================================================ -->
+      <section style="background: #ECFDF5; border: 1.5px solid #A7F3D0; border-radius: 16px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px">
+        <div class="ui-icon-row ui-icon-row--gap-12">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: #059669; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <span class="material-symbols-outlined" style="font-size: var(--text-2xl)">military_tech</span>
+          </div>
+          <div>
+            <h3 style="font-size: var(--text-lg); font-weight: 800; color: #064E3B; margin: 0 0 2px 0">Keep Learning, Keep Growing!</h3>
+            <p style="font-size: var(--text-sm); color: #047857; margin: 0">You are doing great! Complete more quizzes and build your skills.</p>
+          </div>
+        </div>
+        <a href="quiz.html" class="gcs-btn-cta-1" style="flex-shrink: 0; padding: 8px 20px; font-size: var(--text-base); text-decoration: none; border-radius: 8px">
+          <span>Explore Now &rarr;</span>
+        </a>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Dashboard with Current User Profile & Real Stats
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Route guard: redirect to login if unauthenticated
+      if (window.GCS_AUTH && !window.GCS_AUTH.requireAuth()) return;
+
+      const user = window.GCS_AUTH ? window.GCS_AUTH.getUser() : null;
+      if (user) {
+        const firstName = (user.name || 'Student').trim().split(' ')[0];
+        const nameEl = document.getElementById('dashUserName');
+        const greetEl = document.getElementById('dashHeroGreetingName');
+        if (nameEl) nameEl.textContent = user.name || 'Student';
+        if (greetEl) greetEl.textContent = firstName;
+        if (user.avatar) {
+          const avatarEl = document.getElementById('dashUserAvatar');
+          if (avatarEl) avatarEl.src = user.avatar;
+        }
+      }
+
+      // 2. Compute dynamic stats from localStorage
+      try {
+        // Jobs Saved
+        const savedJobs = JSON.parse(localStorage.getItem('gcs_saved_jobs') || '[]');
+        const savedJobsEl = document.getElementById('dashSavedJobsCount');
+        if (savedJobsEl) savedJobsEl.textContent = savedJobs.length;
+
+        // Quizzes Tested
+        const quizRes = JSON.parse(localStorage.getItem('gcs_quiz_results') || 'null');
+        const skillsEl = document.getElementById('dashSkillsCount');
+        if (skillsEl) skillsEl.textContent = quizRes ? '1' : '0';
+
+        // Resumes Created
+        const resumeData = JSON.parse(localStorage.getItem('gcs_resume_data') || 'null');
+        const resumeEl = document.getElementById('dashResumesCount');
+        if (resumeEl) resumeEl.textContent = (resumeData && resumeData.fullName) ? '1' : '0';
+
+        // Workshops Joined
+        // Migrate any registrations left under the old hyphenated key.
+        const legacy = localStorage.getItem('gcs-workshop-registrations');
+        if (legacy) {
+          const merged = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]')
+            .concat(JSON.parse(legacy));
+          localStorage.setItem('gcs_workshop_registrations', JSON.stringify(merged));
+          localStorage.removeItem('gcs-workshop-registrations');
+        }
+        // Ignore empty/garbage entries so a malformed record cannot inflate
+        // the counter the student sees.
+        const workshops = JSON.parse(localStorage.getItem('gcs_workshop_registrations') || '[]')
+          .filter(Boolean);
+        const workshopEl = document.getElementById('dashWorkshopsCount');
+        if (workshopEl) workshopEl.textContent = workshops.length;
+      } catch (e) {
+        console.warn('Dashboard stat computation error', e);
+      }
+    });
+  </script>
+
+  <script>
+    /**
+     * Recommendations on the dashboard come from what we actually know about
+     * this student: the education level they picked and the track their quiz
+     * pointed to. If we know neither, we ask rather than guess.
+     */
+    (function () {
+      'use strict';
+      var TRACK_LABELS = {
+        government: 'Government', iti: 'ITI / Technical',
+        bpo: 'BPO / Service', business: 'Self-employment'
+      };
+
+      function render() {
+        var wrap = document.getElementById('dashReco');
+        var basis = document.getElementById('dashRecoBasis');
+        if (!wrap) return;
+
+        var store = window.GCS_APP && window.GCS_APP.storage;
+        var student = (store && store.get('student', {})) || {};
+        var roles = Array.isArray(window.GCS_JOBS) ? window.GCS_JOBS : [];
+        var esc = (window.GCS_APP && window.GCS_APP.escapeHtml) || function (x) { return x; };
+
+        if (!student.education) {
+          basis.textContent = '';
+          wrap.innerHTML = '<div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:10px; padding:14px;">'
+            + '<p style="margin:0 0 10px; font-size: var(--text-sm); color:#92400E;">'
+            + 'Tell us what you have studied and we can suggest roles you are actually eligible for.</p>'
+            + '<a href="index.html#personalise" class="gcs-btn-cta-1" style="text-decoration:none; padding:7px 14px; font-size: var(--text-sm);">Choose my level</a>'
+            + '</div>';
+          return;
+        }
+
+        var track = student.quizTrack;
+        var eligible = roles.filter(function (r) {
+          return (r.eligibleLevels || []).indexOf(student.education) !== -1;
+        });
+        var picked = track ? eligible.filter(function (r) { return r.category === track; }) : [];
+        if (picked.length < 2) picked = picked.concat(eligible.filter(function (r) { return picked.indexOf(r) === -1; }));
+        picked = picked.slice(0, 2);
+
+        basis.textContent = track
+          ? 'Based on your level and your quiz result (' + (TRACK_LABELS[track] || track) + ').'
+          : 'Based on your level. Take the quiz for a sharper match.';
+
+        var cards = picked.map(function (r) {
+          return '<div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; border-radius:10px; padding:10px 12px; gap:10px;">'
+            + '<div style="display:flex; align-items:center; gap:10px;">'
+            +   '<span class="material-symbols-outlined" style="color:#059669;">work</span>'
+            +   '<div>'
+            +     '<div style="font-size: var(--text-sm); font-weight:700; color:#0F172A;">' + esc(r.titleEn) + '</div>'
+            +     '<div style="font-size: var(--text-xs); color:#64748B;">' + esc(r.titleTe) + '</div>'
+            +   '</div>'
+            + '</div>'
+            + '<a href="jobs.html?edu=' + encodeURIComponent(student.education) + '" style="font-size: var(--text-xs); font-weight:700; color:#059669; text-decoration:none; white-space:nowrap;">View &rarr;</a>'
+            + '</div>';
+        });
+
+        cards.push('<div style="display:flex; align-items:center; justify-content:space-between; background:#F8FAFC; border-radius:10px; padding:10px 12px; gap:10px;">'
+          + '<div style="display:flex; align-items:center; gap:10px;">'
+          +   '<span class="material-symbols-outlined" style="color:#2563EB;">route</span>'
+          +   '<div>'
+          +     '<div style="font-size: var(--text-sm); font-weight:700; color:#0F172A;">Your step-by-step roadmap</div>'
+          +     '<div style="font-size: var(--text-xs); color:#64748B;">మీ దశలవారీ రోడ్‌మ్యాప్</div>'
+          +   '</div>'
+          + '</div>'
+          + '<a href="roadmap.html?edu=' + encodeURIComponent(student.education)
+          + (track ? '&track=' + encodeURIComponent(track) : '')
+          + '" style="font-size: var(--text-xs); font-weight:700; color:#2563EB; text-decoration:none; white-space:nowrap;">Open &rarr;</a>'
+          + '</div>');
+
+        wrap.innerHTML = cards.join('');
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', render);
+      else render();
+    })();
+  </script>
+</body>
+</html>

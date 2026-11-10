@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="signGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#065F46" />
+    </linearGradient>
+    <linearGradient id="mapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- Background Halo -->
+  <circle cx="200" cy="150" r="120" fill="#F0FDF4" />
+
+  <!-- Green Mountain range in backdrop -->
+  <path d="M40,240 Q130,160 210,210 Q280,170 360,240 L360,280 L40,280 Z" fill="#6EE7B7" opacity="0.6" />
+  <path d="M20,260 Q120,200 200,230 Q290,190 380,260 L380,290 L20,290 Z" fill="#34D399" opacity="0.8" />
+
+  <!-- Directional Signpost on Left -->
+  <g transform="translate(100, 70)">
+    <!-- Wooden Pole -->
+    <rect x="35" y="0" width="10" height="180" fill="#78350F" rx="2" />
+    
+    <!-- Sign 1: Explore (Navy) -->
+    <g transform="translate(0, 5)">
+      <path d="M0,0 L60,0 L72,12 L60,24 L0,24 Z" fill="#0F766E" />
+      <text x="25" y="16" font-size="10" font-weight="800" font-family="'Inter', sans-serif" fill="#FFFFFF">Explore</text>
+    </g>
+
+    <!-- Sign 2: Learn (Orange) -->
+    <g transform="translate(0, 35)">
+      <path d="M0,0 L60,0 L72,12 L60,24 L0,24 Z" fill="#D97706" />
+      <text x="25" y="16" font-size="10" font-weight="800" font-family="'Inter', sans-serif" fill="#FFFFFF">Learn</text>
+    </g>
+
+    <!-- Sign 3: Grow (Teal) -->
+    <g transform="translate(0, 65)">
+      <path d="M0,0 L60,0 L72,12 L60,24 L0,24 Z" fill="#059669" />
+      <text x="25" y="16" font-size="10" font-weight="800" font-family="'Inter', sans-serif" fill="#FFFFFF">Grow</text>
+    </g>
+
+    <!-- Sign 4: Achieve (Gold/Brown) -->
+    <g transform="translate(0, 95)">
+      <path d="M0,0 L60,0 L72,12 L60,24 L0,24 Z" fill="#92400E" />
+      <text x="22" y="16" font-size="10" font-weight="800" font-family="'Inter', sans-serif" fill="#FFFFFF">Achieve</text>
+    </g>
+  </g>
+
+  <!-- Career Explorer Student with Backpack on Right -->
+  <g transform="translate(210, 70)">
+    <!-- Backpack -->
+    <rect x="52" y="55" width="22" height="40" rx="8" fill="#065F46" />
+    <rect x="56" y="50" width="14" height="8" rx="2" fill="#047857" />
+
+    <!-- Head & Hair -->
+    <circle cx="35" cy="28" r="16" fill="#D97706" />
+    <path d="M19,22 Q35,10 51,22 Q35,16 19,22 Z" fill="#0F172A" />
+
+    <!-- Body / Green Windbreaker Hoodie -->
+    <path d="M15,48 L55,48 L50,110 L20,110 Z" fill="#059669" />
+
+    <!-- Folded Roadmap in Hand (Tilted) -->
+    <g transform="translate(-30, 48) rotate(-10)" filter="url(#mapShadow)">
+      <rect x="0" y="0" width="55" height="42" rx="4" fill="url(#mapGrad)" stroke="#F59E0B" stroke-width="1.5" />
+      <!-- Roadmap Lines & Route on Map -->
+      <path d="M8,32 Q25,10 45,20" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" />
+      <circle cx="8" cy="32" r="3" fill="#DC2626" />
+      <circle cx="45" cy="20" r="3" fill="#10B981" />
+      <line x1="12" y1="8" x2="35" y2="8" stroke="#D97706" stroke-width="1.5" stroke-dasharray="2 2" />
+    </g>
+  </g>
+</svg>

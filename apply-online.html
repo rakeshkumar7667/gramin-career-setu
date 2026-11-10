@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-resources" />
+  <title>ఆన్‌లైన్‌లో దరఖాస్తు — గ్రామీణ కెరీర్ సేతు</title>
+  <meta name="description" content="How to apply for a government job or exam online, step by step, in Telugu and English." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- jsPDF for instant client-side offline downloads -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+  <style>
+    /* ── Apply-online walkthrough ─────────────────────────────────────
+       A plain numbered list rather than a slideshow or carousel: it reads
+       top to bottom on a phone, works for a screen reader as an ordered
+       list, and prints onto a couple of sheets so a volunteer can hand it
+       out to students who have no smartphone at all.                   */
+    .apply-flow { list-style: none; margin: 0; padding: 0; }
+    .apply-step { position: relative; padding-left: 46px; padding-bottom: 20px; }
+    .apply-step::before {
+      content: ''; position: absolute; left: 16px; top: 34px; bottom: -4px;
+      width: 2px; background: #CBD5E1;
+    }
+    .apply-step:last-child::before { display: none; }
+    .apply-step-marker {
+      position: absolute; left: 0; top: 10px;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: var(--text-base);
+      background: var(--gcs-green-primary, #047857); color: #fff;
+    }
+    .apply-step-card {
+      background: #ffffff; border: 1px solid #E2E8F0; border-radius: 16px; padding: 18px 20px;
+    }
+    .apply-step-head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+    .apply-step-head .material-symbols-outlined { color: var(--gcs-green-primary, #047857); font-size: var(--text-2xl); }
+    .apply-step-head h3 { font-size: var(--text-lg); font-weight: 800; color: #0F172A; margin: 0; }
+    .apply-step-head .te { font-size: var(--text-base); color: #475569; margin: 2px 0 0; font-weight: 600; }
+    .apply-step-body { font-size: var(--text-base); color: #475569; margin: 0 0 6px; }
+    .apply-step-body.te { color: #64748B; font-size: var(--text-sm); margin-bottom: 12px; }
+    .apply-step-list { margin: 0 0 12px; padding-left: 20px; font-size: var(--text-base); color: #334155; }
+    .apply-step-list li { margin-bottom: 8px; }
+    .apply-step-tip {
+      background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px;
+      padding: 10px 12px; font-size: var(--text-sm); color: #065F46; margin: 0;
+    }
+    .apply-step-tip .te { color: #047857; font-size: var(--text-sm); }
+
+    .apply-warn { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 16px; padding: 20px 22px; }
+    .apply-warn h2 { font-size: var(--text-lg); font-weight: 800; color: #991B1B; margin: 0 0 2px; }
+    .apply-warn .te-head { font-size: var(--text-base); font-weight: 700; color: #B91C1C; margin: 0 0 12px; }
+    .apply-warn ul { margin: 0; padding-left: 20px; font-size: var(--text-base); color: #7F1D1D; }
+    .apply-warn li { margin-bottom: 8px; }
+    .apply-warn .te { color: #B91C1C; font-size: var(--text-sm); }
+
+    @media print {
+      .gcs-header, .gcs-footer, .gcs-mobile-nav, .gcs-breadcrumb,
+      .gcs-page-hero-visual, .gcs-banner-callout { display: none !important; }
+      .apply-step-card { break-inside: avoid; }
+    }
+    @media (max-width: 480px) {
+      .apply-step { padding-left: 40px; }
+      .apply-step-marker { width: 30px; height: 30px; }
+      .apply-step::before { left: 14px; }
+    }
+  </style>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link active" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px;">
+
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Applying online</span>
+    </nav>
+
+    <section class="gcs-page-hero" style="margin-bottom: 24px;">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl);">contact_support</span>
+          <span>How to apply online</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Eight steps that are almost the same for every government job and exam. Learn them once.</p>
+        <p class="gcs-page-hero-telugu">ప్రభుత్వ ఉద్యోగాలు, పరీక్షల దరఖాస్తులకు దాదాపు ఒకేలాగుండే ఎనిమిది దశలు. ఒక్కసారి నేర్చుకోండి.</p>
+      </div>
+    </section>
+
+    <section style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 14px; padding: 16px 16px; margin-bottom: 24px;">
+      <p style="font-size: var(--text-base); color: #1E3A8A; margin: 0 0 4px;">
+        Nobody is born knowing how to do this. Most people get stuck at the photo upload or the fee,
+        give up, and miss the date — not because the exam was hard.
+      </p>
+      <p style="font-size: var(--text-sm); color: #1E40AF; margin: 0;">
+        ఇది ఎవరికీ పుట్టుకతో రాదు. చాలా మంది ఫోటో అప్‌లోడ్ లేదా ఫీజు దగ్గర ఆగిపోయి వదిలేస్తారు — పరీక్ష కష్టమని కాదు.
+      </p>
+    </section>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 12px;">
+      <button type="button" class="gcs-btn-cta-2" style="padding: 8px 16px; font-size: var(--text-sm);" onclick="window.print()">
+        <span class="material-symbols-outlined" style="font-size: var(--text-lg);">print</span>
+        <span>Print this guide</span>
+      </button>
+    </div>
+
+    <ol class="apply-flow">
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">1</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">folder_open</span>
+            <div>
+              <h3>Get your documents ready first</h3>
+              <p class="te">మొదట మీ పత్రాలు సిద్ధం చేసుకోండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">Do this before you go near a computer. Almost every application asks for the same papers, and hunting for them with the clock running is how people miss the last date.</p>
+          <p class="apply-step-body te">కంప్యూటర్ దగ్గరకు వెళ్లక ముందే ఇది చేయండి. దాదాపు అన్ని దరఖాస్తులూ ఇవే పత్రాలను అడుగుతాయి. చివరి నిమిషంలో వెతికితే గడువు దాటిపోతుంది.</p>
+          <ul class="apply-step-list">
+            <li>Aadhaar card<br /><span style="color:#94A3B8;">ఆధార్ కార్డు</span></li>
+            <li>10th certificate (and Intermediate / degree if you have them)<br /><span style="color:#94A3B8;">10వ తరగతి సర్టిఫికెట్ (ఉంటే ఇంటర్, డిగ్రీ కూడా)</span></li>
+            <li>Caste certificate, if you belong to a reserved category<br /><span style="color:#94A3B8;">రిజర్వ్డ్ కేటగిరీ అయితే కుల ధ్రువీకరణ పత్రం</span></li>
+            <li>Income certificate, if the notification asks for one<br /><span style="color:#94A3B8;">నోటిఫికేషన్ అడిగితే ఆదాయ ధ్రువీకరణ పత్రం</span></li>
+            <li>A recent passport photo on a light background<br /><span style="color:#94A3B8;">ఇటీవలి పాస్‌పోర్ట్ ఫోటో (లేత రంగు బ్యాక్‌గ్రౌండ్)</span></li>
+            <li>Your signature on plain white paper<br /><span style="color:#94A3B8;">తెల్ల కాగితంపై మీ సంతకం</span></li>
+            <li>A bank account and a mobile number linked to Aadhaar<br /><span style="color:#94A3B8;">బ్యాంకు ఖాతా, ఆధార్‌కు లింక్ అయిన మొబైల్ నంబర్</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> Get the photo and signature scanned once at a Digital Seva (CSC) centre and keep the files on your phone. You will reuse them for every application.<br />
+            <span class="te">ఫోటో, సంతకం ఒక్కసారి డిజిటల్ సేవా (CSC) కేంద్రంలో స్కాన్ చేయించి ఫోన్‌లో భద్రపరచుకోండి. ప్రతి దరఖాస్తుకూ అవే ఉపయోగపడతాయి.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">2</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">alternate_email</span>
+            <div>
+              <h3>Create one email address and use it for everything</h3>
+              <p class="te">ఒక ఈమెయిల్ చిరునామా సృష్టించి అన్నిటికీ అదే వాడండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">Every portal sends your registration number, admit card link and result to your email. If you use a different address each time, you lose track of them.</p>
+          <p class="apply-step-body te">ప్రతి పోర్టల్ మీ రిజిస్ట్రేషన్ నంబర్, హాల్ టికెట్ లింక్, ఫలితాలను ఈమెయిల్‌కే పంపుతుంది. ప్రతిసారీ వేరే ఈమెయిల్ వాడితే అవీ మిస్ అవుతాయి.</p>
+          <ul class="apply-step-list">
+            <li>Creating an email is free and takes about five minutes<br /><span style="color:#94A3B8;">ఈమెయిల్ సృష్టించడం ఉచితం, సుమారు ఐదు నిమిషాలు పడుతుంది</span></li>
+            <li>Write the password in a notebook at home, not only in your head<br /><span style="color:#94A3B8;">పాస్‌వర్డ్‌ను ఇంట్లో ఒక పుస్తకంలో రాసి పెట్టుకోండి</span></li>
+            <li>Use the same mobile number everywhere — OTPs come to it<br /><span style="color:#94A3B8;">అన్నిచోటా ఒకే మొబైల్ నంబర్ వాడండి — OTP దానికే వస్తుంది</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> If you share a phone with your family, tell them not to delete messages from the portal.<br />
+            <span class="te">కుటుంబంలో ఫోన్ పంచుకుంటుంటే, పోర్టల్ నుంచి వచ్చే సందేశాలను డిలీట్ చేయవద్దని చెప్పండి.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">3</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">verified</span>
+            <div>
+              <h3>Go to the official website — and nowhere else</h3>
+              <p class="te">అధికారిక వెబ్‌సైట్‌కే వెళ్లండి — మరొక్కడికి కాదు</p>
+            </div>
+          </div>
+          <p class="apply-step-body">Fake "apply here" sites are common, and they charge for something that is free or nearly free. The official site is the one named in the notification itself.</p>
+          <p class="apply-step-body te">నకిలీ "ఇక్కడ దరఖాస్తు చేయండి" సైట్లు చాలా ఉన్నాయి. అవి ఉచితంగా లేదా చాలా తక్కువ ఖర్చుతో అయ్యే పనికి డబ్బు వసూలు చేస్తాయి. నోటిఫికేషన్‌లో పేర్కొన్న సైట్ మాత్రమే అధికారికమైనది.</p>
+          <ul class="apply-step-list">
+            <li>Government sites usually end in .gov.in or .nic.in<br /><span style="color:#94A3B8;">ప్రభుత్వ సైట్లు సాధారణంగా .gov.in లేదా .nic.in తో ముగుస్తాయి</span></li>
+            <li>Open the link from the notification PDF, not from a WhatsApp forward<br /><span style="color:#94A3B8;">వాట్సాప్ ఫార్వర్డ్ నుంచి కాక, నోటిఫికేషన్ PDF నుంచి లింక్ తెరవండి</span></li>
+            <li>No real recruitment has an "agent" who applies for you<br /><span style="color:#94A3B8;">మీ తరఫున దరఖాస్తు చేసే "ఏజెంట్" నిజమైన నియామకాల్లో ఉండడు</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> The job list on this site links straight to the official portal for every role.<br />
+            <span class="te">ఈ సైట్‌లోని ఉద్యోగాల జాబితా ప్రతి పాత్రకూ అధికారిక పోర్టల్ లింక్ ఇస్తుంది.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">4</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">how_to_reg</span>
+            <div>
+              <h3>Register and keep your registration number</h3>
+              <p class="te">రిజిస్టర్ చేసి, రిజిస్ట్రేషన్ నంబర్ భద్రంగా ఉంచుకోండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">Registration creates your account on that portal. It gives you a registration or application number, which you will need for the hall ticket, the result, and any complaint.</p>
+          <p class="apply-step-body te">రిజిస్ట్రేషన్ ఆ పోర్టల్‌లో మీ ఖాతాను సృష్టిస్తుంది. దానితో వచ్చే రిజిస్ట్రేషన్ నంబర్ హాల్ టికెట్, ఫలితం, ఫిర్యాదులకు అవసరం.</p>
+          <ul class="apply-step-list">
+            <li>Type your name and date of birth exactly as on the 10th certificate<br /><span style="color:#94A3B8;">మీ పేరు, పుట్టిన తేదీ 10వ తరగతి సర్టిఫికెట్‌లో ఉన్నట్టే రాయండి</span></li>
+            <li>An OTP will come to your mobile — never share it with anyone<br /><span style="color:#94A3B8;">మీ మొబైల్‌కి OTP వస్తుంది — దాన్ని ఎవరితోనూ పంచుకోవద్దు</span></li>
+            <li>Write the registration number in your notebook immediately<br /><span style="color:#94A3B8;">రిజిస్ట్రేషన్ నంబర్‌ను వెంటనే పుస్తకంలో రాసుకోండి</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> A spelling that does not match your certificate can get your application rejected at verification.<br />
+            <span class="te">సర్టిఫికెట్‌తో సరిపోలని స్పెల్లింగ్ వల్ల ధ్రువీకరణ దశలో దరఖాస్తు తిరస్కరణకు గురికావచ్చు.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">5</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">edit_document</span>
+            <div>
+              <h3>Fill the application form</h3>
+              <p class="te">దరఖాస్తు ఫారమ్ నింపండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">The form asks for your education, category, address and the post you want. Take your time; most portals let you save and come back.</p>
+          <p class="apply-step-body te">ఫారమ్‌లో మీ విద్య, కేటగిరీ, చిరునామా, కావాల్సిన పోస్టు అడుగుతారు. తొందరపడవద్దు; చాలా పోర్టల్ల్లో సేవ్ చేసి తర్వాత కూడా కొనసాగించవచ్చు.</p>
+          <ul class="apply-step-list">
+            <li>Fill in English unless the form says otherwise<br /><span style="color:#94A3B8;">ఫారమ్ వేరే చెప్పనిచో ఇంగ్లీష్‌లో నింపండి</span></li>
+            <li>Choose your category (OC / BC / SC / ST / EWS) carefully — it affects the fee and the cut-off<br /><span style="color:#94A3B8;">మీ కేటగిరీ (OC / BC / SC / ST / EWS) జాగ్రత్తగా ఎంచుకోండి — అది ఫీజు, కటాఫ్‌ని ప్రభావితం చేస్తుంది</span></li>
+            <li>Read the preview page before you submit — most forms cannot be edited after<br /><span style="color:#94A3B8;">సబ్మిట్ చేసే ముందు ప్రివ్యూ పేజీ చదవండి — తర్వాత చాలా ఫారమ్‌లను మార్చలేరు</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> If the internet drops halfway, do not start a new form — log back in and continue the saved one.<br />
+            <span class="te">మధ్యలో ఇంటర్నెట్ పోతే, కొత్త ఫారమ్ మొదలుపెట్టవద్దు — మళ్లీ లాగిన్ అయి సేవ్ అయినదాన్ని కొనసాగించండి.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">6</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+            <div>
+              <h3>Upload your photo and signature</h3>
+              <p class="te">ఫోటో, సంతకం అప్‌లోడ్ చేయండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">This is where most applications get stuck. Each portal sets a size limit and exact dimensions, and the upload fails silently if your file is too big.</p>
+          <p class="apply-step-body te">చాలా దరఖాస్తులు ఇక్కడే ఆగిపోతాయి. ప్రతి పోర్టల్ ఫైల్ పరిమాణం, కొలతలను నిర్ణయిస్తుంది. ఫైల్ పెద్దగా ఉంటే అప్‌లోడ్ అవ్వదు.</p>
+          <ul class="apply-step-list">
+            <li>Check the required size in KB and the width/height before you upload<br /><span style="color:#94A3B8;">అప్‌లోడ్ ముందు అవసరమైన KB పరిమాణం, కొలతలు చూసుకోండి</span></li>
+            <li>A Digital Seva centre can resize the files for a few rupees<br /><span style="color:#94A3B8;">డిజిటల్ సేవా కేంద్రంలో కొద్ది రూపాయలకే ఫైల్ సైజ్ మార్చిపెడతారు</span></li>
+            <li>After uploading, look at the preview — a blank or black box means it failed<br /><span style="color:#94A3B8;">అప్‌లోడ్ తర్వాత ప్రివ్యూ చూడండి — ఖాళీగా లేదా నల్లగా కనపడితే అప్‌లోడ్ కాలేదని అర్థం</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> Keep a correctly sized photo and signature saved on your phone once, and this step takes seconds every time after.<br />
+            <span class="te">సరైన సైజ్‌లో ఫోటో, సంతకం ఒక్కసారి ఫోన్‌లో భద్రపరిచిన తర్వాత, ఈ దశ కొన్ని క్షణాలే పడుతుంది.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">7</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">payments</span>
+            <div>
+              <h3>Pay the fee</h3>
+              <p class="te">ఫీజు చెల్లించండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">Most applications have a fee, paid online by UPI, debit card or net banking. Many recruitments waive or reduce it for SC, ST, BC, women and persons with disabilities.</p>
+          <p class="apply-step-body te">చాలా దరఖాస్తులకు ఫీజు ఉంటుంది, UPI, డెబిట్ కార్డ్ లేదా నెట్ బ్యాంకింగ్ ద్వారా చెల్లించవచ్చు. SC, ST, BC, మహిళలు, దివ్యాంగులకు చాలా నియామకాల్లో రాయితీ ఉంటుంది.</p>
+          <ul class="apply-step-list">
+            <li>Check the notification for a fee exemption in your category<br /><span style="color:#94A3B8;">మీ కేటగిరీకి ఫీజు మినహాయింపు ఉందేమో నోటిఫికేషన్‌లో చూడండి</span></li>
+            <li>If the payment fails but money is deducted, wait a day before paying again<br /><span style="color:#94A3B8;">చెల్లింపు విఫలమైనా డబ్బు కట్ అయితే, మళ్లీ కట్టే ముందు ఒక రోజు ఆగండి</span></li>
+            <li>Save the payment receipt or take a screenshot<br /><span style="color:#94A3B8;">చెల్లింపు రసీదు భద్రపరచండి లేదా స్క్రీన్‌షాట్ తీసుకోండి</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> Your application is not complete until the fee is paid, even if the form is filled.<br />
+            <span class="te">ఫారమ్ నింపినా సరే, ఫీజు కట్టేవరకూ మీ దరఖాస్తు పూర్తి కాదు.</span></p>
+        </div>
+      </li>
+      <li class="apply-step">
+        <span class="apply-step-marker" aria-hidden="true">8</span>
+        <div class="apply-step-card">
+          <div class="apply-step-head">
+            <span class="material-symbols-outlined" aria-hidden="true">print</span>
+            <div>
+              <h3>Download the confirmation and print it</h3>
+              <p class="te">నిర్ధారణ డౌన్‌లోడ్ చేసి ప్రింట్ తీసుకోండి</p>
+            </div>
+          </div>
+          <p class="apply-step-body">After payment the portal gives you a filled application PDF. This is your proof that you applied.</p>
+          <p class="apply-step-body te">చెల్లింపు తర్వాత పోర్టల్ నింపిన దరఖాస్తు PDF ఇస్తుంది. మీరు దరఖాస్తు చేసినట్టు ఇదే ఆధారం.</p>
+          <ul class="apply-step-list">
+            <li>Download the PDF and also email it to yourself<br /><span style="color:#94A3B8;">PDF డౌన్‌లోడ్ చేసి, మీకే మీరు ఈమెయిల్ చేసుకోండి</span></li>
+            <li>Print one copy and keep it with your certificates<br /><span style="color:#94A3B8;">ఒక కాపీ ప్రింట్ తీసి సర్టిఫికెట్లతో ఉంచండి</span></li>
+            <li>The hall ticket appears on the same site a week or two before the exam<br /><span style="color:#94A3B8;">పరీక్షకు ఒకటిరెండు వారాల ముందు అదే సైట్‌లో హాల్ టికెట్ వస్తుంది</span></li>
+          </ul>
+          <p class="apply-step-tip"><strong>Tip:</strong> You cannot enter the exam hall without a printed hall ticket and a photo ID.<br />
+            <span class="te">ప్రింట్ చేసిన హాల్ టికెట్, ఫోటో ఐడీ లేకుంటే పరీక్షా హాల్‌లోకి అనుమతించరు.</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <section class="apply-warn" style="margin-bottom: 24px;">
+      <h2>Never do these</h2>
+      <p class="te-head">ఇవి ఎప్పుడూ చేయవద్దు</p>
+      <ul>
+        <li>Never pay anyone who promises you a government job.
+          <br /><span class="te">ప్రభుత్వ ఉద్యోగం ఇప్పిస్తానని చెప్పేవారికి ఎప్పుడూ డబ్బు ఇవ్వకండి.</span></li>
+        <li>Never share your OTP, password or Aadhaar OTP with anyone, including someone who says they are from the office.
+          <br /><span class="te">మీ OTP, పాస్‌వర్డ్, ఆధార్ OTP ఎవరితోనూ పంచుకోవద్దు — ఆఫీసు నుంచి అని చెప్పినా సరే.</span></li>
+        <li>Never apply through a link in a WhatsApp forward. Open the official site yourself.
+          <br /><span class="te">వాట్సాప్ ఫార్వర్డ్‌లోని లింక్ ద్వారా దరఖాస్తు చేయవద్దు. అధికారిక సైట్‌ను మీరే తెరవండి.</span></li>
+        <li>Never let a shop keep your original certificates. They only need to scan them.
+          <br /><span class="te">మీ ఒరిజినల్ సర్టిఫికెట్లను దుకాణంలో వదిలిపెట్టవద్దు. స్కాన్ చేస్తే సరిపోతుంది.</span></li>
+      </ul>
+    </section>
+
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC;">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary);">
+          <span class="material-symbols-outlined">work</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B;">Ready to try it on a real application?</h3>
+          <p class="gcs-banner-callout-sub">నిజమైన దరఖాస్తుపై ప్రయత్నించడానికి సిద్ధమా?</p>
+        </div>
+      </div>
+      <a href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px;">Open the job list</a>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="resources.html" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resources.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">folder</span>
+      <span data-lang-key="nav-resources">Resources</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Search & Offline PDF Generator Scripts -->
+  <script>
+    function filterResourceCategory(cat, btn) {
+      if (btn) {
+        document.querySelectorAll('.gcs-pill-tag').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = '#fff';
+          b.style.color = '#334155';
+        });
+        btn.classList.add('active');
+        btn.style.background = 'var(--gcs-green-primary)';
+        btn.style.color = '#fff';
+      }
+
+      const cards = document.querySelectorAll('.resource-card-item');
+      cards.forEach(c => {
+        if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+          c.style.display = 'flex';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    function filterResources() {
+      const q = (document.getElementById('resourceSearchInput').value || '').toLowerCase();
+      document.querySelectorAll('.resource-card-item').forEach(c => {
+        c.style.display = (!q || c.textContent.toLowerCase().includes(q)) ? 'flex' : 'none';
+      });
+    }
+
+    async function downloadResourcePDF(title) {
+      const lib = await GCS_PDF.load().catch(() => null);
+      if (!lib) { window.print(); return; }
+      const { jsPDF } = lib;
+      if (!jsPDF) {
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show('Downloading resource: ' + title);
+        } else {
+          alert('Downloading resource PDF: ' + title);
+        }
+        return;
+      }
+      const doc = new jsPDF();
+      doc.setFillColor(27, 77, 62);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text('Gramin Career Setu - Study Resource', 14, 18);
+
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(18);
+      doc.text(title, 14, 45);
+
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Comprehensive handbook published for rural students in Telugu and English.', 14, 60);
+      doc.text('Includes schemes, eligibility, exam patterns, and direct links to government portals.', 14, 70);
+
+      doc.save(title.replace(/\s+/g, '_') + '.pdf');
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show('✅ Downloaded ' + title + '!');
+      }
+    }
+  </script>
+</body>
+</html>

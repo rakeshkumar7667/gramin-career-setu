@@ -1,0 +1,34 @@
+-- ==============================================================================
+-- Gramin Career Setu: Initial Seed Data for Jobs and Workshops
+-- Flyway Migration: V2__seed_jobs_from_csv.sql
+-- ==============================================================================
+
+INSERT INTO jobs (id, title_te, title_en, category, qualification, exam_name, where_to_apply, salary_range, prep_time, free_resource, company, location, status) VALUES
+('J01', 'గ్రామ సచివాలయ ఉద్యోగాలు', 'Grama Sachivalayam Roles', 'government', 'Intermediate / Degree', 'APPSC / State recruitment', 'https://gramawardsachivalayam.ap.gov.in', '₹15,000 – ₹35,000', '3 – 6 months', 'https://psc.ap.gov.in', 'AP State Government', 'Andhra Pradesh', 'ACTIVE'),
+('J02', 'పోస్టల్ అసిస్టెంట్', 'Postal Assistant', 'government', '12th Pass', 'India Post recruitment', 'https://indiapostgdsonline.gov.in', '₹12,000 – ₹25,000', '2 – 4 months', 'https://indiapost.gov.in', 'India Post', 'All Districts', 'ACTIVE'),
+('J03', 'పోలీస్ కానిస్టేబుల్', 'Police Constable', 'government', 'Intermediate', 'State Police recruitment', 'https://slprb.ap.gov.in', '₹25,000 – ₹40,000', '4 – 8 months', 'https://slprb.ap.gov.in', 'AP State Police', 'Statewide', 'ACTIVE'),
+('J04', 'రైల్వే గ్రూప్ D', 'Railway Group D', 'government', '10th Pass', 'Railway recruitment', 'https://www.rrbcdg.gov.in', '₹18,000 – ₹30,000', '4 – 6 months', 'https://www.rrbcdg.gov.in', 'Indian Railways', 'Pan India', 'ACTIVE'),
+('J05', 'బ్యాంక్ క్లర్క్', 'Bank Clerk', 'government', 'Degree', 'IBPS Clerk', 'https://www.ibps.in', '₹25,000 – ₹40,000', '6 – 9 months', 'https://www.ibps.in', 'Public Sector Banks', 'Regional Rural Banks', 'ACTIVE'),
+('J06', 'అంగన్‌వాడీ కార్యకర్త', 'Anganwadi Worker', 'government', '10th / Intermediate', 'Women & Child Welfare recruitment', 'https://wdcw.ap.gov.in', '₹8,000 – ₹15,000', '1 – 3 months', 'https://wdcw.ap.gov.in', 'WDCW Department', 'Village Centers', 'ACTIVE'),
+('J07', 'ఎలక్ట్రీషియన్', 'Electrician', 'iti', 'ITI Electrician Trade', 'NCVT / SCVT', 'https://ncvtmis.gov.in', '₹10,000 – ₹25,000', '6 – 12 months', 'https://skillindia.gov.in', 'Industrial Hubs', 'District Level', 'ACTIVE'),
+('J08', 'ఫిట్టర్', 'Fitter', 'iti', 'ITI Fitter Trade', 'NCVT / SCVT', 'https://ncvtmis.gov.in', '₹10,000 – ₹22,000', '6 – 12 months', 'https://skillindia.gov.in', 'Manufacturing Units', 'Industrial Estates', 'ACTIVE'),
+('J09', 'వెల్డర్', 'Welder', 'iti', 'ITI Welder Trade', 'NCVT / SCVT', 'https://ncvtmis.gov.in', '₹10,000 – ₹25,000', '6 – 12 months', 'https://skillindia.gov.in', 'Engineering Workshops', 'Nearby Towns', 'ACTIVE'),
+('J10', 'కంప్యూటర్ ఆపరేటర్', 'Computer Operator', 'iti', 'ITI COPA / Basic computer', 'Skill India placement', 'https://skillindia.gov.in', '₹10,000 – ₹22,000', '3 – 6 months', 'https://skillindia.gov.in', 'Local Offices & Banks', 'Mandal Level', 'ACTIVE'),
+('J11', 'మొబైల్ రిపేర్ టెక్నీషియన్', 'Mobile Repair Technician', 'iti', 'Short-term vocational course', 'Local training centre', 'https://www.nsdcindia.org', '₹12,000 – ₹30,000', '3 – 6 months', 'https://www.nsdcindia.org', 'Service Centres & Self-employed', 'Towns & Villages', 'ACTIVE'),
+('J12', 'కస్టమర్ సపోర్ట్ ఎగ్జిక్యూటివ్', 'Customer Support Executive', 'bpo', 'Intermediate / Degree', 'Company interview', 'https://www.naukri.com', '₹12,000 – ₹25,000', '1 – 2 months', 'https://www.ncs.gov.in', 'Tech & BPO Firms', 'Tirupati, Nellore, Vijayawada', 'ACTIVE'),
+('J13', 'డేటా ఎంట్రీ ఆపరేటర్', 'Data Entry Operator', 'bpo', '10th + typing skills', 'Typing test', 'https://www.ncs.gov.in', '₹9,000 – ₹18,000', '1 – 2 months', 'https://www.typingclub.com', 'Govt & Private Offices', 'District Level', 'ACTIVE'),
+('J14', 'టెలీకాలర్', 'Telecaller', 'bpo', 'Intermediate', 'Company interview', 'https://www.indeed.co.in', '₹10,000 – ₹20,000', '1 month', 'https://www.ncs.gov.in', 'Direct Sales Agencies', 'Work From Home / Hub', 'ACTIVE'),
+('J15', 'రిటైల్ సేల్స్ అసోసియేట్', 'Retail Sales Associate', 'bpo', '10th / Intermediate', 'Company interview', 'https://www.ncs.gov.in', '₹10,000 – ₹22,000', '1 month', 'https://www.nsdcindia.org', 'Supermarkets & Retail Stores', 'District Towns', 'ACTIVE'),
+('J16', 'డెలివరీ ఎగ్జిక్యూటివ్', 'Delivery Executive', 'bpo', '10th + two-wheeler', 'Company onboarding', 'https://www.swiggy.com/corporate/careers', '₹12,000 – ₹28,000', '1 week', 'https://www.ncs.gov.in', 'Logistics & Quick Commerce', 'Towns & Cities', 'ACTIVE'),
+('J17', 'కిరాణా షాప్', 'Kirana Shop', 'business', 'No formal qualification', 'Mudra Loan / self-employment', 'https://www.mudra.org.in', '₹15,000 – ₹50,000+ profit', 'Start with local market survey', 'https://www.mudra.org.in', 'Self-Employed Entrepreneur', 'Village Level', 'ACTIVE'),
+('J18', 'డైరీ ఫార్మింగ్', 'Dairy Farming', 'business', 'No formal qualification', 'NABARD support schemes', 'https://www.nabard.org', '₹20,000 – ₹60,000+ profit', 'Training: 1 month', 'https://www.nabard.org', 'Agri-Business Cooperative', 'Village Level', 'ACTIVE'),
+('J19', 'పౌల్ట్రీ ఫార్మ్', 'Poultry Farming', 'business', 'No formal qualification', 'NABARD / bank loan', 'https://www.nabard.org', '₹20,000 – ₹70,000+ profit', 'Training: 1 month', 'https://www.nabard.org', 'Agri-Business Enterprise', 'Village Level', 'ACTIVE'),
+('J20', 'టైలరింగ్ సెంటర్', 'Tailoring Centre', 'business', 'Skill training helpful', 'Mudra Loan / PMKVY', 'https://www.pmkvyofficial.org', '₹12,000 – ₹35,000+ profit', 'Training: 3 – 6 months', 'https://www.pmkvyofficial.org', 'Self-Employed Workshop', 'Village / Mandal', 'ACTIVE'),
+('J21', 'ఆహార ప్రాసెసింగ్ యూనిట్', 'Food Processing Unit', 'business', 'No formal qualification', 'PMFME scheme', 'https://pmfme.mofpi.gov.in', '₹20,000 – ₹80,000+ profit', 'Training: 1 – 3 months', 'https://pmfme.mofpi.gov.in', 'Rural MSME Unit', 'Mandal Level', 'ACTIVE'),
+('J22', 'ఈ-సేవా కేంద్రం', 'Digital Seva Centre', 'business', 'Basic computer skills', 'CSC registration', 'https://register.csc.gov.in', '₹15,000 – ₹45,000+ profit', 'Training: 1 – 2 months', 'https://www.csc.gov.in', 'Common Service Center (CSC)', 'Panchayat Level', 'ACTIVE');
+
+-- Seed sample upcoming workshops
+INSERT INTO workshops (id, title_te, title_en, category, speaker, event_date, capacity, status) VALUES
+('WS-101', 'రైల్వే పరీక్షల సన్నద్ధత', 'Railway RRB NTPC & Group D Strategy', 'Government Exam', 'K. V. Subbarao (Ex-RRB Coach)', CURRENT_TIMESTAMP + INTERVAL '7' DAY, 150, 'UPCOMING'),
+('WS-102', 'గ్రామీణ యువతకు సాఫ్ట్‌వేర్ నైపుణ్యాలు', 'Software Coding & Web Skills for Rural Youth', 'Technical Skill', 'P. Ananya (Tech Mentor)', CURRENT_TIMESTAMP + INTERVAL '14' DAY, 200, 'UPCOMING'),
+('WS-103', 'పీఎం ముద్ర లోన్ వ్యాపార ప్రణాళిక', 'PM Mudra Loan & Micro-Business Setup', 'Entrepreneurship', 'M. Srinivas (MSME Consultant)', CURRENT_TIMESTAMP + INTERVAL '21' DAY, 100, 'UPCOMING');

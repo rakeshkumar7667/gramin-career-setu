@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-about" />
+  <title>ప్రాజెక్ట్ గురించి — About Project | Gramin Career Setu</title>
+  <meta name="description" content="About Gramin Career Setu - Community Service Project to empower rural youth with career guidance, skills and opportunities." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 600; color: #1B4D3E;">About Project</a>
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">About Project</span>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-about">About Gramin Career Setu</h1>
+        <p class="gcs-page-hero-desc" style="font-weight: 700; color: var(--gcs-green-primary)">A Bridge To Your Career</p>
+        <p style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6; margin: 4px 0 0 0">
+          Gramin Career Setu is a community service initiative to empower rural youth with the right career guidance, opportunities, and resources — in their own language, for a brighter future.
+        </p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
+        <img src="assets/about-hero-students.svg" alt="About Gramin Career Setu Project" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- Core Value Pillars (4 Grid) -->
+    <div class="ui-grid ui-grid--4" style="margin-bottom: 32px">
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+          <span class="material-symbols-outlined">target</span>
+        </div>
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Mission</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
+          To empower rural youth with career guidance, practical skills, and verified opportunities to build sustainable futures.
+        </p>
+      </div>
+
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+          <span class="material-symbols-outlined">visibility</span>
+        </div>
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Vision</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
+          A rural India where every student has equal access to the right guidance, technology, and resources to achieve their dreams.
+        </p>
+      </div>
+
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+          <span class="material-symbols-outlined">handshake</span>
+        </div>
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Our Values</h3>
+        <ul style="margin: 0; padding-left: 16px; font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6">
+          <li>Inclusivity &amp; Access</li>
+          <li>Youth Empowerment</li>
+          <li>Community First</li>
+          <li>Sustainability</li>
+        </ul>
+      </div>
+
+      <div class="ui-card">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FAF5FF; color: #7C3AED; display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin-bottom: 12px">
+          <span class="material-symbols-outlined">favorite</span>
+        </div>
+        <h3 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 4px 0">Why It Matters</h3>
+        <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; margin: 0">
+          Rural youth often lack awareness of emerging careers. We bridge that gap with offline tech and peer mentorship.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sustainable Development Goals (SDGs) Section -->
+    <section class="ui-card" style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Sustainable Development Goals (SDGs)</h2>
+      <div class="ui-grid ui-grid--4">
+        <div style="background: #C5192D; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">4</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Quality Education</div>
+        </div>
+
+        <div style="background: #A21942; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">8</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Decent Work &amp; Economic Growth</div>
+        </div>
+
+        <div style="background: #FD6925; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">9</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Industry &amp; Innovation</div>
+        </div>
+
+        <div style="background: #DD1367; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">10</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Reduced Inequalities</div>
+        </div>
+
+        <div style="background: #19486A; color: #fff; border-radius: 12px; padding: 12px; text-align: center">
+          <div style="font-size: var(--text-2xl); font-weight: 800">17</div>
+          <div style="font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; margin-top: 4px">Partnerships for Goals</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Journey Timeline -->
+    <section class="gcs-roadmap-flow-card" style="margin-bottom: 32px">
+      <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 20px 0">Our Journey Timeline</h2>
+      <div class="gcs-roadmap-steps-row">
+        <div class="gcs-roadmap-step-item">
+          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">flag</span></div>
+          <div class="gcs-roadmap-step-title">Feb 2024</div>
+          <div class="gcs-roadmap-step-desc">Ideation &amp; Need Analysis</div>
+        </div>
+        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
+        <div class="gcs-roadmap-step-item">
+          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">travel_explore</span></div>
+          <div class="gcs-roadmap-step-title">Mar 2024</div>
+          <div class="gcs-roadmap-step-desc">Community Research in Villages</div>
+        </div>
+        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
+        <div class="gcs-roadmap-step-item">
+          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">developer_mode</span></div>
+          <div class="gcs-roadmap-step-title">Apr 2024</div>
+          <div class="gcs-roadmap-step-desc">Platform Development (Offline PWA)</div>
+        </div>
+        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
+        <div class="gcs-roadmap-step-item">
+          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">school</span></div>
+          <div class="gcs-roadmap-step-title">May 2024</div>
+          <div class="gcs-roadmap-step-desc">Pilot Workshops &amp; Youth Outreach</div>
+        </div>
+        <span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>
+        <div class="gcs-roadmap-step-item">
+          <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">trending_up</span></div>
+          <div class="gcs-roadmap-step-title">Ongoing</div>
+          <div class="gcs-roadmap-step-desc">Scaling Across Districts</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Members & Partners Grid -->
+    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 32px">
+      <!-- Project Team -->
+      <div class="ui-card">
+        <!-- TODO before submission: confirm these are the real team members and
+             roles. Photographs were removed because the same three stock
+             portraits also appeared across the site as student success
+             stories; add real photographs here only with each member’s consent. -->
+        <h3 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 16px 0">Project Team</h3>
+        <div class="ui-grid ui-grid--4" style="text-align: center">
+          <div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #047857; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">KC</div>
+            <div class="ui-label-inline">K. Sai Charan</div>
+            <div class="ui-meta-xs">Project Lead</div>
+          </div>
+          <div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #1D4ED8; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">MB</div>
+            <div class="ui-label-inline">M. Bharath</div>
+            <div class="ui-meta-xs">Design Lead</div>
+          </div>
+          <div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #6D28D9; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">SL</div>
+            <div class="ui-label-inline">S. Lavanya</div>
+            <div class="ui-meta-xs">Content Lead</div>
+          </div>
+          <div>
+            <div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #B45309; color: #ffffff; font-weight: 800; font-size: var(--text-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px">PA</div>
+            <div class="ui-label-inline">P. Anusha</div>
+            <div class="ui-meta-xs">Tech Lead</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partners -->
+      <div class="ui-card" style="justify-content: space-between">
+        <div>
+          <h3 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0 0 12px 0">Our Partners &amp; Supporters</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: var(--text-sm); font-weight: 700; color: #334155">
+            <div>🏛️ APSSDC — Andhra Pradesh Skill Development</div>
+            <div>📜 PMKVY — Pradhan Mantri Kaushal Vikas Yojana</div>
+            <div>🤝 NULM — National Urban Livelihoods Mission</div>
+            <div>💼 Skill India Initiative</div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid #F1F5F9; padding-top: 12px; font-size: var(--text-sm); color: var(--color-text-muted)">
+          📞 Helpline: 1800-123-4567 • ✉️ support@gramincareersetu.in
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="workshops.html" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="resources.html" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="about.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">info</span>
+      <span>About</span>
+    </a>
+  </nav>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+  "id": "gramin-career-setu",
+  "realm": "gramin-career-setu",
+  "displayName": "Gramin Career Setu",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "ROLE_STUDENT",
+        "description": "Rural student and career seeker role"
+      },
+      {
+        "name": "ROLE_VOLUNTEER",
+        "description": "Community volunteer and mentor role"
+      },
+      {
+        "name": "ROLE_ADMIN",
+        "description": "Platform administrator role"
+      }
+    ]
+  },
+  "defaultRoles": [
+    "ROLE_STUDENT"
+  ],
+  "clients": [
+    {
+      "clientId": "gramin-career-setu-web",
+      "name": "Gramin Career Setu Web Application",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:*",
+        "http://127.0.0.1:*",
+        "https://*"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:*##http://127.0.0.1:*##https://*"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "email"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@gramincareersetu.org",
+      "firstName": "Admin",
+      "lastName": "User",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ROLE_ADMIN",
+        "ROLE_STUDENT"
+      ]
+    },
+    {
+      "username": "student",
+      "email": "student@gramincareersetu.org",
+      "firstName": "Ravi",
+      "lastName": "Kumar",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "student123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "ROLE_STUDENT"
+      ]
+    }
+  ]
+}

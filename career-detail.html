@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-career-detail" />
+  <title>సాఫ్ట్‌వేర్ ఇంజనీర్ — Software Engineer Career Guide | Gramin Career Setu</title>
+  <meta name="description" content="Complete step-by-step career guide, roadmap, eligibility, salary and colleges for Software Engineer." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- jsPDF for client-side roadmap export -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link active" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="index.html#workshops" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="index.html#resources" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="profile.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_circle</span>
+                <span data-lang-key="nav-profile">My Profile</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+              <a href="admin/index.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">admin_panel_settings</span>
+                <span data-lang-key="nav-admin">Volunteer Admin</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 600; color: #1B4D3E;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="index.html#workshops" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="index.html#resources" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="profile.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-profile">My Profile</a>
+      <a href="results.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-impact">Impact Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb & Action Row -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px">
+      <nav class="gcs-breadcrumb" aria-label="Breadcrumb" style="margin-bottom: 0">
+        <a href="index.html" data-lang-key="nav-home">Home</a>
+        <span class="gcs-breadcrumb-sep">&gt;</span>
+        <a href="careers.html">Career Explorer</a>
+        <span class="gcs-breadcrumb-sep">&gt;</span>
+        <span class="gcs-breadcrumb-current" id="breadcrumbCareer">Software Engineer</span>
+      </nav>
+
+      <div class="ui-icon-row ui-icon-row--gap-12">
+        <a href="careers.html" class="gcs-btn-cta-2" style="padding: 4px 12px; font-size: var(--text-sm); text-decoration: none">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">arrow_back</span>
+          <span>Back to Careers</span>
+        </a>
+        <button type="button" class="gcs-btn-cta-2" onclick="shareCareer()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">share</span>
+          <span>Share</span>
+        </button>
+        <button type="button" class="gcs-btn-cta-2" id="btnSaveDetail" onclick="toggleSave()" style="padding: 4px 12px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-base)">bookmark</span>
+          <span>Save</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Career Detail Hero Banner -->
+    <section class="gcs-detail-hero">
+      <div class="gcs-detail-hero-img">
+        <img id="detailImg" src="assets/career-software.webp" alt="Software Engineer coding on laptop" />
+        <span class="gcs-demand-badge-floating"># High Demand</span>
+      </div>
+
+      <div class="gcs-detail-hero-info">
+        <h1 class="gcs-detail-hero-title" id="detailTitle">Software Engineer</h1>
+        <p class="gcs-detail-hero-desc" id="detailDesc">
+          Design, build and maintain software that powers websites, apps and systems. Work with modern programming languages to solve real-world problems.
+        </p>
+
+        <div class="gcs-detail-metrics-row">
+          <div class="gcs-detail-metric-item">
+            <span class="gcs-detail-metric-val" id="detailSalary" style="color: var(--gcs-green-medium)">₹ 3.5L – ₹ 15L / year</span>
+            <span class="gcs-detail-metric-lbl">Typical pay (indicative)</span>
+          </div>
+          <div style="width: 1px; height: 32px; background: #E2E8F0"></div>
+          <div class="gcs-detail-metric-item">
+            <span class="gcs-detail-metric-val" id="detailDemand" style="color: #7E22CE">Very High</span>
+            <span class="gcs-detail-metric-lbl">Job Demand</span>
+          </div>
+          <div style="width: 1px; height: 32px; background: #E2E8F0"></div>
+          <div class="gcs-detail-metric-item">
+            <span class="gcs-detail-metric-val" id="detailRating" style="color: #D97706">★ 4.6 / 5</span>
+            <span class="gcs-detail-metric-lbl">Career Rating</span>
+          </div>
+        </div>
+
+        <div class="gcs-detail-tags-row" id="detailTagsRow">
+          <span class="gcs-pill-tag">✦ IT &amp; Software</span>
+          <span class="gcs-pill-tag">✦ Future Ready</span>
+          <span class="gcs-pill-tag">✦ Remote Work Possible</span>
+          <span class="gcs-pill-tag">✦ APSSDC Free Training</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="gcs-detail-tabs-nav" aria-label="Career Content Tabs" role="tablist">
+      <button type="button" class="gcs-detail-tab-btn active" role="tab" id="tab-btn-overview" aria-controls="tab-overview" aria-selected="true" onclick="switchTab('overview', this)">Overview</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-roadmap" aria-controls="tab-roadmap" aria-selected="false" onclick="switchTab('roadmap', this)">Roadmap</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-skills" aria-controls="tab-skills" aria-selected="false" onclick="switchTab('skills', this)">Skills</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-exams" aria-controls="tab-exams" aria-selected="false" onclick="switchTab('exams', this)">Exams</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-colleges" aria-controls="tab-colleges" aria-selected="false" onclick="switchTab('colleges', this)">Colleges</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-scholarships" aria-controls="tab-scholarships" aria-selected="false" onclick="switchTab('scholarships', this)">Scholarships</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-resources" aria-controls="tab-resources" aria-selected="false" onclick="switchTab('resources', this)" data-lang-key="nav-resources">Resources</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-related" aria-controls="tab-related" aria-selected="false" onclick="switchTab('related', this)">Related Careers</button>
+      <button type="button" class="gcs-detail-tab-btn" role="tab" id="tab-btn-all" aria-selected="false" onclick="switchTab('all', this)">All Sections</button>
+    </nav>
+
+    <!-- Tab 1: Overview Panel -->
+    <section id="tab-overview" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-overview" style="margin-bottom: 24px">
+      <div class="ui-grid">
+        <!-- Card 1: Overview -->
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center">
+              <span class="material-symbols-outlined">description</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Overview</h3>
+          </div>
+          <p id="overviewCardText" style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6; margin: 0">
+            <strong>Software Engineers</strong> design, develop and maintain software applications. They work with programming languages, databases, cloud tools and modern frameworks to solve real-world problems.
+          </p>
+        </div>
+
+        <!-- Card 2: Eligibility -->
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center">
+              <span class="material-symbols-outlined">how_to_reg</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Eligibility</h3>
+          </div>
+          <ul id="eligibilityList" style="margin: 0; padding-left: 16px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.6">
+            <li>10+2 with Mathematics (Any Stream)</li>
+            <li>Bachelor's Degree in B.E / B.Tech / B.Sc (CS/IT) or related field</li>
+            <li>Good logical and problem solving skills</li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Salary Trends -->
+        <div class="ui-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #FEF3C7; color: #D97706; display: flex; align-items: center; justify-content: center">
+              <span class="material-symbols-outlined">payments</span>
+            </div>
+            <h3 style="font-size: var(--text-lg); font-weight: 700; margin: 0; color: var(--color-text-primary)">Typical pay by experience</h3>
+          </div>
+          <div id="salaryBreakdown" style="font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
+            <div>• <strong>Fresher:</strong> ₹ 3.5L – ₹ 6L / year</div>
+            <div>• <strong>1–3 Years:</strong> ₹ 6L – ₹ 10L / year</div>
+            <div>• <strong>5+ Years:</strong> ₹ 10L – ₹ 15L+ / year</div>
+          </div>
+          <p style="font-size: var(--text-sm); color: #94A3B8; margin: 12px 0 0; line-height: 1.5">
+            Indicative ranges to give you a sense of scale, not measured averages.
+            Actual pay depends on the employer, the district and the year — a government
+            post pays what its notification states.
+            <br /><span style="color: #A3B0C2">ఇవి ఒక అంచనా మాత్రమే, కచ్చితమైన సగటు కాదు.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Education Roadmap Flow Card -->
+    <section id="tab-roadmap" class="gcs-tab-panel gcs-roadmap-flow-card" role="tabpanel" aria-labelledby="tab-btn-roadmap" style="display: none; margin-bottom: 24px">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px">
+        <span class="material-symbols-outlined" style="color: var(--gcs-green-primary)">timeline</span>
+        <h2 style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0">Education Roadmap</h2>
+      </div>
+      <p style="font-size: var(--text-base); color: var(--color-text-muted); margin: 0 0 20px 0">Follow these sequential milestones from school to your first professional job.</p>
+
+      <div id="roadmapStepsContainer" class="gcs-roadmap-steps-row">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Tab 3: Skills You Need -->
+    <section id="tab-skills" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-skills" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FAF5FF; color: #9333EA; display: flex; align-items: center; justify-content: center">
+            <span class="material-symbols-outlined">code</span>
+          </div>
+          <div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Skills You Need</h2>
+            <div class="ui-meta">Essential technical capabilities and practical tools required to excel.</div>
+          </div>
+        </div>
+        <ul id="skillsList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
+          <!-- Injected via JavaScript -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tab 4: Entrance Exams -->
+    <section id="tab-exams" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-exams" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #F0FDF4; color: #059669; display: flex; align-items: center; justify-content: center">
+            <span class="material-symbols-outlined">assignment</span>
+          </div>
+          <div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Entrance &amp; Recruitment Exams</h2>
+            <div class="ui-meta">Key qualifying entrance examinations or government competitive recruitment tests.</div>
+          </div>
+        </div>
+        <ul id="examsList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
+          <!-- Injected via JavaScript -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tab 5: Top Colleges -->
+    <section id="tab-colleges" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-colleges" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center">
+            <span class="material-symbols-outlined">account_balance</span>
+          </div>
+          <div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Top Institutions &amp; Universities</h2>
+            <div class="ui-meta">Premier public universities, government institutes, and accredited regional colleges.</div>
+          </div>
+        </div>
+        <ul id="collegesList" style="margin: 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
+          <!-- Injected via JavaScript -->
+        </ul>
+      </div>
+    </section>
+
+    <!-- Tab 6: Scholarships -->
+    <section id="tab-scholarships" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-scholarships" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center">
+            <span class="material-symbols-outlined">card_membership</span>
+          </div>
+          <div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Scholarships &amp; Financial Support</h2>
+            <div class="ui-meta">Welfare schemes, fee reimbursements and merit grants for eligible rural students.</div>
+          </div>
+        </div>
+        <ul id="scholarshipsList" style="margin: 0 0 16px 0; padding-left: 20px; font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.8">
+          <!-- Injected via JavaScript -->
+        </ul>
+        <a href="scholarships.html" style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); text-decoration: none">Explore All 50+ Scholarships &rarr;</a>
+      </div>
+    </section>
+
+    <!-- Tab 7: Free Learning Resources -->
+    <section id="tab-resources" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-resources" style="display: none; margin-bottom: 24px">
+      <div class="ui-card">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center">
+            <span class="material-symbols-outlined">cast_for_education</span>
+          </div>
+          <div>
+            <h2 style="font-size: var(--text-xl); font-weight: 800; margin: 0; color: var(--color-text-primary)">Free Learning Resources</h2>
+            <div class="ui-meta">Government portals, open lecture series, and practical mock tests to prepare at zero cost.</div>
+          </div>
+        </div>
+        <div class="ui-grid ui-grid--4" id="resourcesGrid" style="text-align: center">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 8: Related Careers Row -->
+    <section id="tab-related" class="gcs-tab-panel" role="tabpanel" aria-labelledby="tab-btn-related" style="display: none; margin-bottom: 24px">
+      <div class="gcs-section-header-row">
+        <h2 class="gcs-section-header-title">Related Careers</h2>
+        <a href="careers.html" class="gcs-section-view-all-btn">View All</a>
+      </div>
+
+      <div id="relatedCareersGrid" class="gcs-careers-grid-4">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Download Career Roadmap CTA Card -->
+    <section class="gcs-banner-callout" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border-color: #6EE7B7; margin-bottom: 24px">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined">download</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">Download Complete Career Roadmap</h3>
+          <p class="gcs-banner-callout-sub" id="roadmapCtaSub" style="color: #047857">Get the complete step-by-step career path and college checklist in PDF format.</p>
+        </div>
+      </div>
+      <button type="button" class="gcs-btn-cta-1" onclick="downloadRoadmapPDF()" style="border: none; cursor: pointer; white-space: nowrap">
+        <span class="material-symbols-outlined">picture_as_pdf</span>
+        <span>Download PDF</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+          <div class="gcs-social-row">
+            <a href="https://wa.me/?text=Check%20out%20Gramin%20Career%20Setu" target="_blank" rel="noopener" class="gcs-social-link" title="WhatsApp">
+              <span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+            <li><a href="https://www.skillindia.gov.in" target="_blank" rel="noopener">Skill India</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="resume.html" data-lang-key="nav-resume">Resume Builder</a></li>
+            <li><a href="index.html#workshops" data-lang-key="nav-workshops">Workshops</a></li>
+            <li><a href="index.html#resources" data-lang-key="nav-resources">Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Privacy Policy</a></li>
+            <li><a href="profile.html">Terms & Conditions</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+          <p style="font-size: 0.8rem; color: #94A3B8;">
+            Made with <span style="color: #EF4444;">❤️</span> for Rural Youth 🌿
+          </p>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+          <span style="color: #64748B; margin-left: 8px;">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="resume.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">description</span>
+      <span data-lang-key="nav-resume">Resume</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Detail Script -->
+  <script>
+    const careerData = {
+      'software-engineer': {
+        id: 'software-engineer',
+        title: 'Software Engineer',
+        telugu: 'సాఫ్ట్‌వేర్ ఇంజనీర్',
+        desc: 'Design, build and maintain software that powers websites, apps and systems. Work with modern programming languages to solve real-world problems.',
+        salary: '₹ 3.5L – ₹ 15L / year',
+        demand: 'Very High',
+        rating: '★ 4.6 / 5',
+        img: 'assets/career-software.webp',
+        tags: ['✦ IT & Software', '✦ Future Ready', '✦ Remote Work Possible', '✦ APSSDC Free Training'],
+        overviewText: 'Software Engineers design, develop and maintain software applications. They work with programming languages, databases, cloud tools and modern frameworks to solve real-world problems.',
+        eligibility: [
+          '10+2 with Mathematics (Any Stream)',
+          "Bachelor's Degree in B.E / B.Tech / B.Sc (CS/IT) or related field",
+          'Good logical reasoning and problem solving skills'
+        ],
+        salaryBreakdown: [
+          { label: 'Fresher', range: '₹ 3.5L – ₹ 6L / year' },
+          { label: '1–3 Years', range: '₹ 6L – ₹ 10L / year' },
+          { label: '5+ Years', range: '₹ 10L – ₹ 15L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Focus on Science & Mathematics' },
+          { icon: 'menu_book', title: 'Intermediate (10+2)', desc: 'MPC / MEC or Diploma in Computer Engineering' },
+          { icon: 'school', title: 'Degree', desc: 'B.E / B.Tech / B.Sc (CS/IT) / BCA' },
+          { icon: 'code', title: 'Practical Skills', desc: 'Learn Programming, DBMS, Web Dev & Git' },
+          { icon: 'work', title: 'Placement & Career', desc: 'APSSDC Drives, TCS NQT & Campus Placements' }
+        ],
+        skills: [
+          'Programming Fundamentals (Python, Java, C++)',
+          'Data Structures & Algorithms',
+          'Web Development (HTML, CSS, JavaScript, React)',
+          'Relational Databases & SQL (MySQL / PostgreSQL)',
+          'Version Control (Git & GitHub) and Linux Command Line'
+        ],
+        exams: [
+          'AP EAPCET / TS EAMCET (Engineering Entrance)',
+          'JEE Main & JEE Advanced (National IIT/NIT Admissions)',
+          'TCS NQT / Infosys InfyTQ (Direct Graduate Recruitment)',
+          'GATE (for M.Tech admissions & PSU recruitment)'
+        ],
+        colleges: [
+          'IIT Hyderabad & NIT Warangal',
+          'IIIT Hyderabad & IIIT Bangalore',
+          'JNTU College of Engineering (Kakinada / Anantapur / Pulivendula)',
+          'Andhra University College of Engineering, Visakhapatnam'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (100% Fee Reimbursement)',
+          'AP Post-Matric Maintenance Allowance (MTF) (Hostel & Boarding Allowance)',
+          'National Scholarship Portal (NSP Post-Matric OBC/SC/ST)',
+          'Pragati Scholarship for Girls (AICTE Approved)'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'FreeCodeCamp YouTube', desc: 'Comprehensive full-length programming bootcamps' },
+          { icon: 'school', name: 'SWAYAM / NPTEL', desc: 'Free IIT and IISc video lecture series' },
+          { icon: 'terminal', name: 'HackerRank & LeetCode', desc: 'Hands-on practice coding problems' },
+          { icon: 'menu_book', name: 'APSSDC Portal', desc: 'State-certified job skilling tracks & materials' }
+        ],
+        related: [
+          { slug: 'web-developer', title: 'Web Developer', salary: '₹3L – ₹10L / yr', qual: 'Any Degree / Skills', img: 'assets/career-software.webp' },
+          { slug: 'data-scientist', title: 'Data Scientist', salary: '₹6L – ₹18L / yr', qual: 'B.Tech / Statistics', img: 'assets/career-civil.webp' },
+          { slug: 'app-developer', title: 'Mobile App Developer', salary: '₹3.5L – ₹12L / yr', qual: 'B.Tech / MCA', img: 'assets/career-software.webp' },
+          { slug: 'system-analyst', title: 'System Analyst', salary: '₹4L – ₹14L / yr', qual: 'Degree in CS / IT', img: 'assets/career-bank.webp' }
+        ]
+      },
+      'civil-engineer': {
+        id: 'civil-engineer',
+        title: 'Civil Engineer',
+        telugu: 'సివిల్ ఇంజనీర్',
+        desc: 'Plan, design, and oversee construction and maintenance of building structures, roads, bridges, water supply systems, and rural infrastructure projects.',
+        salary: '₹ 3.5L – ₹ 8L / year',
+        demand: 'High Demand',
+        rating: '★ 4.5 / 5',
+        img: 'assets/career-civil.webp',
+        tags: ['✦ Infrastructure', '✦ Govt & Private', '✦ Site Engineering', '✦ AP R&B Department'],
+        overviewText: 'Civil Engineers build the physical foundation of our villages and cities. They plan irrigation canals, rural roads, panchayat buildings, and large infrastructure projects with precision and safety.',
+        eligibility: [
+          '10+2 with MPC (Mathematics, Physics, Chemistry)',
+          'Diploma in Civil Engineering (Polytechnic) or B.Tech Civil',
+          'AutoCAD / Surveying aptitude'
+        ],
+        salaryBreakdown: [
+          { label: 'Fresher', range: '₹ 2.8L – ₹ 4.5L / year' },
+          { label: '1–3 Years', range: '₹ 4.5L – ₹ 8L / year' },
+          { label: '5+ Years', range: '₹ 8L – ₹ 14L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Score well in Math & Physical Science' },
+          { icon: 'menu_book', title: 'Intermediate / Diploma', desc: 'MPC or 3-Year Polytechnic Diploma in Civil' },
+          { icon: 'school', title: 'B.Tech Civil', desc: 'B.Tech Civil Engineering / ECET Lateral Entry' },
+          { icon: 'design_services', title: 'Practical Tools', desc: 'Master AutoCAD, Revit, Total Station & Estimation' },
+          { icon: 'work', title: 'Career Start', desc: 'APPSC AEE / Irrigation Dept / L&T Construction' }
+        ],
+        skills: [
+          'AutoCAD & Civil 3D Computer Drafting',
+          'Structural Analysis & Building Construction Basics',
+          'Quantity Surveying, Material Estimation & Costing',
+          'Total Station, GPS & Land Surveying',
+          'Site Safety, Quality Audit & Project Coordination'
+        ],
+        exams: [
+          'AP ECET (Polytechnic Lateral Entry to B.Tech 2nd Year)',
+          'AP EAPCET (Engineering Entrance)',
+          'APPSC Assistant Executive Engineer (AEE) Exam',
+          'GATE Civil Engineering (for PSU recruitment)'
+        ],
+        colleges: [
+          'NIT Warangal & IIT Tirupati',
+          'JNTU College of Engineering (Kakinada / Pulivendula)',
+          'Andhra University College of Engineering, Visakhapatnam',
+          'S.V. University College of Engineering, Tirupati'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Tuition Reimbursement)',
+          'NSP Post-Matric Scholarship for BC/SC/ST',
+          'Pragati Scholarship for Girls (AICTE)',
+          'L&T Build India Scholarship (Full M.Tech Sponsorship)'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'NPTEL Civil Engineering', desc: 'Lectures on structural design & hydraulics by IIT faculty' },
+          { icon: 'school', name: 'APSSDC AutoCAD Hub', desc: 'State-certified CAD modeling workshops' },
+          { icon: 'terminal', name: 'CPWD Handbooks', desc: 'Official Indian road and masonry specifications' },
+          { icon: 'menu_book', name: 'National Building Code', desc: 'Safety regulations and structural manuals' }
+        ],
+        related: [
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'entrepreneur', title: 'Civil Contractor / Builder', salary: 'High Returns', qual: 'Diploma / Experience', img: 'assets/profile-suresh.webp' },
+          { slug: 'bank-officer', title: 'Govt Technical Officer', salary: '₹4L – ₹8L / yr', qual: 'Degree / B.Tech', img: 'assets/career-bank.webp' }
+        ]
+      },
+      'school-teacher': {
+        id: 'school-teacher',
+        title: 'School Teacher',
+        telugu: 'పాఠశాల ఉపాధ్యాయుడు',
+        desc: 'Educate and inspire young minds in government and private schools. Shape the foundation of future generations through structured curriculum and mentoring.',
+        salary: '₹ 2.5L – ₹ 6L / year',
+        demand: 'High Demand',
+        rating: '★ 4.8 / 5',
+        img: 'assets/career-teacher.webp',
+        tags: ['✦ Noble Profession', '✦ Govt DSC Jobs', '✦ Job Security', '✦ Village Community Impact'],
+        overviewText: 'Teachers guide and educate rural children, building literacy, math skills, and moral character. Government teachers in Andhra Pradesh enjoy high social respect, stable pensions, and fixed holidays.',
+        eligibility: [
+          '10+2 with 50% marks for D.El.Ed (Primary Teacher / SGT)',
+          "Bachelor's Degree + B.Ed for High School (School Assistant)",
+          'Must qualify AP TET (Teacher Eligibility Test)'
+        ],
+        salaryBreakdown: [
+          { label: 'Primary (SGT)', range: '₹ 2.5L – ₹ 4L / year' },
+          { label: 'High School (SA)', range: '₹ 4L – ₹ 6.5L / year' },
+          { label: 'Headmaster', range: '₹ 6.5L – ₹ 9L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Build strong base in Telugu, English & Math' },
+          { icon: 'menu_book', title: '10+2 Intermediate', desc: 'Any Stream (Arts/Science) with 50%+ marks' },
+          { icon: 'school', title: 'D.El.Ed / B.Ed Degree', desc: '2-Year DEECET for Primary or Degree + EDCET for High School' },
+          { icon: 'fact_check', title: 'Qualify AP TET', desc: 'Secure valid Teacher Eligibility Test scorecard' },
+          { icon: 'work', title: 'AP DSC Recruitment', desc: 'Crack DSC exam to become Govt School Teacher' }
+        ],
+        skills: [
+          'Classroom Pedagogy & Lesson Planning',
+          'Child Psychology & Empathetic Mentoring',
+          'Bilingual Fluency (Telugu & English)',
+          'Digital Classroom Tools (Smart IFP Panels & Tablets)',
+          'Continuous and Comprehensive Evaluation (CCE)'
+        ],
+        exams: [
+          'AP DEECET (D.El.Ed Entrance Test)',
+          'AP EDCET (B.Ed Entrance Test)',
+          'AP TET (Teacher Eligibility Test Paper 1 & 2)',
+          'AP DSC / TRT (Teacher Recruitment Test)'
+        ],
+        colleges: [
+          'District Institutes of Education and Training (DIETs in every district)',
+          'Andhra University School of Education, Visakhapatnam',
+          'Sri Venkateswara University College of Education, Tirupati',
+          'Govt IASE Colleges (Nellore, Rajahmundry, Kurnool)'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (Full College Fee Support)',
+          'AP Post-Matric Maintenance Allowance (MTF)',
+          'NSP Central Sector Scheme for University Students',
+          'Post-Matric Scholarships for Minorities and Backward Classes'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'DIKSHA National Portal', desc: 'Digital textbooks, lesson plans and teaching kits' },
+          { icon: 'school', name: 'AP SCERT Portal', desc: 'State curriculum frameworks and previous question banks' },
+          { icon: 'terminal', name: 'AP TET Model Papers', desc: 'Solved previous papers with detailed explanations' },
+          { icon: 'menu_book', name: 'Samagra Shiksha Resources', desc: 'Foundational learning and numeracy materials' }
+        ],
+        related: [
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
+        ]
+      },
+      'sub-inspector': {
+        id: 'sub-inspector',
+        title: 'Sub Inspector (SI)',
+        telugu: 'సబ్ ఇన్‌స్పెక్టర్ (పోలీస్)',
+        desc: 'Serve and protect the community, maintain law and order, investigate criminal cases, and lead police station staff with integrity and respect.',
+        salary: '₹ 4L – ₹ 9L / year',
+        demand: 'High Demand',
+        rating: '★ 4.9 / 5',
+        img: 'assets/career-police.webp',
+        tags: ['✦ Uniformed Service', '✦ Prestigious Role', '✦ AP SLPRB', '✦ Public Safety & Law'],
+        overviewText: 'Sub Inspectors maintain law, investigate offenses, manage police stations, and protect vulnerable citizens in rural talukas and urban districts. It provides enormous community respect, authority, and government stability.',
+        eligibility: [
+          'Any recognised Bachelor Degree from an accredited University',
+          'Physical Standards: Height 167.6 cm (Men), 152.5 cm (Women)',
+          'Physical Efficiency Test (1600m run, Long Jump, 100m sprint)'
+        ],
+        salaryBreakdown: [
+          { label: 'Probationer', range: '₹ 4L – ₹ 5.5L / year' },
+          { label: 'Inspector of Police', range: '₹ 5.5L – ₹ 7.5L / year' },
+          { label: 'DSP / ACP', range: '₹ 7.5L – ₹ 11L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Maintain physical fitness and academic record' },
+          { icon: 'menu_book', title: 'Intermediate', desc: 'Any group (MPC/BiPC/HEC/CEC) with regular sports' },
+          { icon: 'school', title: 'Graduation Degree', desc: 'B.A / B.Sc / B.Com / B.Tech from any university' },
+          { icon: 'sports_kabaddi', title: 'Physical & Written Prep', desc: '1600m running drill + Reasoning & GK syllabus' },
+          { icon: 'military_tech', title: 'AP SLPRB SI Exam', desc: 'Clear Prelims, Physical Test & Final Written Exam' }
+        ],
+        skills: [
+          'Indian Penal Code & Criminal Law Basics',
+          'Crime Scene Investigation & Evidence Gathering',
+          'Physical Fitness, Endurance & Self-Defense',
+          'Conflict Resolution & Crowd Management',
+          'Leadership, Station Administration & FIR Documentation'
+        ],
+        exams: [
+          'AP SLPRB Sub Inspector Recruitment',
+          'TSLPRB SI Recruitment Examination',
+          'SSC CPO (Central Armed Police Forces / Delhi Police SI)',
+          'UPSC CDS / CAPF Assistant Commandant'
+        ],
+        colleges: [
+          'Andhra Pradesh Police Academy (APPA), Hyderabad',
+          'Police Training College (PTC), Anantapur',
+          'Any Govt Degree College (B.A/B.Sc/B.Com)',
+          'Dr. B.R. Ambedkar Open University'
+        ],
+        scholarships: [
+          'Police Welfare Board Educational Grants',
+          'AP Post-Matric Fee Reimbursement (RTF) (for Degree studies)',
+          'NSP Post-Matric Scholarships',
+          'Martyrs Children Educational Concessions'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'AP SLPRB Official Portal', desc: 'Official notifications, syllabus & physical test guidelines' },
+          { icon: 'school', name: 'SI Reasoning & Arithmetic Hub', desc: 'Previous 10 years solved paper sets' },
+          { icon: 'terminal', name: 'Indian Constitution & CrPC', desc: 'Simplified law notes in Telugu & English' },
+          { icon: 'menu_book', name: 'Police Physical Training Guide', desc: '1600m run timing strategy & diet plans' }
+        ],
+        related: [
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'civil-engineer', title: 'Civil Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech / Diploma', img: 'assets/career-civil.webp' }
+        ]
+      },
+      'staff-nurse': {
+        id: 'staff-nurse',
+        title: 'Staff Nurse',
+        telugu: 'స్టాఫ్ నర్స్ (వైద్య సేవలు)',
+        desc: 'Provide compassionate patient care in hospitals, primary health centres, and community clinics. Administer medicines and support recovery.',
+        salary: '₹ 3L – ₹ 7L / year',
+        demand: 'Very High',
+        rating: '★ 4.7 / 5',
+        img: 'assets/profile-lalitha.webp',
+        tags: ['✦ Healthcare', '✦ High Global Demand', '✦ Govt PHCs & Hospitals', '✦ Compassionate Service'],
+        overviewText: 'Staff Nurses form the life-saving backbone of hospitals and primary health centres (PHC). From rural deliveries to intensive care in multi-speciality hospitals, nurses enjoy 100% employment demand in India and overseas.',
+        eligibility: [
+          '10+2 with BiPC (Biology, Physics, Chemistry)',
+          'GNM (General Nursing & Midwifery) or B.Sc Nursing',
+          'Registration with Andhra Pradesh Nursing & Midwives Council'
+        ],
+        salaryBreakdown: [
+          { label: 'Staff Nurse', range: '₹ 2.8L – ₹ 4L / year' },
+          { label: 'Senior Nursing Officer', range: '₹ 4L – ₹ 6.5L / year' },
+          { label: 'Nursing Superintendent', range: '₹ 6.5L – ₹ 10L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Strong focus on Biological Science' },
+          { icon: 'menu_book', title: 'Intermediate (BiPC)', desc: 'Botany, Zoology, Physics and Chemistry' },
+          { icon: 'local_hospital', title: 'B.Sc Nursing / GNM', desc: '3-year GNM Diploma or 4-year B.Sc Nursing degree' },
+          { icon: 'verified', title: 'State Council License', desc: 'Obtain AP Nursing & Midwives Council license' },
+          { icon: 'work', title: 'Hospital Placement', desc: 'Govt Medical College / AIIMS / Apollo / Overseas' }
+        ],
+        skills: [
+          'Patient Care, Vitals Monitoring & Triage Protocol',
+          'Medication Administration, Injections & IV Infusions',
+          'Emergency First Aid, CPR & ICU Support',
+          'Infection Control, Sterile Technique & Bio-Waste Rules',
+          'Compassionate Patient & Family Communication'
+        ],
+        exams: [
+          'AP Nursing Entrance / Dr. NTRUHS Counseling',
+          'AIIMS NORCET (National Nursing Officer Exam)',
+          'AP Medical Services Recruitment Board Exam',
+          'DHA / HAAD / NCLEX-RN (for Gulf & International careers)'
+        ],
+        colleges: [
+          'Govt College of Nursing, KGH Visakhapatnam',
+          'Govt College of Nursing, Guntur',
+          'SVIMS College of Nursing, Tirupati',
+          'Govt Medical College Nursing Schools (Kurnool, Nellore)'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Fee Waiver)',
+          'AP Post-Matric Maintenance Allowance (MTF) (Hostel & Boarding)',
+          'National Florence Nightingale Trust Grants',
+          'NHM Stipend during Rural Primary Health Training'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'Clinical Nursing Procedures', desc: 'Step-by-step verified video guides on nursing procedures' },
+          { icon: 'school', name: 'Dr. NTRUHS Portal', desc: 'Nursing curriculum syllabus and model question papers' },
+          { icon: 'terminal', name: 'AIIMS NORCET Solved Sets', desc: 'Previous national nursing officer test papers' },
+          { icon: 'menu_book', name: 'WHO Nursing Manuals', desc: 'Maternal care, immunization & hygiene guidelines' }
+        ],
+        related: [
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
+        ]
+      },
+      'bank-officer': {
+        id: 'bank-officer',
+        title: 'Bank Officer (PO / Clerk)',
+        telugu: 'బ్యాంక్ ఆఫీసర్ (పీవో / క్లర్క్)',
+        desc: 'Handle financial transactions, issue loans, manage customer accounts, and promote digital banking services across rural and urban branches.',
+        salary: '₹ 3L – ₹ 7L / year',
+        demand: 'High Demand',
+        rating: '★ 4.6 / 5',
+        img: 'assets/career-bank.webp',
+        tags: ['✦ Banking & Finance', '✦ IBPS & SBI', '✦ Rural Regional Banks', '✦ Fast Promotions'],
+        overviewText: 'Bank Officers assess crop loans, Mudra micro-loans, retail deposits, and corporate finances. With hundreds of Andhra Pragathi Grameena Bank and SBI branches across villages, banking offers a fast-track professional career.',
+        eligibility: [
+          'Any Bachelor Degree in B.Com / B.Sc / B.A / B.Tech from recognized university',
+          'Age: 20 to 30 years (with standard age relaxations for SC/ST/OBC)',
+          'Proficiency in local language (Telugu) for Regional Rural Banks (RRB)'
+        ],
+        salaryBreakdown: [
+          { label: 'Clerk / Associate', range: '₹ 3.5L – ₹ 4.5L / year' },
+          { label: 'Probationary Officer', range: '₹ 6.5L – ₹ 8.5L / year' },
+          { label: 'Branch Manager', range: '₹ 10L – ₹ 16L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Focus on arithmetic, percentages and English' },
+          { icon: 'menu_book', title: 'Intermediate (10+2)', desc: 'Commerce (CEC/MEC) or Science (MPC/BiPC)' },
+          { icon: 'school', title: 'Any Degree', desc: 'Complete Graduation in any discipline' },
+          { icon: 'calculate', title: 'IBPS Exam Prep', desc: 'Quantitative Aptitude, Reasoning, Banking Awareness' },
+          { icon: 'work', title: 'Bank Appointment', desc: 'Join SBI, PNB, Canara Bank or APGB as PO/Clerk' }
+        ],
+        skills: [
+          'Quantitative Aptitude & Mental Arithmetic',
+          'Logical Reasoning, Puzzles & Data Interpretation',
+          'Banking Awareness, Mudra & Financial Schemes',
+          'Core Banking Software (Finacle/BaNCS) & Excel',
+          'Customer Service & KYC Compliance Verification'
+        ],
+        exams: [
+          'IBPS PO & IBPS Clerk (Public Sector Banks)',
+          'IBPS RRB Officer Scale-I & Office Assistant (Gramin Banks)',
+          'SBI PO & SBI Junior Associate',
+          'RBI Assistant & NABARD Grade A'
+        ],
+        colleges: [
+          'Any Accredited Govt Degree College (B.Com/B.Sc/B.A)',
+          'Andhra University College of Arts & Commerce, Visakhapatnam',
+          'Sri Venkateswara University Commerce Dept, Tirupati',
+          'National Institute of Bank Management (NIBM), Pune'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (for Degree studies)',
+          'Post-Matric Scholarship for Minorities / EWS',
+          'State Bank of India Youth Fellowship',
+          'NABARD Rural Banking Internship Grants'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'Banking Aptitude Video Hub', desc: 'Short-trick calculations and reasoning walkthroughs' },
+          { icon: 'school', name: 'RBI Financial Education', desc: 'Monetary policy, digital payments and credit basics' },
+          { icon: 'terminal', name: 'IBPS Mock Test Engines', desc: 'Free online timed practice with sectional scorecards' },
+          { icon: 'menu_book', name: 'Banking Awareness PDFs', desc: 'Monthly economy and priority sector lending notes' }
+        ],
+        related: [
+          { slug: 'school-teacher', title: 'School Teacher', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' },
+          { slug: 'sub-inspector', title: 'Sub Inspector (SI)', salary: '₹4L – ₹9L / yr', qual: 'Any Degree', img: 'assets/career-police.webp' },
+          { slug: 'entrepreneur', title: 'Digital Seva Centre / FinTech', salary: '₹3L – ₹8L / yr', qual: 'Intermediate / Skills', img: 'assets/profile-suresh.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
+        ]
+      },
+      'agricultural-officer': {
+        id: 'agricultural-officer',
+        title: 'Agricultural Officer',
+        telugu: 'వ్యవసాయ అధికారి',
+        desc: 'Guide farmers on modern crop techniques, organic fertilizers, government subsidies, and soil health management to maximize agricultural yield.',
+        salary: '₹ 3L – ₹ 6L / year',
+        demand: 'High Demand',
+        rating: '★ 4.7 / 5',
+        img: 'assets/career-agriculture.webp',
+        tags: ['✦ Agriculture & Rural Tech', '✦ Govt Rythu Bharosa Kendras', '✦ APPSC Recruitment', '✦ Soil Health & Seeds'],
+        overviewText: 'Agricultural Officers guide rural farmers in Rythu Bharosa Kendras (RBKs). They test soil, certify seed quality, prevent crop pest outbreaks, and distribute fertilizer subsidies to boost farmer earnings.',
+        eligibility: [
+          '10+2 with BiPC (Biology, Physics, Chemistry)',
+          'B.Sc (Hons) Agriculture or B.Tech (Agricultural Engineering)',
+          'ANGRAU Agri-Polycet or EAPCET entrance rank'
+        ],
+        salaryBreakdown: [
+          { label: 'Village Agri Assistant', range: '₹ 3L – ₹ 4.5L / year' },
+          { label: 'Agricultural Officer (AO)', range: '₹ 5L – ₹ 7.5L / year' },
+          { label: 'Assistant Director (ADA)', range: '₹ 8L – ₹ 12L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'account_balance', title: '10th Class', desc: 'Focus on Botany, Science & rural geography' },
+          { icon: 'menu_book', title: 'Intermediate (BiPC)', desc: 'Botany, Zoology, Physics & Chemistry' },
+          { icon: 'agriculture', title: 'B.Sc (Hons) Agriculture', desc: '4-year ICAR recognized degree from ANGRAU or affiliated college' },
+          { icon: 'science', title: 'Field Training', desc: 'RAWE (Rural Agricultural Work Experience) programme' },
+          { icon: 'work', title: 'Govt Appointment', desc: 'APPSC Agricultural Officer or RBK Assistant placement' }
+        ],
+        skills: [
+          'Agronomy & Crop Science (Paddy, Chillies, Groundnut, Cotton)',
+          'Soil Sampling, Chemistry & Soil Health Card Analytics',
+          'Integrated Pest Management (IPM) & Disease Diagnostics',
+          'Drip & Sprinkler Micro-Irrigation Design',
+          'Agri-Tech Platforms & Direct Benefit Transfer (DBT) Portals'
+        ],
+        exams: [
+          'AP EAPCET (Agriculture Stream)',
+          'ICAR AIEEA (National All India Agriculture Entrance)',
+          'APPSC Agricultural Officer Recruitment Examination',
+          'NABARD Grade-A Specialist Officer Exam'
+        ],
+        colleges: [
+          'ANGRAU (Acharya N.G. Ranga Agricultural University), Guntur',
+          'Agricultural College, Bapatla (Estd 1945)',
+          'S.V. Agricultural College, Tirupati',
+          'College of Agricultural Engineering, Madakasira'
+        ],
+        scholarships: [
+          'AP Post-Matric Fee Reimbursement (RTF) (Full Course Fee Waiver)',
+          'ICAR National Talent Scholarship (NTS)',
+          'Post-Matric Agri Scholarships for Farmers Children',
+          'ANGRAU Merit Stipend during RAWE Village Internship'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'ANGRAU E-Extension Hub', desc: 'Practical video guides on crop protection and organic inputs' },
+          { icon: 'school', name: 'Kisan Call Centre (1800-180-1551)', desc: 'Free phone helpline connecting directly to govt scientists' },
+          { icon: 'terminal', name: 'Soil Health Card Portal', desc: 'Testing protocols and fertilizer recommendation sheets' },
+          { icon: 'menu_book', name: 'Vyavasaya Panchangam PDF', desc: 'Yearly official AP agricultural almanac & seasonal guide' }
+        ],
+        related: [
+          { slug: 'entrepreneur', title: 'Agri-Entrepreneur / Cold Storage', salary: 'Variable / High', qual: 'Any Degree / Experience', img: 'assets/profile-suresh.webp' },
+          { slug: 'civil-engineer', title: 'Irrigation Engineer', salary: '₹3.5L – ₹8L / yr', qual: 'B.Tech Civil', img: 'assets/career-civil.webp' },
+          { slug: 'bank-officer', title: 'Rural Bank Credit Officer', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'school-teacher', title: 'School Teacher (Biology)', salary: '₹2.5L – ₹6L / yr', qual: 'Degree + B.Ed', img: 'assets/career-teacher.webp' }
+        ]
+      },
+      'entrepreneur': {
+        id: 'entrepreneur',
+        title: 'Entrepreneur / Agri-Business',
+        telugu: 'స్వయం ఉపాధి / వ్యాపారవేత్త',
+        desc: 'Launch and run your own enterprise such as micro-food processing, digital service centre, dairy farming, or local e-commerce distribution.',
+        salary: 'Variable / High Growth',
+        demand: 'High Growth',
+        rating: '★ 4.8 / 5',
+        img: 'assets/profile-suresh.webp',
+        tags: ['✦ Self Employment', '✦ Mudra & Stand-Up India', '✦ Local Value Creation', '✦ Job Creator'],
+        overviewText: 'Rural Entrepreneurs transform local resources into thriving businesses: cold press oil mills, poultry & dairy farming, drone spraying services, packaging local produce, and Digital Seva centres. You become an employer rather than a job seeker.',
+        eligibility: [
+          'Minimum 10th or 12th class (Degree preferred for tech ventures)',
+          'Practical vocational skill or trade experience',
+          'Detailed Project Report (DPR) for Mudra / PMFME loan'
+        ],
+        salaryBreakdown: [
+          { label: 'Pilot / Early Stage', range: '₹ 2L – ₹ 4L / year' },
+          { label: 'Established Enterprise', range: '₹ 5L – ₹ 12L / year' },
+          { label: 'Scaling Business', range: '₹ 15L – ₹ 30L+ / year' }
+        ],
+        roadmap: [
+          { icon: 'lightbulb', title: 'Find Local Need', desc: 'Identify what products/services your mandal lacks' },
+          { icon: 'draw', title: 'Business Blueprint', desc: 'Calculate machinery cost, raw materials & profit margin' },
+          { icon: 'account_balance', title: 'Secure Finance', desc: 'Apply for PMEGP (35% subsidy) or Mudra Shishu/Kishore' },
+          { icon: 'rocket_launch', title: 'Launch Pilot', desc: 'Start small with 10 loyal local village customers' },
+          { icon: 'trending_up', title: 'Expand & Hire', desc: 'Reinvest earnings and employ local youth' }
+        ],
+        skills: [
+          'Local Market Research & Unit Cost Economics',
+          'Basic Bookkeeping, Invoicing & GST Basics',
+          'Digital Marketing, WhatsApp Business & UPI Payments',
+          'Supplier Negotiation & Inventory Management',
+          'Customer Care, Team Leadership & Growth Focus'
+        ],
+        exams: [
+          'PMEGP Entrepreneurship Development Programme (EDP)',
+          'APSSDC Entrepreneurship Certification',
+          'MSME Udyam Registration (Free Online Portal)',
+          'FSSAI Food Safety Basic Hygiene Certification'
+        ],
+        colleges: [
+          'Rural Development & Self Employment Training Institutes (RUDSETI)',
+          'District Industries Centre (DIC) Incubation Units',
+          'National Institute of MSME (ni-msme), Hyderabad',
+          'IIT Madras Rural Technology & Business Incubator (RTBI)'
+        ],
+        scholarships: [
+          'PMEGP 15% to 35% Capital Subsidy on Project Cost',
+          'PMFME 35% Credit-Linked Grant for Food Processing',
+          'Stand-Up India Scheme for SC/ST and Women Entrepreneurs',
+          'Mudra Loans (Up to ₹10 Lakhs Collateral-Free)'
+        ],
+        resources: [
+          { icon: 'smart_display', name: 'PMFME Official Portal', desc: 'Micro-food enterprise subsidies and DPR project templates' },
+          { icon: 'school', name: 'RUDSETI Residential Training', desc: 'Govt funded accommodation + skills + loan guidance' },
+          { icon: 'terminal', name: 'Udyam Registration Portal', desc: 'Instant paperless MSME registration and certificate' },
+          { icon: 'menu_book', name: 'Mudra Scheme Guidebook', desc: 'Shishu, Kishore and Tarun loan application rules' }
+        ],
+        related: [
+          { slug: 'agricultural-officer', title: 'Agricultural Officer', salary: '₹3L – ₹6L / yr', qual: 'B.Sc Agriculture', img: 'assets/career-agriculture.webp' },
+          { slug: 'bank-officer', title: 'Bank Officer (PO)', salary: '₹3L – ₹7L / yr', qual: 'Any Degree', img: 'assets/career-bank.webp' },
+          { slug: 'civil-engineer', title: 'Civil Contractor', salary: 'High Growth', qual: 'Diploma / B.Tech', img: 'assets/career-civil.webp' },
+          { slug: 'software-engineer', title: 'Software Engineer', salary: '₹3.5L – ₹15L / yr', qual: 'B.Tech / Degree', img: 'assets/career-software.webp' }
+        ]
+      }
+    };
+
+    // Aliases for sub-disciplines
+    careerData['web-developer'] = { ...careerData['software-engineer'], title: 'Web Developer', desc: 'Build and design modern interactive websites and web applications for businesses, ecommerce, and organizations.' };
+    careerData['data-scientist'] = { ...careerData['software-engineer'], title: 'Data Scientist', desc: 'Analyze complex datasets, build machine learning models, and uncover trends to inform smart business decisions.' };
+    careerData['app-developer'] = { ...careerData['software-engineer'], title: 'Mobile App Developer', desc: 'Develop native Android and iOS mobile applications downloaded by millions of users across India.' };
+    careerData['system-analyst'] = { ...careerData['software-engineer'], title: 'System Analyst', desc: 'Analyze existing IT infrastructure, design technology upgrades, and align software systems with operational goals.' };
+
+    let currentCareer = null;
+
+    // Load career params dynamically
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawCareerKey = urlParams.get('career') || 'software-engineer';
+      const c = careerData[rawCareerKey] || careerData['software-engineer'];
+      currentCareer = c;
+
+      // Update Hero Section
+      const titleEl = document.getElementById('detailTitle');
+      if (titleEl) titleEl.textContent = c.title;
+      const breadcrumbEl = document.getElementById('breadcrumbCareer');
+      if (breadcrumbEl) breadcrumbEl.textContent = c.title;
+      const descEl = document.getElementById('detailDesc');
+      if (descEl) descEl.textContent = c.desc;
+      const salaryEl = document.getElementById('detailSalary');
+      if (salaryEl) salaryEl.textContent = c.salary;
+      const demandEl = document.getElementById('detailDemand');
+      if (demandEl) demandEl.textContent = c.demand;
+      const ratingEl = document.getElementById('detailRating');
+      if (ratingEl) ratingEl.textContent = c.rating;
+      const imgEl = document.getElementById('detailImg');
+      if (imgEl) {
+        imgEl.src = c.img;
+        imgEl.alt = `${c.title} Career Guide`;
+      }
+
+      // Update Hero Tags
+      const tagsRow = document.getElementById('detailTagsRow');
+      if (tagsRow && c.tags) {
+        tagsRow.innerHTML = c.tags.map(t => `<span class="gcs-pill-tag">${t}</span>`).join('');
+      }
+
+      // Update Overview Panel
+      const overviewTextEl = document.getElementById('overviewCardText');
+      if (overviewTextEl) overviewTextEl.textContent = c.overviewText;
+
+      const eligList = document.getElementById('eligibilityList');
+      if (eligList && c.eligibility) {
+        eligList.innerHTML = c.eligibility.map(item => `<li>${item}</li>`).join('');
+      }
+
+      const salaryBreakEl = document.getElementById('salaryBreakdown');
+      if (salaryBreakEl && c.salaryBreakdown) {
+        salaryBreakEl.innerHTML = c.salaryBreakdown.map(s => `<div>• <strong>${s.label}:</strong> ${s.range}</div>`).join('');
+      }
+
+      // Update Roadmap Panel
+      const roadmapContainer = document.getElementById('roadmapStepsContainer');
+      if (roadmapContainer && c.roadmap) {
+        roadmapContainer.innerHTML = c.roadmap.map((step, idx) => {
+          const isLast = idx === c.roadmap.length - 1;
+          return `
+            <div class="gcs-roadmap-step-item">
+              <div class="gcs-roadmap-step-icon"><span class="material-symbols-outlined">${step.icon}</span></div>
+              <div class="gcs-roadmap-step-title">${step.title}</div>
+              <div class="gcs-roadmap-step-desc">${step.desc}</div>
+            </div>
+            ${!isLast ? '<span class="material-symbols-outlined gcs-roadmap-step-arrow">arrow_forward</span>' : ''}
+          `;
+        }).join('');
+      }
+
+      // Update Skills Panel
+      const skillsList = document.getElementById('skillsList');
+      if (skillsList && c.skills) {
+        skillsList.innerHTML = c.skills.map(s => `<li>${s}</li>`).join('');
+      }
+
+      // Update Exams Panel
+      const examsList = document.getElementById('examsList');
+      if (examsList && c.exams) {
+        examsList.innerHTML = c.exams.map(e => `<li>${e}</li>`).join('');
+      }
+
+      // Update Colleges Panel
+      const collegesList = document.getElementById('collegesList');
+      if (collegesList && c.colleges) {
+        collegesList.innerHTML = c.colleges.map(col => `<li>${col}</li>`).join('');
+      }
+
+      // Update Scholarships Panel
+      const scholarshipsList = document.getElementById('scholarshipsList');
+      if (scholarshipsList && c.scholarships) {
+        scholarshipsList.innerHTML = c.scholarships.map(sc => `<li>${sc}</li>`).join('');
+      }
+
+      // Update Free Resources Grid
+      const resourcesGrid = document.getElementById('resourcesGrid');
+      if (resourcesGrid && c.resources) {
+        resourcesGrid.innerHTML = c.resources.map(res => `
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px 12px;">
+            <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-2xl);">${res.icon}</span>
+            <div style="font-size: var(--text-base); font-weight: 700; color: #0F172A; margin-top: 6px;">${res.name}</div>
+            <div style="font-size: var(--text-xs); color: #64748B; margin-top: 4px;">${res.desc}</div>
+          </div>
+        `).join('');
+      }
+
+      // Update Related Careers Grid
+      const relatedGrid = document.getElementById('relatedCareersGrid');
+      if (relatedGrid && c.related) {
+        relatedGrid.innerHTML = c.related.map(rel => `
+          <article class="gcs-career-card">
+            <div class="gcs-career-card-thumb">
+              <img src="${rel.img}" alt="${rel.title}" loading="lazy" />
+            </div>
+            <div class="gcs-career-card-body">
+              <h3 class="gcs-career-card-title">${rel.title}</h3>
+              <div class="gcs-career-card-salary">${rel.salary}</div>
+              <div class="gcs-career-card-qual">${rel.qual}</div>
+              <a href="career-detail.html?career=${rel.slug}" class="gcs-career-card-btn">View &rarr;</a>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      // Update CTA Subtitle
+      const ctaSub = document.getElementById('roadmapCtaSub');
+      if (ctaSub) {
+        ctaSub.textContent = `Get the complete step-by-step career path and college checklist for ${c.title} in PDF format.`;
+      }
+
+      // Set Document Title
+      document.title = `${c.title} Career Guide | Gramin Career Setu`;
+
+      // Sync Bookmark Button State
+      const btnSave = document.getElementById('btnSaveDetail');
+      if (btnSave) {
+        btnSave.setAttribute('data-bookmark-type', 'careers');
+        btnSave.setAttribute('data-bookmark-id', rawCareerKey);
+        const isSaved = (window.GCS_APP && window.GCS_APP.storage)
+          ? window.GCS_APP.storage.isBookmarked('careers', rawCareerKey)
+          : false;
+        if (isSaved) {
+          btnSave.classList.add('saved');
+          btnSave.style.background = '#ECFDF5';
+          btnSave.style.borderColor = '#059669';
+          btnSave.style.color = '#059669';
+          const icon = btnSave.querySelector('.material-symbols-outlined');
+          if (icon) icon.textContent = 'bookmark';
+        }
+      }
+    });
+
+    // Semantic Tab Switcher
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.gcs-detail-tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+
+      if (btn) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+      }
+
+      const panels = document.querySelectorAll('.gcs-tab-panel');
+      if (tabId === 'all') {
+        panels.forEach(p => { p.style.display = ''; });
+      } else {
+        panels.forEach(p => {
+          p.style.display = (p.id === 'tab-' + tabId) ? '' : 'none';
+        });
+      }
+    }
+
+    // Toggle Career Bookmark
+    function toggleSave() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const careerKey = urlParams.get('career') || 'software-engineer';
+      const btn = document.getElementById('btnSaveDetail');
+      if (window.toggleGcsBookmark) {
+        window.toggleGcsBookmark('careers', careerKey, btn);
+      } else if (window.GCS_APP && window.GCS_APP.toggleBookmark) {
+        window.GCS_APP.toggleBookmark('careers', careerKey, btn);
+      } else {
+        const isSaved = btn.classList.toggle('saved');
+        btn.style.background = isSaved ? '#ECFDF5' : '';
+        btn.style.borderColor = isSaved ? '#059669' : '';
+        btn.style.color = isSaved ? '#059669' : '';
+        if (window.GCS_APP && window.GCS_APP.toast) {
+          window.GCS_APP.toast.show(isSaved ? '✅ Career saved to your profile bookmarks!' : 'ℹ️ Career removed from bookmarks.');
+        } else {
+          alert(isSaved ? 'Career saved to your profile bookmarks!' : 'Career removed from bookmarks.');
+        }
+      }
+    }
+
+    // Share Career Function
+    async function shareCareer() {
+      if (window.GCS_ACTIONS && window.GCS_ACTIONS.share) {
+        await window.GCS_ACTIONS.share(document.title, window.location.href);
+      } else if (navigator.share) {
+        try {
+          await navigator.share({
+            title: document.title,
+            url: window.location.href
+          });
+        } catch (e) {}
+      } else {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          if (window.GCS_APP && window.GCS_APP.toast) {
+            window.GCS_APP.toast.show('🔗 Career link copied to clipboard!');
+          } else {
+            alert('Career link copied to clipboard!');
+          }
+        } catch (e) {}
+      }
+    }
+
+    // Dynamic Roadmap PDF Export
+    async function downloadRoadmapPDF() {
+      const lib = await GCS_PDF.load().catch(() => null);
+      if (!lib) { window.print(); return; }
+      const { jsPDF } = lib;
+      const doc = new jsPDF();
+
+      const c = currentCareer || careerData['software-engineer'];
+      const title = c.title;
+
+      // Header Banner
+      doc.setFillColor(27, 77, 62);
+      doc.rect(0, 0, 210, 32, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(16);
+      doc.text('Gramin Career Setu - Career Roadmap', 14, 20);
+
+      // Title & Overview
+      doc.setTextColor(15, 23, 42);
+      doc.setFontSize(18);
+      doc.text(title + ' Complete Career Guide', 14, 46);
+
+      doc.setFontSize(10);
+      doc.setTextColor(71, 85, 105);
+      const splitDesc = doc.splitTextToSize(c.desc, 182);
+      doc.text(splitDesc, 14, 54);
+
+      let y = 68;
+
+      // Roadmap Milestones
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Sequential Education & Career Milestones', 14, y);
+      y += 8;
+
+      doc.setFontSize(10);
+      doc.setTextColor(51, 65, 85);
+      if (c.roadmap && c.roadmap.length) {
+        c.roadmap.forEach((step, idx) => {
+          doc.setFont(undefined, 'bold');
+          doc.text(`Step ${idx + 1}: ${step.title}`, 14, y);
+          doc.setFont(undefined, 'normal');
+          doc.text(` — ${step.desc}`, 65, y);
+          y += 9;
+        });
+      }
+
+      y += 6;
+      // Key Entrance Exams & Skills
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Key Entrance Exams & Qualifying Pathways', 14, y);
+      y += 8;
+
+      doc.setFontSize(10);
+      doc.setTextColor(51, 65, 85);
+      if (c.exams && c.exams.length) {
+        c.exams.slice(0, 4).forEach(e => {
+          doc.text(`• ${e}`, 16, y);
+          y += 7;
+        });
+      }
+
+      y += 6;
+      // Recommended Colleges
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Top Regional Colleges & Universities', 14, y);
+      y += 8;
+
+      doc.setFontSize(10);
+      doc.setTextColor(51, 65, 85);
+      if (c.colleges && c.colleges.length) {
+        c.colleges.slice(0, 4).forEach(col => {
+          doc.text(`• ${col}`, 16, y);
+          y += 7;
+        });
+      }
+
+      y += 6;
+      doc.setDrawColor(226, 232, 240);
+      doc.line(14, y, 196, y);
+      y += 10;
+
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text('Downloaded from Gramin Career Setu (100% Offline PWA for Rural Youth) — Free & Public Service', 14, y);
+
+      const safeName = title.replace(/[^a-zA-Z0-9_-]/g, '_');
+      doc.save(`${safeName}_Career_Roadmap.pdf`);
+      if (window.GCS_APP && window.GCS_APP.toast) {
+        window.GCS_APP.toast.show(`✅ Downloaded ${title} Career Roadmap!`);
+      }
+    }
+  </script>
+</body>
+</html>

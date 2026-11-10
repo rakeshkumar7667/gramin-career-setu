@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="vSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0F2FE" />
+      <stop offset="100%" stop-color="#F8FAFC" />
+    </linearGradient>
+    <linearGradient id="vHillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A7F3D0" />
+      <stop offset="100%" stop-color="#6EE7B7" />
+    </linearGradient>
+    <linearGradient id="vHillNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="vField" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="400" height="160" fill="url(#vSky)" rx="16" />
+
+  <!-- Sun -->
+  <circle cx="80" cy="50" r="24" fill="#FEF08A" opacity="0.8" />
+  <circle cx="80" cy="50" r="18" fill="#FDE047" />
+
+  <!-- Far Mountains / Hills -->
+  <path d="M0,120 Q80,80 180,105 T360,95 Q385,100 400,105 L400,160 L0,160 Z" fill="url(#vHillFar)" opacity="0.6" />
+
+  <!-- Wind Turbine (Background) -->
+  <line x1="310" y1="110" x2="310" y2="40" stroke="#94A3B8" stroke-width="2.5" />
+  <circle cx="310" cy="40" r="3" fill="#64748B" />
+  <!-- Blades -->
+  <line x1="310" y1="40" x2="310" y2="15" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" />
+  <line x1="310" y1="40" x2="332" y2="52" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" />
+  <line x1="310" y1="40" x2="288" y2="52" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Smaller Wind Turbine 2 -->
+  <line x1="280" y1="115" x2="280" y2="60" stroke="#CBD5E1" stroke-width="1.8" />
+  <circle cx="280" cy="60" r="2.5" fill="#94A3B8" />
+  <line x1="280" y1="60" x2="280" y2="40" stroke="#CBD5E1" stroke-width="1.5" />
+  <line x1="280" y1="60" x2="297" y2="70" stroke="#CBD5E1" stroke-width="1.5" />
+  <line x1="280" y1="60" x2="263" y2="70" stroke="#CBD5E1" stroke-width="1.5" />
+
+  <!-- Midground Rolling Hills -->
+  <path d="M0,125 Q90,95 200,115 T400,110 L400,160 L0,160 Z" fill="url(#vHillNear)" />
+
+  <!-- Foreground Green Field -->
+  <path d="M0,140 Q120,120 250,135 T400,130 L400,160 L0,160 Z" fill="url(#vField)" />
+
+  <!-- Village Cottage 1 (Terracotta Roof) -->
+  <rect x="140" y="105" width="45" height="26" fill="#FFFBEB" stroke="#B45309" stroke-width="1" />
+  <polygon points="135,105 162,88 190,105" fill="#DC2626" />
+  <rect x="157" y="116" width="10" height="15" fill="#78350F" />
+  <rect x="145" y="112" width="8" height="8" fill="#93C5FD" stroke="#1E3A8A" stroke-width="0.8" />
+  <rect x="172" y="112" width="8" height="8" fill="#93C5FD" stroke="#1E3A8A" stroke-width="0.8" />
+
+  <!-- Village Cottage 2 (Small hut) -->
+  <rect x="195" y="110" width="32" height="22" fill="#F8FAFC" stroke="#64748B" stroke-width="0.8" />
+  <polygon points="191,110 211,96 231,110" fill="#EA580C" />
+  <rect x="207" y="119" width="8" height="13" fill="#78350F" />
+
+  <!-- Trees -->
+  <!-- Tree 1 -->
+  <rect x="122" y="118" width="5" height="16" fill="#78350F" />
+  <circle cx="124.5" cy="112" r="14" fill="#047857" />
+  <circle cx="120" cy="110" r="10" fill="#059669" />
+
+  <!-- Tree 2 -->
+  <rect x="95" y="122" width="6" height="18" fill="#78350F" />
+  <circle cx="98" cy="115" r="16" fill="#065F46" />
+  <circle cx="95" cy="112" r="12" fill="#10B981" />
+
+  <!-- Tree 3 (Right) -->
+  <rect x="245" y="120" width="5" height="16" fill="#78350F" />
+  <circle cx="247.5" cy="114" r="14" fill="#047857" />
+  <circle cx="251" cy="112" r="10" fill="#34D399" />
+
+  <!-- Tree 4 -->
+  <rect x="350" y="122" width="6" height="18" fill="#78350F" />
+  <circle cx="353" cy="115" r="16" fill="#047857" />
+
+  <!-- Winding Pathway -->
+  <path d="M162,131 Q155,145 130,160 L145,160 Q168,145 172,131 Z" fill="#FDE68A" opacity="0.9" />
+</svg>

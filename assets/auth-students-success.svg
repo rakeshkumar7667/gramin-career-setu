@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="stBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ECFDF5" />
+      <stop offset="100%" stop-color="#F8FAFC" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Glow -->
+  <circle cx="190" cy="110" r="85" fill="#D1FAE5" opacity="0.6" />
+
+  <!-- Confetti Elements -->
+  <circle cx="95" cy="40" r="3.5" fill="#F59E0B" />
+  <rect x="130" y="25" width="6" height="6" fill="#3B82F6" transform="rotate(25 133 28)" />
+  <circle cx="280" cy="35" r="4" fill="#EC4899" />
+  <rect x="250" y="22" width="7" height="4" fill="#10B981" transform="rotate(-15 253 24)" />
+  <circle cx="65" cy="85" r="3" fill="#8B5CF6" />
+  <rect x="315" y="80" width="5" height="5" fill="#F59E0B" transform="rotate(45 317 82)" />
+  <polygon points="190,15 194,25 186,25" fill="#F43F5E" />
+
+  <!-- 4 Students Group -->
+  <!-- Student 1 (Left - Boy in green shirt with backpack) -->
+  <g id="student1">
+    <!-- Body -->
+    <path d="M85,150 L125,150 L122,200 L88,200 Z" fill="#047857" />
+    <polygon points="105,150 95,165 115,165" fill="#ECFDF5" />
+    <!-- Backpack strap -->
+    <path d="M92,150 Q90,175 96,200" stroke="#064E3B" stroke-width="4" fill="none" />
+    <!-- Arms & Notebook -->
+    <path d="M85,155 L75,178 L95,182 L100,165 Z" fill="#D97706" />
+    <!-- Head -->
+    <ellipse cx="105" cy="120" rx="14" ry="17" fill="#FBBF24" />
+    <!-- Hair -->
+    <path d="M91,120 C91,105 119,102 119,120 C116,112 100,108 91,120 Z" fill="#1E293B" />
+    <!-- Smile & Eyes -->
+    <circle cx="100" cy="120" r="1.5" fill="#0F172A" />
+    <circle cx="110" cy="120" r="1.5" fill="#0F172A" />
+    <path d="M102,126 Q105,130 108,126" stroke="#0F172A" stroke-width="1.2" fill="none" />
+  </g>
+
+  <!-- Student 2 (Center Left - Girl in yellow kurta with notebook) -->
+  <g id="student2">
+    <!-- Body -->
+    <path d="M135,145 L175,145 L178,200 L132,200 Z" fill="#D97706" />
+    <!-- Collar & Shawl -->
+    <path d="M142,145 Q155,165 168,145" stroke="#B45309" stroke-width="3" fill="none" />
+    <!-- Book in hand -->
+    <rect x="142" y="165" width="26" height="20" rx="2" fill="#2563EB" />
+    <line x1="155" y1="165" x2="155" y2="185" stroke="#FFFFFF" stroke-width="1.5" />
+    <!-- Head -->
+    <ellipse cx="155" cy="116" rx="13" ry="16" fill="#FCD34D" />
+    <!-- Hair (Long Indian style) -->
+    <path d="M141,118 C140,98 170,98 169,118 C169,140 174,160 173,168 C167,165 167,130 166,122 Z" fill="#0F172A" />
+    <circle cx="150" cy="116" r="1.5" fill="#0F172A" />
+    <circle cx="159" cy="116" r="1.5" fill="#0F172A" />
+    <path d="M152,123 Q155,127 158,123" stroke="#0F172A" stroke-width="1.2" fill="none" />
+    <!-- Bindi -->
+    <circle cx="154.5" cy="111" r="1" fill="#DC2626" />
+  </g>
+
+  <!-- Student 3 (Center Right - Boy in white shirt giving thumbs up) -->
+  <g id="student3">
+    <!-- Body -->
+    <path d="M195,142 L235,142 L233,200 L197,200 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" />
+    <!-- Collar -->
+    <polygon points="205,142 215,155 225,142" fill="#E2E8F0" />
+    <!-- Thumbs up hand -->
+    <path d="M225,155 L242,152 L245,144 C245,142 248,142 248,146 L246,155 L235,168 Z" fill="#FBBF24" />
+    <!-- Head -->
+    <ellipse cx="215" cy="114" rx="14" ry="17" fill="#FBBF24" />
+    <!-- Hair -->
+    <path d="M201,115 C200,98 229,96 229,115 C226,106 210,102 201,115 Z" fill="#1E293B" />
+    <circle cx="210" cy="114" r="1.5" fill="#0F172A" />
+    <circle cx="220" cy="114" r="1.5" fill="#0F172A" />
+    <path d="M212,121 Q215,126 218,121" stroke="#0F172A" stroke-width="1.2" fill="none" />
+  </g>
+
+  <!-- Student 4 (Right - Girl in teal holding folders) -->
+  <g id="student4">
+    <!-- Body -->
+    <path d="M245,148 L285,148 L288,200 L242,200 Z" fill="#0D9488" />
+    <!-- Folder -->
+    <rect x="250" y="168" width="28" height="22" rx="2" fill="#047857" transform="rotate(-6 264 179)" />
+    <!-- Head -->
+    <ellipse cx="265" cy="120" rx="13" ry="16" fill="#FCD34D" />
+    <!-- Hair -->
+    <path d="M251,122 C250,102 279,102 279,122 C279,145 284,162 283,168 C278,165 277,132 276,125 Z" fill="#0F172A" />
+    <circle cx="260" cy="120" r="1.5" fill="#0F172A" />
+    <circle cx="269" cy="120" r="1.5" fill="#0F172A" />
+    <path d="M262,127 Q265,131 268,127" stroke="#0F172A" stroke-width="1.2" fill="none" />
+  </g>
+</svg>

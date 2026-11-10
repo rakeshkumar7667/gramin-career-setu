@@ -1,0 +1,580 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// This security rules file assumes the following data structures:
+//
+// Collection: jobs
+// Document ID: Auto-generated or custom identifier (e.g., 'J01')
+// Fields:
+//   - id: string (optional, 1..50 chars) - Unique job identifier
+//   - titleEn: string (required, 1..200 chars) - English job title
+//   - titleTe: string (optional, 1..200 chars) - Telugu job title
+//   - category: string (required, 1..100 chars) - Job category/sector
+//   - qualification: string (optional, 1..200 chars) - Required qualification
+//   - examName: string (optional, 1..200 chars) - Competitive examination name
+//   - applyUrl: string (optional, valid URL, <= 500 chars) - Official recruitment portal link
+//   - salaryRange: string (optional, 1..100 chars) - Monthly or annual salary band
+//   - prepTime: string (optional, 1..100 chars) - Typical exam preparation timeframe
+//   - freeResourceUrl: string (optional, valid URL, <= 500 chars) - Free study material link
+//   - eligibleLevels: list (optional, <= 20 items) - Education levels eligible
+//   - createdAt: timestamp (optional) - Record creation timestamp
+//   - updatedAt: timestamp (optional) - Record modification timestamp
+//
+// Collection: workshops
+// Document ID: Auto-generated or topic slug (e.g., 'career-awareness')
+// Fields:
+//   - id: string (optional, 1..50 chars) - Workshop session ID
+//   - curriculumId: string (required, 1..100 chars) - Curriculum topic identifier
+//   - titleEn: string (optional, 1..200 chars) - English workshop title
+//   - titleTe: string (optional, 1..200 chars) - Telugu workshop title
+//   - durationEn: string (optional, 1..100 chars) - Duration in English
+//   - durationTe: string (optional, 1..100 chars) - Duration in Telugu
+//   - descEn: string (optional, 1..1000 chars) - Session description in English
+//   - descTe: string (optional, 1..1000 chars) - Session description in Telugu
+//   - icon: string (optional, 1..50 chars) - Material icon identifier
+//   - date: string (optional, 1..30 chars) - Scheduled session date (YYYY-MM-DD)
+//   - time: string (optional, 1..50 chars) - Scheduled session time
+//   - village: string (optional, 1..100 chars) - Target village name
+//   - district: string (optional, 1..100 chars) - Target district name
+//   - venue: string (optional, 1..200 chars) - Physical venue description
+//   - seatsLeft: int (required, >= 0, <= 10000) - Available seats remaining
+//   - capacity: int (optional, >= 0, <= 10000) - Total workshop seat capacity
+//   - attended: int (optional, >= 0, <= 10000) - Attended candidates count
+//   - createdAt: timestamp (optional) - Record creation timestamp
+//   - updatedAt: timestamp (optional) - Record modification timestamp
+//
+// Collection: scholarships
+// Document ID: Auto-generated or identifier (e.g., 'SCH-01')
+// Fields:
+//   - id: string (optional, 1..50 chars) - Scholarship identifier
+//   - titleEn: string (required, 1..200 chars) - English scholarship title
+//   - titleTe: string (optional, 1..200 chars) - Telugu scholarship title
+//   - category: string (required, 1..100 chars) - Scholarship category
+//   - eligibility: string (optional, 1..500 chars) - Eligibility criteria
+//   - amountRange: string (optional, 1..100 chars) - Scholarship financial amount
+//   - deadline: string (optional, 1..100 chars) - Application deadline description
+//   - portalUrl: string (optional, valid URL, <= 500 chars) - Official government portal URL
+//   - createdAt: timestamp (optional) - Record creation timestamp
+//   - updatedAt: timestamp (optional) - Record modification timestamp
+//
+// Collection: schemes
+// Document ID: Auto-generated or identifier (e.g., 'SCHEME-01')
+// Fields:
+//   - id: string (optional, 1..50 chars) - Welfare scheme identifier
+//   - titleEn: string (required, 1..200 chars) - English scheme title
+//   - titleTe: string (optional, 1..200 chars) - Telugu scheme title
+//   - ministry: string (optional, 1..200 chars) - Sponsoring ministry / department
+//   - benefit: string (optional, 1..500 chars) - Scheme benefit summary
+//   - eligibility: string (optional, 1..500 chars) - Beneficiary criteria
+//   - applicationUrl: string (optional, valid URL, <= 500 chars) - Official scheme application URL
+//   - category: string (required, 1..100 chars) - Scheme sector / focus category
+//   - createdAt: timestamp (optional) - Record creation timestamp
+//   - updatedAt: timestamp (optional) - Record modification timestamp
+//
+// Collection: applications
+// Document ID: Auto-generated Firestore ID
+// Fields:
+//   - jobId: string (required, immutable, 1..100 chars) - Applied job role identifier
+//   - applicantName: string (required, immutable, 1..100 chars) - Candidate full name
+//   - phone: string (required, immutable, 10..20 chars) - Candidate contact phone number
+//   - village: string (optional, 0..100 chars) - Candidate village
+//   - district: string (optional, 0..100 chars) - Candidate district
+//   - qualification: string (optional, 0..100 chars) - Candidate education qualification
+//   - status: string (optional, enum: 'RECEIVED' | 'UNDER_REVIEW' | 'ACCEPTED' | 'REJECTED' | 'SHORTLISTED')
+//   - appliedAt: timestamp (optional) - Server timestamp when application was submitted
+//   - createdAtClient: string (optional, 0..50 chars) - Client ISO timestamp
+//   - uid: string (optional, 0..128 chars) - Authenticated user UID (if signed in)
+//
+// Collection: workshop_registrations
+// Document ID: Auto-generated Firestore ID
+// Fields:
+//   - workshopId: string (required, immutable, 1..100 chars) - Workshop session ID
+//   - name: string (required, immutable, 1..100 chars) - Registered participant name
+//   - phone: string (required, immutable, 10..20 chars) - Contact phone number
+//   - cancellationCode: string (optional, immutable, 1..20 chars) - Secret cancellation verification code
+//   - status: string (optional, enum: 'CONFIRMED' | 'CANCELLED' | 'ATTENDED' | 'WAITLIST')
+//   - registeredAt: timestamp (optional, immutable) - Registration timestamp
+//   - cancelledAt: timestamp (optional) - Cancellation timestamp
+//   - notes: string (optional, 0..500 chars) - Administrative notes
+//   - uid: string (optional, 0..128 chars) - Registered candidate UID
+//
+// Collection: resumes
+// Document ID: 'res_' + phone (e.g., 'res_9876543210')
+// Fields:
+//   - phone: string (required, immutable, 10..20 chars) - Candidate phone number
+//   - fullName: string (optional, 0..100 chars) - Candidate name on resume
+//   - templateId: string (optional, 0..50 chars) - Chosen resume design template ID
+//   - resumeJson: string (required, 1..50000 chars) - Structured JSON string of resume content
+//   - atsScore: number (optional, 0..100) - Resume ATS readiness score
+//   - createdAt: timestamp (optional, immutable) - Initial creation timestamp
+//   - updatedAt: timestamp (optional) - Last saved timestamp
+//   - uid: string (optional, 0..128 chars) - Author UID
+//
+// Collection: quiz_results
+// Document ID: Auto-generated Firestore ID
+// Fields:
+//   - phone: string (optional, 0..50 chars) - Candidate phone or 'guest'
+//   - qualification: string (required, 1..100 chars) - Education qualification stream
+//   - answers: map (required, <= 50 keys) - Question-to-answer selection map
+//   - scores: map (required, <= 20 keys) - RIASEC or aptitude score category map
+//   - recommendedTrack: string (optional, 0..100 chars) - Suggested career pathway
+//   - topPath: string (optional, 0..100 chars) - Top recommended path slug
+//   - pathNameEn: string (optional, 0..200 chars) - English pathway display name
+//   - pathNameTe: string (optional, 0..200 chars) - Telugu pathway display name
+//   - matchScore: number (optional, 0..100) - Career match confidence percentage
+//   - timestamp: string (optional, 0..50 chars) - Client assessment timestamp string
+//   - submittedAt: timestamp (optional) - Server recording timestamp
+//   - matchingJobs: list (optional, <= 20 items) - Recommended job IDs or titles
+//   - roadmapSteps: list (optional, <= 20 items) - Milestone roadmap summary
+//   - uid: string (optional, 0..128 chars) - Candidate UID
+//
+// Collection: users
+// Document ID: phone (clean 10-digit number, e.g., '9876543210')
+// Fields:
+//   - phone: string (required, immutable, 10..20 chars) - User mobile phone number
+//   - name: string (required, 1..100 chars) - User full display name
+//   - passwordHash: string (optional, 0..256 chars) - Client/server password hash
+//   - role: string (optional, enum: 'student' | 'candidate' | 'user' | 'volunteer' | 'admin')
+//   - village: string (optional, 0..100 chars) - User residential village
+//   - district: string (optional, 0..100 chars) - User residential district
+//   - qualification: string (optional, 0..100 chars) - User educational attainment
+//   - email: string (optional, 0..100 chars) - Optional contact email address
+//   - createdAt: timestamp (optional, immutable) - Account creation timestamp
+//   - lastLoginAt: timestamp (optional) - Last successful login timestamp
+//   - updatedAt: timestamp (optional) - Account profile modification timestamp
+//   - uid: string (optional, 0..128 chars) - Firebase Auth UID
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated with Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the authenticated user has verified administrator authority
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == 'admin' ||
+        (request.auth.token.email != null && request.auth.token.email.matches('.*@gramincareersetu\\.org$'))
+      );
+    }
+
+    // Check if the authenticated user owns a user profile or resource
+    function isUserDocOwner(userId) {
+      return isAuthenticated() && (
+        request.auth.uid == userId ||
+        request.auth.token.phone_number == userId ||
+        (resource != null && ('phone' in resource.data) && request.auth.uid == resource.data.phone)
+      );
+    }
+
+    // Check if the authenticated user owns a resume document
+    function isResumeOwner(resumeId) {
+      return isAuthenticated() && (
+        'res_' + request.auth.uid == resumeId ||
+        'res_' + request.auth.token.phone_number == resumeId ||
+        (resource != null && ('phone' in resource.data) && request.auth.uid == resource.data.phone)
+      );
+    }
+
+    // Validate that required fields exist in request payload
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Validate that no undeclared/malicious fields exist in request payload
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Ensure specified sensitive or structural fields are not altered during an update
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Validate string presence, type, and size bounds
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate optional string type and size bounds
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+        (request.resource.data[field] is string &&
+         request.resource.data[field].size() >= minLen &&
+         request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate Web URL format and length
+    function isValidUrl(url) {
+      return url is string &&
+        url.size() <= 500 &&
+        (url.matches('^https://.*') || url.matches('^http://.*'));
+    }
+
+    // Validate optional Web URL
+    function isValidOptionalUrl(field) {
+      return !(field in request.resource.data) || isValidUrl(request.resource.data[field]);
+    }
+
+    // Validate contact telephone format and length
+    function isValidPhone(phone) {
+      return phone is string &&
+        phone.size() >= 10 &&
+        phone.size() <= 20 &&
+        phone.matches('^[0-9+ -]+$');
+    }
+
+    // Validate optional timestamp type
+    function isValidOptionalTimestamp(field) {
+      return !(field in request.resource.data) || request.resource.data[field] is timestamp;
+    }
+
+    // ===============================================================
+    // Domain Validators (Applied across create and update rules)
+    // ===============================================================
+
+    function isValidJob(data) {
+      let allowed = [
+        'id', 'titleEn', 'titleTe', 'category', 'qualification',
+        'examName', 'applyUrl', 'salaryRange', 'prepTime',
+        'freeResourceUrl', 'eligibleLevels', 'createdAt', 'updatedAt'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['titleEn', 'category']) &&
+        validStringLength('titleEn', 1, 200) &&
+        validStringLength('category', 1, 100) &&
+        isValidOptionalString('id', 1, 50) &&
+        isValidOptionalString('titleTe', 1, 200) &&
+        isValidOptionalString('qualification', 1, 200) &&
+        isValidOptionalString('examName', 1, 200) &&
+        isValidOptionalUrl('applyUrl') &&
+        isValidOptionalString('salaryRange', 1, 100) &&
+        isValidOptionalString('prepTime', 1, 100) &&
+        isValidOptionalUrl('freeResourceUrl') &&
+        (!('eligibleLevels' in data) || (data.eligibleLevels is list && data.eligibleLevels.size() <= 20)) &&
+        isValidOptionalTimestamp('createdAt') &&
+        isValidOptionalTimestamp('updatedAt');
+    }
+
+    function isValidWorkshop(data) {
+      let allowed = [
+        'id', 'curriculumId', 'titleEn', 'titleTe', 'durationEn', 'durationTe',
+        'descEn', 'descTe', 'icon', 'date', 'time', 'village', 'district',
+        'venue', 'seatsLeft', 'capacity', 'attended', 'createdAt', 'updatedAt'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['curriculumId', 'seatsLeft']) &&
+        validStringLength('curriculumId', 1, 100) &&
+        data.seatsLeft is int && data.seatsLeft >= 0 && data.seatsLeft <= 10000 &&
+        (!('capacity' in data) || (data.capacity is int && data.capacity >= 0 && data.capacity <= 10000)) &&
+        (!('attended' in data) || (data.attended is int && data.attended >= 0 && data.attended <= 10000)) &&
+        isValidOptionalString('id', 1, 50) &&
+        isValidOptionalString('titleEn', 1, 200) &&
+        isValidOptionalString('titleTe', 1, 200) &&
+        isValidOptionalString('durationEn', 1, 100) &&
+        isValidOptionalString('durationTe', 1, 100) &&
+        isValidOptionalString('descEn', 1, 1000) &&
+        isValidOptionalString('descTe', 1, 1000) &&
+        isValidOptionalString('icon', 1, 50) &&
+        isValidOptionalString('date', 1, 30) &&
+        isValidOptionalString('time', 1, 50) &&
+        isValidOptionalString('village', 1, 100) &&
+        isValidOptionalString('district', 1, 100) &&
+        isValidOptionalString('venue', 1, 200) &&
+        isValidOptionalTimestamp('createdAt') &&
+        isValidOptionalTimestamp('updatedAt');
+    }
+
+    // Allows unauthenticated or student participants to decrement/increment seat count safely
+    function isValidWorkshopSeatUpdate() {
+      let diff = request.resource.data.diff(resource.data);
+      return diff.affectedKeys().hasOnly(['seatsLeft']) &&
+        request.resource.data.seatsLeft is int &&
+        request.resource.data.seatsLeft >= 0 &&
+        (
+          // Decrement by 1 on registration
+          request.resource.data.seatsLeft == resource.data.seatsLeft - 1 ||
+          // Increment by 1 on cancellation (bounded by workshop capacity if defined)
+          (
+            request.resource.data.seatsLeft == resource.data.seatsLeft + 1 &&
+            (!('capacity' in resource.data) || request.resource.data.seatsLeft <= resource.data.capacity)
+          )
+        );
+    }
+
+    function isValidScholarship(data) {
+      let allowed = [
+        'id', 'titleTe', 'titleEn', 'category', 'eligibility',
+        'amountRange', 'deadline', 'portalUrl', 'createdAt', 'updatedAt'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['titleEn', 'category']) &&
+        validStringLength('titleEn', 1, 200) &&
+        validStringLength('category', 1, 100) &&
+        isValidOptionalString('id', 1, 50) &&
+        isValidOptionalString('titleTe', 1, 200) &&
+        isValidOptionalString('eligibility', 1, 500) &&
+        isValidOptionalString('amountRange', 1, 100) &&
+        isValidOptionalString('deadline', 1, 100) &&
+        isValidOptionalUrl('portalUrl') &&
+        isValidOptionalTimestamp('createdAt') &&
+        isValidOptionalTimestamp('updatedAt');
+    }
+
+    function isValidScheme(data) {
+      let allowed = [
+        'id', 'titleTe', 'titleEn', 'ministry', 'benefit',
+        'eligibility', 'applicationUrl', 'category', 'createdAt', 'updatedAt'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['titleEn', 'category']) &&
+        validStringLength('titleEn', 1, 200) &&
+        validStringLength('category', 1, 100) &&
+        isValidOptionalString('id', 1, 50) &&
+        isValidOptionalString('titleTe', 1, 200) &&
+        isValidOptionalString('ministry', 1, 200) &&
+        isValidOptionalString('benefit', 1, 500) &&
+        isValidOptionalString('eligibility', 1, 500) &&
+        isValidOptionalUrl('applicationUrl') &&
+        isValidOptionalTimestamp('createdAt') &&
+        isValidOptionalTimestamp('updatedAt');
+    }
+
+    function isValidApplication(data) {
+      let allowed = [
+        'jobId', 'applicantName', 'phone', 'village', 'district',
+        'qualification', 'status', 'appliedAt', 'createdAtClient', 'uid'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['jobId', 'applicantName', 'phone']) &&
+        validStringLength('jobId', 1, 100) &&
+        validStringLength('applicantName', 1, 100) &&
+        isValidPhone(data.phone) &&
+        isValidOptionalString('village', 0, 100) &&
+        isValidOptionalString('district', 0, 100) &&
+        isValidOptionalString('qualification', 0, 100) &&
+        isValidOptionalString('createdAtClient', 0, 50) &&
+        isValidOptionalString('uid', 0, 128) &&
+        (!('status' in data) || data.status in ['RECEIVED', 'UNDER_REVIEW', 'ACCEPTED', 'REJECTED', 'SHORTLISTED']) &&
+        isValidOptionalTimestamp('appliedAt');
+    }
+
+    function isValidWorkshopRegistration(data) {
+      let allowed = [
+        'workshopId', 'name', 'phone', 'cancellationCode',
+        'status', 'registeredAt', 'cancelledAt', 'notes', 'uid'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['workshopId', 'name', 'phone']) &&
+        validStringLength('workshopId', 1, 100) &&
+        validStringLength('name', 1, 100) &&
+        isValidPhone(data.phone) &&
+        isValidOptionalString('cancellationCode', 1, 20) &&
+        isValidOptionalString('notes', 0, 500) &&
+        isValidOptionalString('uid', 0, 128) &&
+        (!('status' in data) || data.status in ['CONFIRMED', 'CANCELLED', 'ATTENDED', 'WAITLIST']) &&
+        isValidOptionalTimestamp('registeredAt') &&
+        isValidOptionalTimestamp('cancelledAt');
+    }
+
+    // Allows cancellation update by matching phone or secret cancellationCode while locking all other fields
+    function isValidRegistrationCancellation() {
+      let diff = request.resource.data.diff(resource.data);
+      return diff.affectedKeys().hasOnly(['status', 'cancelledAt']) &&
+        request.resource.data.status == 'CANCELLED' &&
+        isValidOptionalTimestamp('cancelledAt') &&
+        areImmutableFieldsUnchanged(['workshopId', 'name', 'phone', 'cancellationCode', 'registeredAt']) &&
+        (
+          isAdmin() ||
+          (isAuthenticated() && (request.auth.uid == resource.data.phone || request.auth.token.phone_number == resource.data.phone)) ||
+          request.resource.data.phone == resource.data.phone
+        );
+    }
+
+    function isValidResume(data) {
+      let allowed = [
+        'phone', 'fullName', 'templateId', 'resumeJson',
+        'atsScore', 'updatedAt', 'createdAt', 'uid'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['phone', 'resumeJson']) &&
+        isValidPhone(data.phone) &&
+        validStringLength('resumeJson', 1, 50000) &&
+        isValidOptionalString('fullName', 0, 100) &&
+        isValidOptionalString('templateId', 0, 50) &&
+        isValidOptionalString('uid', 0, 128) &&
+        (!('atsScore' in data) || (data.atsScore is number && data.atsScore >= 0 && data.atsScore <= 100)) &&
+        isValidOptionalTimestamp('updatedAt') &&
+        isValidOptionalTimestamp('createdAt');
+    }
+
+    function isValidQuizResult(data) {
+      let allowed = [
+        'phone', 'qualification', 'answers', 'scores', 'recommendedTrack',
+        'topPath', 'pathNameEn', 'pathNameTe', 'matchScore', 'timestamp',
+        'submittedAt', 'matchingJobs', 'roadmapSteps', 'uid'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['qualification', 'answers', 'scores']) &&
+        validStringLength('qualification', 1, 100) &&
+        data.answers is map && data.answers.size() <= 50 &&
+        data.scores is map && data.scores.size() <= 20 &&
+        isValidOptionalString('phone', 0, 50) &&
+        isValidOptionalString('recommendedTrack', 0, 100) &&
+        isValidOptionalString('topPath', 0, 100) &&
+        isValidOptionalString('pathNameEn', 0, 200) &&
+        isValidOptionalString('pathNameTe', 0, 200) &&
+        isValidOptionalString('timestamp', 0, 50) &&
+        isValidOptionalString('uid', 0, 128) &&
+        (!('matchScore' in data) || (data.matchScore is number && data.matchScore >= 0 && data.matchScore <= 100)) &&
+        (!('matchingJobs' in data) || (data.matchingJobs is list && data.matchingJobs.size() <= 20)) &&
+        (!('roadmapSteps' in data) || (data.roadmapSteps is list && data.roadmapSteps.size() <= 20)) &&
+        isValidOptionalTimestamp('submittedAt');
+    }
+
+    function isValidUser(data) {
+      let allowed = [
+        'phone', 'name', 'passwordHash', 'role', 'village',
+        'district', 'qualification', 'email', 'createdAt',
+        'lastLoginAt', 'updatedAt', 'uid'
+      ];
+      return hasOnlyAllowedFields(allowed) &&
+        hasRequiredFields(['phone', 'name']) &&
+        isValidPhone(data.phone) &&
+        validStringLength('name', 1, 100) &&
+        isValidOptionalString('passwordHash', 0, 256) &&
+        isValidOptionalString('village', 0, 100) &&
+        isValidOptionalString('district', 0, 100) &&
+        isValidOptionalString('qualification', 0, 100) &&
+        isValidOptionalString('email', 0, 100) &&
+        isValidOptionalString('uid', 0, 128) &&
+        (!('role' in data) || data.role in ['student', 'candidate', 'user', 'volunteer', 'admin']) &&
+        isValidOptionalTimestamp('createdAt') &&
+        isValidOptionalTimestamp('lastLoginAt') &&
+        isValidOptionalTimestamp('updatedAt');
+    }
+
+    // ===============================================================
+    // Collection Security Rules
+    // ===============================================================
+
+    // 1. `jobs`: Public read, writes restricted to authenticated admins
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidJob(request.resource.data);
+      allow update: if isAdmin() && isValidJob(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // 2. `workshops`: Public read, updates allowed for seat count decrements, or admin write
+    match /workshops/{workshopId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidWorkshop(request.resource.data);
+      allow update: if (isAdmin() && isValidWorkshop(request.resource.data)) || isValidWorkshopSeatUpdate();
+      allow delete: if isAdmin();
+    }
+
+    // 3. `scholarships`: Public read, writes closed for public (admin only)
+    match /scholarships/{scholarshipId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidScholarship(request.resource.data);
+      allow update: if isAdmin() && isValidScholarship(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // 4. `schemes`: Public read, writes closed for public (admin only)
+    match /schemes/{schemeId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidScheme(request.resource.data);
+      allow update: if isAdmin() && isValidScheme(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // 5. `applications`: Anyone can submit with valid fields; update and delete disallowed; read restricted to admin / applicant
+    match /applications/{applicationId} {
+      allow read: if isAdmin() || (
+        isAuthenticated() && (
+          request.auth.uid == resource.data.phone ||
+          request.auth.token.phone_number == resource.data.phone ||
+          (('uid' in resource.data) && request.auth.uid == resource.data.uid)
+        )
+      );
+      allow create: if isValidApplication(request.resource.data);
+      allow update, delete: if false;
+    }
+
+    // 6. `workshop_registrations`: Anyone can register; cancellation update allowed with matching phone or code
+    match /workshop_registrations/{registrationId} {
+      allow read: if isAdmin() || (
+        isAuthenticated() && (
+          request.auth.uid == resource.data.phone ||
+          request.auth.token.phone_number == resource.data.phone ||
+          (('uid' in resource.data) && request.auth.uid == resource.data.uid)
+        )
+      );
+      allow create: if isValidWorkshopRegistration(request.resource.data);
+      allow update: if (isAdmin() && isValidWorkshopRegistration(request.resource.data)) || isValidRegistrationCancellation();
+      allow delete: if isAdmin();
+    }
+
+    // 7. `resumes`: Keyed by 'res_' + phone number. Users can read and write their own resume
+    match /resumes/{resumeId} {
+      allow read: if isAdmin() || isResumeOwner(resumeId);
+      allow create: if isValidResume(request.resource.data) &&
+                       resumeId == ('res_' + request.resource.data.phone) &&
+                       (!isAuthenticated() || request.auth.uid == request.resource.data.phone || ('res_' + request.auth.uid == resumeId));
+      allow update: if isValidResume(request.resource.data) &&
+                       areImmutableFieldsUnchanged(['phone']) &&
+                       resumeId == ('res_' + resource.data.phone) &&
+                       (!isAuthenticated() || request.auth.uid == resource.data.phone || ('res_' + request.auth.uid == resumeId));
+      allow delete: if isAdmin() || isResumeOwner(resumeId);
+    }
+
+    // 8. `quiz_results`: Candidates can create their quiz results with valid fields
+    match /quiz_results/{resultId} {
+      allow read: if isAdmin() || (
+        isAuthenticated() && (
+          request.auth.uid == resource.data.phone ||
+          request.auth.token.phone_number == resource.data.phone ||
+          resource.data.phone == 'guest' ||
+          (('uid' in resource.data) && request.auth.uid == resource.data.uid)
+        )
+      );
+      allow create: if isValidQuizResult(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    // 9. `users`: Keyed by clean phone number. Allows creation on signup, and reading/updating user profile
+    match /users/{userId} {
+      allow read: if isAdmin() || isUserDocOwner(userId);
+      allow create: if isValidUser(request.resource.data) &&
+                       request.resource.data.phone == userId &&
+                       (request.resource.data.role != 'admin' || isAdmin()) &&
+                       (!isAuthenticated() || request.auth.uid == userId || request.auth.token.phone_number == userId);
+      allow update: if isValidUser(request.resource.data) &&
+                       (isAdmin() || isUserDocOwner(userId)) &&
+                       areImmutableFieldsUnchanged(['phone', 'createdAt']) &&
+                       (request.resource.data.role == resource.data.role || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Default deny for all other unmatched collections and paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

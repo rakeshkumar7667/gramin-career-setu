@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <linearGradient id="bookBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    <linearGradient id="bookYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+    <linearGradient id="bookGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Background Halo -->
+  <circle cx="200" cy="150" r="115" fill="#F0FDF4" />
+
+  <!-- Stack of 3 Textbooks -->
+  <!-- Book 3 (Bottom Green) -->
+  <g transform="translate(100, 190)">
+    <rect x="0" y="0" width="160" height="24" rx="4" fill="url(#bookGreen)" />
+    <rect x="145" y="3" width="10" height="18" rx="2" fill="#ECFDF5" />
+    <line x1="20" y1="12" x2="130" y2="12" stroke="#6EE7B7" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Book 2 (Middle Blue) -->
+  <g transform="translate(115, 163)">
+    <rect x="0" y="0" width="145" height="24" rx="4" fill="url(#bookBlue)" />
+    <rect x="130" y="3" width="10" height="18" rx="2" fill="#F0F9FF" />
+    <line x1="20" y1="12" x2="115" y2="12" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Book 1 (Top Yellow) -->
+  <g transform="translate(130, 136)">
+    <rect x="0" y="0" width="130" height="24" rx="4" fill="url(#bookYellow)" />
+    <rect x="115" y="3" width="10" height="18" rx="2" fill="#FFFBEB" />
+    <line x1="18" y1="12" x2="100" y2="12" stroke="#FDE68A" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Graduation Cap (Mortarboard) on top -->
+  <g transform="translate(135, 60)" filter="url(#shadow)">
+    <!-- Diamond Mortarboard Top -->
+    <polygon points="65,0 130,22 65,44 0,22" fill="url(#capGrad)" />
+    <!-- Skull Cap Underneath -->
+    <path d="M30,32 L30,48 Q65,66 100,48 L100,32 Z" fill="#0F172A" />
+    <!-- Golden Button & Tassel -->
+    <circle cx="65" cy="22" r="4" fill="#FBBF24" />
+    <path d="M65,22 Q95,30 95,55" stroke="#FBBF24" stroke-width="3" fill="none" />
+    <rect x="91" y="55" width="8" height="14" rx="2" fill="#F59E0B" />
+  </g>
+
+  <!-- Gold Rupee Coin (Right Side) -->
+  <g transform="translate(235, 135)" filter="url(#shadow)">
+    <circle cx="28" cy="28" r="26" fill="url(#coinGrad)" />
+    <circle cx="28" cy="28" r="23" fill="none" stroke="#FEF08A" stroke-width="1.5" stroke-dasharray="3 3" />
+    <!-- Indian Rupee Symbol (₹) -->
+    <text x="28" y="36" font-size="24" font-weight="900" font-family="'Inter', sans-serif" fill="#78350F" text-anchor="middle">₹</text>
+  </g>
+
+  <!-- Rolled Diploma Certificate on Bottom Right -->
+  <g transform="translate(240, 195)">
+    <rect x="0" y="0" width="65" height="18" rx="4" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.5" />
+    <rect x="25" y="-1" width="12" height="20" rx="2" fill="#DC2626" />
+  </g>
+
+  <!-- Green Leaves & Potted Plant -->
+  <g transform="translate(70, 160)">
+    <path d="M15,50 Q-10,30 -5,10 Q15,20 15,50 Z" fill="#059669" />
+    <path d="M15,50 Q40,30 35,10 Q15,20 15,50 Z" fill="#10B981" />
+  </g>
+</svg>

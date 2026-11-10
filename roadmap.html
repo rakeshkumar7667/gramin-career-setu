@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* Set the language before first paint so the page never flashes
+       the wrong script. The full dictionary sweep runs in i18n.js. */
+    (function(){try{var l=localStorage.getItem('gcs-lang');
+    if(l!=='te'&&l!=='en'&&l!=='both')l='te';
+    document.documentElement.lang=l==='both'?'en':l;
+    document.documentElement.setAttribute('data-lang',l);}catch(e){}})();
+  </script>
+  <meta name="theme-color" content="#1B4D3E" />
+  <meta name="gcs-title-key" content="page-title-roadmap" />
+  <title>కెరీర్ రోడ్‌మ్యాప్ — Career Roadmap Generator | Gramin Career Setu</title>
+  <meta name="description" content="Plan your future step by step. Choose your current education and see the best career path for you." />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Google Fonts: Inter, Noto Sans Telugu & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/fonts/text.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+  <!-- jsPDF for direct PDF Roadmap Download -->
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/tokens.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/saas.css" />
+  <link rel="stylesheet" href="assets/landing.css" />
+  <link rel="stylesheet" href="assets/ui.css" />
+
+  <!-- Scripts (deferred: fetched early, executed in order after parse) -->
+  <script src="assets/pdf-loader.js" defer></script>
+  <script src="data/roadmaps.js" defer></script>
+  <script src="assets/i18n-dict.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/actions.js" defer></script>
+  <script src="assets/auth.js" defer></script>
+  <script src="assets/landing.js" defer></script>
+  <style>
+    /* ── Roadmap flow ──────────────────────────────────────────────────
+       A vertical stepped flow rather than a pan-and-zoom node graph: it
+       reads top-to-bottom on a 360px phone, works with a screen reader as
+       an ordered list, needs no library, and prints on one sheet so a
+       village volunteer can hand it out.                                */
+
+    .road-flow {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .road-step {
+      position: relative;
+      padding-left: 44px;
+      padding-bottom: 18px;
+    }
+
+    /* The connecting line, drawn behind the markers */
+    .road-step::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 26px;
+      bottom: -6px;
+      width: 2px;
+      background: #CBD5E1;
+    }
+    .road-step:last-child::before { display: none; }
+
+    /* The marker on the line */
+    .road-step-marker {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: var(--text-sm);
+      border: 2px solid #CBD5E1;
+      background: #ffffff;
+      color: #64748B;
+    }
+    .road-step.is-done .road-step-marker {
+      border-color: #A7F3D0;
+      background: #ECFDF5;
+      color: #047857;
+    }
+    .road-step.is-active .road-step-marker {
+      border-color: var(--gcs-green-primary, #047857);
+      background: var(--gcs-green-primary, #047857);
+      color: #ffffff;
+    }
+
+    /* The node itself is a real button: keyboard reachable, announced as
+       expandable, and large enough to tap. */
+    .road-node {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #ffffff;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      font: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .road-node:hover { border-color: #94A3B8; }
+    .road-node:focus-visible {
+      outline: 3px solid var(--gcs-green-primary, #047857);
+      outline-offset: 2px;
+    }
+    .road-step.is-active .road-node {
+      border-color: var(--gcs-green-primary, #047857);
+      border-width: 2px;
+      box-shadow: 0 4px 14px rgba(4, 120, 87, 0.12);
+    }
+    .road-step.is-done .road-node { background: #F8FAFC; }
+
+    .road-node-flag {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .road-step.is-active .road-node-flag { background: #ECFDF5; color: #047857; }
+    .road-step.is-done .road-node-flag { background: #F1F5F9; color: #64748B; }
+
+    .road-node-title { font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0 0 2px; }
+    .road-step.is-done .road-node-title { color: #475569; }
+    .road-node-title-te { font-size: var(--text-sm); color: #64748B; margin: 0 0 8px; }
+
+    .road-node-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: var(--text-sm);
+      color: #64748B;
+      align-items: center;
+    }
+    .road-node-meta .material-symbols-outlined { font-size: var(--text-base); vertical-align: -3px; }
+    .road-node-open { margin-left: auto; font-weight: 700; color: var(--gcs-green-primary, #047857); }
+
+    /* ── Node detail dialog ────────────────────────────────────────── */
+    .road-dialog {
+      border: none;
+      border-radius: 18px;
+      padding: 0;
+      max-width: 560px;
+      width: calc(100% - 32px);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.22);
+      color: #0F172A;
+    }
+    .road-dialog::backdrop { background: rgba(15, 23, 42, 0.45); }
+
+    .road-dialog-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-radius: 18px 18px 0 0;
+    }
+    .road-dialog-stage {
+      font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.05em;
+      text-transform: uppercase; color: #047857; margin: 0 0 4px;
+    }
+    .road-dialog-head h3 { font-size: var(--text-lg); font-weight: 800; margin: 0; }
+    .road-dialog-subtitle { font-size: var(--text-base); color: #64748B; margin: 2px 0 0; }
+    .road-dialog-close {
+      margin-left: auto; flex-shrink: 0;
+      background: #F1F5F9; border: none; border-radius: 50%;
+      width: 34px; height: 34px; cursor: pointer; color: #475569;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .road-dialog-close:focus-visible { outline: 3px solid var(--gcs-green-primary, #047857); outline-offset: 2px; }
+
+    .road-dialog-body { padding: 18px 20px 22px; max-height: 65vh; overflow-y: auto; }
+    .road-field { margin-bottom: 18px; }
+    .road-field:last-child { margin-bottom: 0; }
+    .road-field-label {
+      font-size: var(--text-xs); font-weight: 800; letter-spacing: 0.04em;
+      text-transform: uppercase; color: #94A3B8; margin: 0 0 6px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .road-field-label .material-symbols-outlined { font-size: var(--text-base); }
+    .road-field p { margin: 0 0 4px; font-size: var(--text-base); color: #334155; }
+    .road-field p.te { color: #64748B; font-size: var(--text-sm); }
+    .road-field ol { margin: 0 0 6px; padding-left: 20px; font-size: var(--text-base); color: #334155; }
+    .road-field ol li { margin-bottom: 6px; }
+    .road-field ol.te { color: #64748B; font-size: var(--text-sm); }
+
+    .road-verify {
+      background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .road-verify .road-field-label { color: #B45309; }
+
+    .road-official {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; font-weight: 700; font-size: var(--text-base);
+      color: #ffffff; background: var(--gcs-green-primary, #047857);
+      padding: 10px 18px; border-radius: 10px;
+    }
+
+    /* ── Alternatives ──────────────────────────────────────────────── */
+    .road-alt {
+      background: #ffffff; border: 1px solid #E2E8F0; border-radius: 14px;
+      padding: 16px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .road-alt h3 { font-size: var(--text-base); font-weight: 800; color: #0F172A; margin: 0; }
+    .road-alt .te { font-size: var(--text-sm); color: #64748B; margin: 0; }
+    .road-alt p { font-size: var(--text-sm); color: #475569; margin: 0; }
+    .road-alt a { font-size: var(--text-sm); font-weight: 700; color: var(--gcs-green-primary, #047857); text-decoration: none; margin-top: auto; }
+
+    /* ── Print: a volunteer hands this to a student ────────────────── */
+    @media print {
+      .gcs-header, .gcs-footer, .gcs-mobile-nav, .gcs-breadcrumb,
+      .gcs-page-hero-visual, .gcs-banner-callout, #roadNodeDialog { display: none !important; }
+      .road-node { break-inside: avoid; border-color: #94A3B8; }
+      .road-node-open { display: none; }
+      .road-step::before { background: #94A3B8; }
+    }
+
+    @media (max-width: 480px) {
+      .road-step { padding-left: 38px; }
+      .road-step-marker { width: 28px; height: 28px; }
+      .road-step::before { left: 13px; }
+    }
+  </style>
+</head>
+
+<body class="gcs-landing-page">
+  <a href="#main" class="skip-link" data-lang-key="skip-to-content">ప్రధాన విషయానికి వెళ్ళండి</a>
+
+  <!-- ============================================================
+       HEADER / NAVIGATION BAR
+       ============================================================ -->
+  <header class="gcs-header" role="banner">
+    <div class="gcs-container">
+      <div class="gcs-header-inner">
+        <a href="index.html" class="gcs-brand" aria-label="Gramin Career Setu Home">
+          <div class="gcs-brand-icon">
+            <span class="material-symbols-outlined fill-1" aria-hidden="true">spa</span>
+          </div>
+          <div class="gcs-brand-meta">
+            <span class="gcs-brand-title" data-lang-key="site-title">Gramin Career Setu</span>
+            <span class="gcs-brand-sub" data-lang-key="site-subtitle">CareerBridge Initiative</span>
+          </div>
+        </a>
+
+        <nav class="gcs-nav" aria-label="Main Navigation">
+          <a href="index.html" class="gcs-nav-link" data-lang-key="nav-home">Home</a>
+          <a href="careers.html" class="gcs-nav-link" data-lang-key="nav-careers">Careers</a>
+          <a href="jobs.html" class="gcs-nav-link" data-lang-key="nav-jobs">Jobs</a>
+          <a href="quiz.html" class="gcs-nav-link" data-lang-key="nav-quiz">Quiz</a>
+          <a href="resume.html" class="gcs-nav-link" data-lang-key="nav-resume">Resume</a>
+          <a href="workshops.html" class="gcs-nav-link" data-lang-key="nav-workshops">Workshops</a>
+          <a href="resources.html" class="gcs-nav-link" data-lang-key="nav-resources">Resources</a>
+
+          <div class="gcs-dropdown">
+            <a href="javascript:void(0)" class="gcs-nav-link active" style="display: flex; align-items: center; gap: 2px;" aria-haspopup="true">
+              <span data-lang-key="nav-more">More</span>
+              <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+            </a>
+            <div class="gcs-dropdown-menu" role="menu">
+              <a href="apply-online.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">contact_support</span>
+                <span>How to apply online</span>
+              </a>
+              <a href="scholarships.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">school</span>
+                <span>Scholarship Finder</span>
+              </a>
+              <a href="schemes.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">account_balance</span>
+                <span>Govt Schemes</span>
+              </a>
+              <a href="roadmap.html" class="gcs-dropdown-item active" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">alt_route</span>
+                <span>Career Roadmap</span>
+              </a>
+              <a href="stories.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">auto_stories</span>
+                <span>Success Stories</span>
+              </a>
+              <a href="about.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                <span>About Project</span>
+              </a>
+              <a href="results.html" class="gcs-dropdown-item" role="menuitem">
+                <span class="material-symbols-outlined" style="font-size: 18px;">insights</span>
+                <span data-lang-key="nav-impact">Impact Dashboard</span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="gcs-header-actions">
+          <div class="gcs-lang-group" role="group" aria-label="Language Switcher" data-lang-attr='{"aria-label":"aria-lang-switcher"}'>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" id="gcsPillTe" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" id="gcsPillEn" onclick="switchGcsLanguage('en')">English</button>
+          </div>
+
+          <button type="button" class="gcs-mobile-toggle" data-lang-attr='{"aria-label":"aria-open-menu"}' onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  <div id="gcsMobileMenu" style="display: none; background: #ffffff; border-bottom: 1px solid #E2E8F0; padding: 16px 20px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <a href="index.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-home">Home</a>
+      <a href="careers.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-careers">Careers</a>
+      <a href="jobs.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-jobs">Jobs</a>
+      <a href="quiz.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-quiz">Quiz</a>
+      <a href="resume.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resume">Resume</a>
+      <a href="workshops.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-workshops">Workshops</a>
+      <a href="resources.html" style="font-weight: 500; color: #334155;" data-lang-key="nav-resources">Resources</a>
+      <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 4px 0;" />
+      <a href="scholarships.html" style="font-weight: 500; color: #334155;">Scholarship Finder</a>
+      <a href="schemes.html" style="font-weight: 500; color: #334155;">Govt Schemes</a>
+      <a href="roadmap.html" style="font-weight: 600; color: #1B4D3E;">Career Roadmap</a>
+      <a href="stories.html" style="font-weight: 500; color: #334155;">Success Stories</a>
+      <a href="about.html" style="font-weight: 500; color: #334155;">About Project</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="gcs-container" id="main" style="padding-top: 24px; padding-bottom: 48px">
+    
+    <!-- Breadcrumb -->
+    <nav class="gcs-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html" data-lang-key="nav-home">Home</a>
+      <span class="gcs-breadcrumb-sep">&gt;</span>
+      <span class="gcs-breadcrumb-current">Career Roadmap Generator</span>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <section class="gcs-page-hero" style="margin-bottom: 24px">
+      <div class="gcs-page-hero-content">
+        <h1 class="gcs-page-hero-title" data-lang-key="heading-roadmap">
+          <span class="material-symbols-outlined" style="color: var(--gcs-green-primary); font-size: var(--text-3xl)">alt_route</span>
+          <span data-lang-text>Career Roadmap Generator</span>
+        </h1>
+        <p class="gcs-page-hero-desc">Plan your future step by step. Choose your current education and see the best career path for you.</p>
+        <p class="gcs-page-hero-telugu">మీ విద్యను ఎంచుకోండి మరియు మీ కెరీర్ మార్గాన్ని తెలుసుకోండి.</p>
+      </div>
+      <div class="gcs-page-hero-visual" style="max-width: 280px">
+        <img src="assets/roadmap-hero-explorer.svg" alt="Career Roadmap Generator" loading="lazy" />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CAREER ROADMAP
+         ------------------------------------------------------------
+         Pick where you are and where you want to go; the flow below starts
+         at your level. Every node opens a panel answering the same six
+         questions: what to do, how, how long, what it costs, where to apply,
+         and what to verify before you do.
+
+         All content comes from data/roadmaps.js.
+         ============================================================ -->
+
+    <!-- Step 1: the two questions that constrain everything below -->
+    <section class="ui-card" style="margin-bottom: 24px">
+      <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">Tell us two things</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 16px 0">రెండు విషయాలు చెప్పండి</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+        <div>
+          <label for="roadEdu" style="display: block; font-size: var(--text-sm); font-weight: 800; color: #334155; margin-bottom: 4px">
+            1. What have you studied? / మీరు ఎంత వరకు చదివారు?
+          </label>
+          <select id="roadEdu" class="gcs-form-input ui-card" style="width: 100%; font-size: var(--text-base)">
+            <option value="below10">Studying before 10th / 10వ తరగతి కంటే ముందు</option>
+            <option value="10th">10th pass / 10వ తరగతి పాస్</option>
+            <option value="inter">Intermediate pass / ఇంటర్మీడియట్ పాస్</option>
+            <option value="iti">ITI or Diploma / ఐటీఐ లేదా డిప్లొమా</option>
+            <option value="degree">Degree pass / డిగ్రీ పాస్</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="roadGoal" style="display: block; font-size: var(--text-sm); font-weight: 800; color: #334155; margin-bottom: 4px">
+            2. What do you want to become? / మీరు ఏమి కావాలనుకుంటున్నారు?
+          </label>
+          <select id="roadGoal" class="gcs-form-input ui-card" style="width: 100%; font-size: var(--text-base)">
+            <!-- filled from data/roadmaps.js -->
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- The honest note about this particular goal -->
+    <section id="roadReality" hidden style="background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 16px; padding: 20px; margin-bottom: 24px">
+      <div style="display: flex; align-items: flex-start; gap: 12px">
+        <span class="material-symbols-outlined" style="color: #D97706; font-size: var(--text-2xl); flex-shrink: 0">lightbulb</span>
+        <div>
+          <h2 style="font-size: var(--text-base); font-weight: 800; color: var(--color-text-primary); margin: 0 0 8px 0">Before you start — the honest picture</h2>
+          <p id="roadRealityEn" style="font-size: var(--text-base); color: var(--color-text-secondary); margin: 0 0 8px 0; max-width: 75ch"></p>
+          <p id="roadRealityTe" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0; max-width: 75ch"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The flow itself -->
+    <section style="margin-bottom: 24px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px">
+        <div>
+          <h2 id="roadFlowTitle" style="font-size: var(--text-xl); font-weight: 800; color: var(--color-text-primary); margin: 0"></h2>
+          <p id="roadFlowTitleTe" style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 2px 0 0 0"></p>
+        </div>
+        <button type="button" class="gcs-btn-cta-2" onclick="window.print()" style="padding: 8px 16px; font-size: var(--text-sm)">
+          <span class="material-symbols-outlined" style="font-size: var(--text-lg)">print</span>
+          <span>Print this roadmap</span>
+        </button>
+      </div>
+
+      <p id="roadStartNote" style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 8px 0 16px 0"></p>
+
+      <ol id="roadFlow" class="road-flow"></ol>
+    </section>
+
+    <!-- Alternatives: reachable routes towards the same kind of work -->
+    <section id="roadAltsSection" hidden style="margin-bottom: 24px">
+      <h2 style="font-size: var(--text-lg); font-weight: 800; color: var(--color-text-primary); margin: 0 0 2px 0">Other routes to similar work</h2>
+      <p style="font-size: var(--text-base); font-weight: 700; color: var(--gcs-green-primary); margin: 0 0 4px 0">ఇలాంటి పనికి ఇతర మార్గాలు</p>
+      <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin: 0 0 16px 0; max-width: 75ch">
+        These are shorter or easier to reach than the main path above, and they lead to real work in the same field.
+        Many students end up choosing one of these — that is a good outcome, not a lesser one.
+      </p>
+      <div id="roadAlts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px"></div>
+    </section>
+
+    <!-- Where to go next from here -->
+    <section class="gcs-banner-callout" style="background: #F0FDF4; border-color: #86EFAC">
+      <div class="gcs-banner-callout-left">
+        <div class="gcs-banner-callout-icon" style="background: var(--color-surface); color: var(--gcs-green-primary)">
+          <span class="material-symbols-outlined">work</span>
+        </div>
+        <div>
+          <h3 class="gcs-banner-callout-title" style="color: #064E3B">See the jobs you can apply for right now</h3>
+          <p class="gcs-banner-callout-sub">మీరు ఇప్పుడే దరఖాస్తు చేయగల ఉద్యోగాలను చూడండి</p>
+        </div>
+      </div>
+      <a id="roadJobsLink" href="jobs.html" class="gcs-btn-cta-1" style="text-decoration: none; padding: 8px 20px">Open job list</a>
+    </section>
+
+    <!-- Node detail panel -->
+    <dialog id="roadNodeDialog" class="road-dialog" aria-labelledby="roadNodeTitle">
+      <div class="road-dialog-head">
+        <div>
+          <p id="roadNodeStage" class="road-dialog-stage"></p>
+          <h3 id="roadNodeTitle"></h3>
+          <p id="roadNodeTitleTe" class="road-dialog-subtitle"></p>
+        </div>
+        <button type="button" id="roadNodeClose" class="road-dialog-close" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div id="roadNodeBody" class="road-dialog-body"></div>
+    </dialog>
+  </main>
+
+  <!-- ============================================================
+       FOOTER (5 Columns)
+       ============================================================ -->
+  <footer class="gcs-footer" role="contentinfo">
+    <div class="gcs-container">
+      <div class="gcs-footer-grid">
+        <div class="gcs-footer-brand">
+          <h3>
+            <span class="material-symbols-outlined" style="color: #34D399; font-size: 24px;">spa</span>
+            <span>Gramin Career Setu</span>
+          </h3>
+          <p data-lang-key="footer-desc">
+            Empowering rural youth with career guidance, skills and opportunities.
+          </p>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-important">Important Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="https://apssdc.in" target="_blank" rel="noopener">APSSDC</a></li>
+            <li><a href="https://www.skillindiadigital.gov.in/content/pmkvy" target="_blank" rel="noopener">PMKVY</a></li>
+            <li><a href="https://nulm.gov.in" target="_blank" rel="noopener">NULM</a></li>
+            <li><a href="https://www.mudra.org.in" target="_blank" rel="noopener">Mudra Loan</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-quick">Quick Links</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="careers.html" data-lang-key="nav-careers">Careers</a></li>
+            <li><a href="jobs.html" data-lang-key="nav-jobs">Jobs</a></li>
+            <li><a href="quiz.html" data-lang-key="nav-quiz">Quiz</a></li>
+            <li><a href="scholarships.html">Scholarship Finder</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+            <li><a href="roadmap.html">Career Roadmap</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-support">Support</h4>
+          <ul class="gcs-footer-links">
+            <li><a href="profile.html">Help Center</a></li>
+            <li><a href="profile.html">Contact Us</a></li>
+            <li><a href="profile.html">Offline Help</a></li>
+          </ul>
+        </div>
+
+        <div class="gcs-footer-col">
+          <h4 data-lang-key="footer-lang">Language</h4>
+          <div class="gcs-lang-group" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); margin-bottom: 14px;">
+            <button type="button" class="gcs-lang-pill" data-lang-switch="te" onclick="switchGcsLanguage('te')">తెలుగు</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="en" onclick="switchGcsLanguage('en')">English</button>
+            <button type="button" class="gcs-lang-pill" data-lang-switch="both" onclick="switchGcsLanguage('both')" data-lang-key="lang-both">Both</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gcs-footer-bottom">
+        <span>© <span class="gcs-current-year">2026</span> Gramin Career Setu - CareerBridge Initiative. All rights reserved.</span>
+        <div class="gcs-offline-status">
+          <span style="background: #34D399; width: 7px; height: 7px; border-radius: 50%; display: inline-block;"></span>
+          <span>Works Offline</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE BOTTOM FLOATING NAVIGATION BAR
+       ============================================================ -->
+  <nav class="gcs-mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+    <a href="index.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">home</span>
+      <span data-lang-key="nav-home">Home</span>
+    </a>
+    <a href="careers.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">explore</span>
+      <span data-lang-key="nav-careers">Careers</span>
+    </a>
+    <a href="jobs.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">work</span>
+      <span data-lang-key="nav-jobs">Jobs</span>
+    </a>
+    <a href="quiz.html" class="gcs-mobile-nav-item">
+      <span class="material-symbols-outlined">quiz</span>
+      <span data-lang-key="nav-quiz">Quiz</span>
+    </a>
+    <a href="roadmap.html" class="gcs-mobile-nav-item active">
+      <span class="material-symbols-outlined fill-1">alt_route</span>
+      <span>Roadmap</span>
+    </a>
+  </nav>
+
+  <!-- Interactive Scripts -->
+  <!-- Roadmap rendering -->
+  <script>
+    /**
+     * Builds a career roadmap constrained by the student's current education.
+     *
+     * The same goal produces a different flow for different students: a
+     * 10th-pass student who picks "Police" is shown that Intermediate comes
+     * first and starts there, while a degree holder starts at Sub-Inspector.
+     * That constraint is the whole point — a generic path that assumes a
+     * degree is what this page used to show, and it was useless to the
+     * students this project exists for.
+     *
+     * Content comes from data/roadmaps.js. Nothing here is hardcoded.
+     */
+    (function () {
+      'use strict';
+
+      // ITI/Diploma and Intermediate are both post-10th, so they share a rank.
+      const RANK = { below10: 0, '10th': 1, inter: 2, iti: 2, degree: 3 };
+
+      const eduSelect = document.getElementById('roadEdu');
+      const goalSelect = document.getElementById('roadGoal');
+      const flowEl = document.getElementById('roadFlow');
+      const dialog = document.getElementById('roadNodeDialog');
+
+      let data = null;
+
+      function esc(str) {
+        return (window.GCS_APP && window.GCS_APP.escapeHtml)
+          ? window.GCS_APP.escapeHtml(str)
+          : String(str == null ? '' : str)
+              .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      }
+
+      // ── The shared student record, also read by jobs.html ──────────────
+      function student() {
+        const store = window.GCS_APP && window.GCS_APP.storage;
+        return (store && store.get('student', {})) || {};
+      }
+      function saveStudent(patch) {
+        const store = window.GCS_APP && window.GCS_APP.storage;
+        if (!store) return;
+        store.set('student', Object.assign({}, student(), patch));
+      }
+
+      function currentGoal() {
+        return data.goals.find(g => g.id === goalSelect.value) || data.goals[0];
+      }
+
+      /**
+       * The first step the student should actually act on.
+       * Returns -1 when every step is below their level, which means they
+       * already exceed the entry requirement and can begin at the start.
+       */
+      function firstActiveIndex(goal, level) {
+        const mine = RANK[level];
+        for (let i = 0; i < goal.steps.length; i++) {
+          if (RANK[goal.steps[i].fromLevel] >= mine) return i;
+        }
+        return -1;
+      }
+
+      // ── Flow ───────────────────────────────────────────────────────────
+      function renderFlow() {
+        const goal = currentGoal();
+        const level = eduSelect.value;
+        const active = firstActiveIndex(goal, level);
+        const overQualified = active === -1;
+        const startAt = overQualified ? 0 : active;
+
+        document.getElementById('roadFlowTitle').textContent = goal.titleEn;
+        document.getElementById('roadFlowTitleTe').textContent = goal.titleTe;
+
+        const reality = document.getElementById('roadReality');
+        document.getElementById('roadRealityEn').textContent = goal.realityEn;
+        document.getElementById('roadRealityTe').textContent = goal.realityTe;
+        reality.hidden = false;
+
+        const levelLabel = data.levelLabels[level];
+        const you = 'You are <strong>' + esc(levelLabel.en) + '</strong> (' + esc(levelLabel.te) + '). ';
+        document.getElementById('roadStartNote').innerHTML = overQualified
+          ? you + 'You already meet the entry requirement for this path, so you can begin at step 1.'
+          : startAt === 0
+            // Nothing is marked done, so do not refer to steps behind them.
+            ? you + 'Your path starts at the very first step below.'
+            : you + 'The first ' + startAt + (startAt === 1 ? ' step is' : ' steps are')
+              + ' already behind you — tap to check you really have it before moving on.';
+
+        flowEl.innerHTML = goal.steps.map((step, i) => {
+          const isDone = !overQualified && i < startAt;
+          const isActive = i === startAt;
+          const cls = 'road-step' + (isDone ? ' is-done' : '') + (isActive ? ' is-active' : '');
+
+          const flag = isActive
+            ? '<span class="road-node-flag">Start here · ఇక్కడ మొదలుపెట్టండి</span>'
+            : isDone
+              ? '<span class="road-node-flag">Already behind you</span>'
+              : '';
+
+          return ''
+            + '<li class="' + cls + '">'
+            +   '<span class="road-step-marker" aria-hidden="true">'
+            +     (isDone ? '<span class="material-symbols-outlined" style="font-size: var(--text-lg);">check</span>' : (i + 1))
+            +   '</span>'
+            +   '<button type="button" class="road-node" data-step-index="' + i + '">'
+            +     flag
+            +     '<p class="road-node-title">' + esc(step.titleEn) + '</p>'
+            +     '<p class="road-node-title-te">' + esc(step.titleTe) + '</p>'
+            +     '<span class="road-node-meta">'
+            +       '<span><span class="material-symbols-outlined">schedule</span> ' + esc(step.durationEn) + '</span>'
+            +       '<span class="road-node-open">Open details &rsaquo;</span>'
+            +     '</span>'
+            +   '</button>'
+            + '</li>';
+        }).join('');
+
+        flowEl.querySelectorAll('.road-node').forEach(btn => {
+          btn.addEventListener('click', () => openStep(goal, Number(btn.dataset.stepIndex)));
+        });
+
+        renderAlternatives(goal, level);
+
+        const jobsLink = document.getElementById('roadJobsLink');
+        jobsLink.href = 'jobs.html?edu=' + encodeURIComponent(level) + '&track=' + encodeURIComponent(goal.track);
+      }
+
+      // ── Alternatives, nearest-first for this student ───────────────────
+      function renderAlternatives(goal, level) {
+        const section = document.getElementById('roadAltsSection');
+        const wrap = document.getElementById('roadAlts');
+        const alts = goal.alternatives || [];
+        if (!alts.length) { section.hidden = true; return; }
+
+        // Routes the student can enter today come first.
+        const sorted = alts.slice().sort((a, b) => {
+          const aReady = RANK[a.fromLevel] <= RANK[level] ? 0 : 1;
+          const bReady = RANK[b.fromLevel] <= RANK[level] ? 0 : 1;
+          return aReady - bReady;
+        });
+
+        wrap.innerHTML = sorted.map(alt => {
+          const ready = RANK[alt.fromLevel] <= RANK[level];
+          const badge = ready
+            ? '<span class="gcs-pill-tag" style="background:#ECFDF5; color:#047857; font-size: var(--text-xs);">You can start this now</span>'
+            : '<span class="gcs-pill-tag" style="background:#F1F5F9; color:#64748B; font-size: var(--text-xs);">Needs ' + esc(data.levelLabels[alt.fromLevel].en) + '</span>';
+          return ''
+            + '<div class="road-alt">'
+            +   badge
+            +   '<h3>' + esc(alt.titleEn) + '</h3>'
+            +   '<p class="te">' + esc(alt.titleTe) + '</p>'
+            +   '<p>' + esc(alt.whyEn) + '</p>'
+            +   '<p class="te">' + esc(alt.whyTe) + '</p>'
+            +   '<a href="' + esc(alt.officialUrl) + '" target="_blank" rel="noopener noreferrer">'
+            +     esc(alt.officialName) + ' &nearr;</a>'
+            + '</div>';
+        }).join('');
+        section.hidden = false;
+      }
+
+      // ── Node detail: the same six questions, every time ────────────────
+      function openStep(goal, index) {
+        const step = goal.steps[index];
+        if (!step) return;
+
+        document.getElementById('roadNodeStage').textContent = 'Step ' + (index + 1) + ' of ' + goal.steps.length;
+        document.getElementById('roadNodeTitle').textContent = step.titleEn;
+        document.getElementById('roadNodeTitleTe').textContent = step.titleTe;
+
+        function field(icon, label, en, te) {
+          return ''
+            + '<div class="road-field">'
+            +   '<p class="road-field-label"><span class="material-symbols-outlined">' + icon + '</span>' + label + '</p>'
+            +   '<p>' + esc(en) + '</p>'
+            +   '<p class="te">' + esc(te) + '</p>'
+            + '</div>';
+        }
+
+        const howEn = step.howEn.map(s => '<li>' + esc(s) + '</li>').join('');
+        const howTe = step.howTe.map(s => '<li>' + esc(s) + '</li>').join('');
+
+        document.getElementById('roadNodeBody').innerHTML = ''
+          + field('help', 'What this step is', step.whatEn, step.whatTe)
+          + '<div class="road-field">'
+          +   '<p class="road-field-label"><span class="material-symbols-outlined">list_alt</span>How to do it</p>'
+          +   '<ol>' + howEn + '</ol>'
+          +   '<ol class="te">' + howTe + '</ol>'
+          + '</div>'
+          + field('schedule', 'How long it takes', step.durationEn, step.durationTe)
+          + field('payments', 'What it costs', step.costEn, step.costTe)
+          + '<div class="road-field">'
+          +   '<p class="road-field-label"><span class="material-symbols-outlined">open_in_new</span>Where to go</p>'
+          +   '<a class="road-official" href="' + esc(step.officialUrl) + '" target="_blank" rel="noopener noreferrer">'
+          +     '<span class="material-symbols-outlined" style="font-size: var(--text-lg);">public</span>'
+          +     esc(step.officialName)
+          +   '</a>'
+          + '</div>'
+          + '<div class="road-field road-verify">'
+          +   '<p class="road-field-label"><span class="material-symbols-outlined">verified_user</span>Check this before you act</p>'
+          +   '<p>' + esc(step.verifyEn) + '</p>'
+          +   '<p class="te">' + esc(step.verifyTe) + '</p>'
+          + '</div>';
+
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+        document.getElementById('roadNodeClose').focus();
+      }
+
+      // ── Wiring ─────────────────────────────────────────────────────────
+      function init() {
+        data = window.GCS_ROADMAPS;
+        if (!data || !Array.isArray(data.goals)) {
+          document.getElementById('roadStartNote').textContent =
+            'The roadmap data could not be loaded. Please reload the page.';
+          return;
+        }
+
+        goalSelect.innerHTML = data.goals
+          .map(g => '<option value="' + esc(g.id) + '">' + esc(g.titleEn) + ' / ' + esc(g.titleTe) + '</option>')
+          .join('');
+
+        const params = new URLSearchParams(window.location.search);
+        const saved = student();
+
+        // Education: URL, then what the student told us on another page.
+        const edu = params.get('edu') || saved.education;
+        if (edu && RANK[edu] !== undefined) eduSelect.value = edu;
+
+        // Goal: an explicit ?goal=, else the first goal matching the quiz
+        // track the student came from, else their last choice here.
+        const goalParam = params.get('goal');
+        const trackParam = params.get('track') || saved.quizTrack;
+        if (goalParam && data.goals.some(g => g.id === goalParam)) {
+          goalSelect.value = goalParam;
+        } else if (trackParam) {
+          // Several goals can share a track. Prefer the one this student can
+          // act on most of today: for a 10th-pass student the government
+          // track should open on Railway/SSC (which they can sit now) rather
+          // than Police (which asks them to finish Intermediate first).
+          const mine = RANK[eduSelect.value];
+          const match = data.goals
+            .filter(g => g.track === trackParam)
+            .map(g => ({
+              g,
+              actionable: g.steps.filter(s => RANK[s.fromLevel] <= mine).length / g.steps.length
+            }))
+            .sort((a, b) => b.actionable - a.actionable)[0];
+          if (match) goalSelect.value = match.g.id;
+        } else if (saved.goal && data.goals.some(g => g.id === saved.goal)) {
+          goalSelect.value = saved.goal;
+        }
+
+        eduSelect.addEventListener('change', () => {
+          saveStudent({ education: eduSelect.value });
+          renderFlow();
+        });
+        goalSelect.addEventListener('change', () => {
+          saveStudent({ goal: goalSelect.value });
+          renderFlow();
+        });
+
+        document.getElementById('roadNodeClose').addEventListener('click', () => dialog.close());
+        dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+
+        saveStudent({ education: eduSelect.value, goal: goalSelect.value });
+        renderFlow();
+      }
+
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
+  </script>
+</body>
+</html>
