@@ -17,14 +17,15 @@
   const STORAGE_KEY = 'gcs_firebase_config';
 
   // Default configuration template.
-  // Paste your Firebase keys here or save them through the UI via GCS_FIREBASE.showSetupModal()
+  // Connected to live Cloud Firestore database
   window.GCS_FIREBASE_CONFIG = window.GCS_FIREBASE_CONFIG || {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyBZMNAwzKpZINGAdY3IToChlm0seeYLLqg",
+    authDomain: "gramin-career-setu-61b6c.firebaseapp.com",
+    projectId: "gramin-career-setu-61b6c",
+    storageBucket: "gramin-career-setu-61b6c.firebasestorage.app",
+    messagingSenderId: "909723218130",
+    appId: "1:909723218130:web:39d07450bc66420da4fd0b",
+    measurementId: "G-LXJ8KBTW2G"
   };
 
   let appInstance = null;
